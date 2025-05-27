@@ -9,7 +9,7 @@
 		"lint": "eslint . --fix",
 		"format": "prettier -c .prettierrc --write",
 		"preview": "vite preview",
-		"prepare": "husky",
+		"prepare": "husky install",
 		"commitlint": "commitlint --edit",
 		"lint-staged": "lint-staged"
 	},
