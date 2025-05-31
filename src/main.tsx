@@ -8,6 +8,9 @@ import App from "@/App";
 import { ThemeProvider } from "@/context/theme-context";
 import { FontProvider } from "@/context/font-context";
 import { AuthProvider } from "@/context/auth-context";
+import { UseConfirmProvider } from "use-confirm-hook";
+import { ConfirmDialog } from "@/components/ui/confirm-dialog";
+import { Toaster } from "@/components/ui/sonner";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -25,7 +28,11 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
         <ThemeProvider defaultTheme="light" storageKey="vite-ui-theme">
           <FontProvider>
             <BrowserRouter>
-              <App />
+              <UseConfirmProvider>
+                <App />
+                <Toaster />
+                <ConfirmDialog />
+              </UseConfirmProvider>
             </BrowserRouter>
           </FontProvider>
         </ThemeProvider>
