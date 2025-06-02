@@ -21,6 +21,7 @@ import {
 import { RadioGroupForm } from "@/components/ui/radio-group-form";
 import { SingleImageUpload } from "@/components/ui/single-image-upload";
 import { toast } from "sonner";
+import { SquarePen } from "lucide-react";
 
 export function PopupUpdateUser({ id }: { id: string }) {
   console.log(id);
@@ -55,7 +56,9 @@ export function PopupUpdateUser({ id }: { id: string }) {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button variant={"secondary"}>Chỉnh sửa</Button>
+        <Button variant={"outline"}>
+          <SquarePen />
+        </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-md max-h-[90vh] overflow-y-auto">
         <DialogHeader>

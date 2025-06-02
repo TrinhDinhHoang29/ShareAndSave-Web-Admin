@@ -1,16 +1,14 @@
-import Cookies from "js-cookie";
-import { cn } from "@/lib/utils";
-import { SidebarProvider } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/layout/app-sidebar";
-import { SearchProvider } from "@/context/search-context";
-import { Outlet } from "react-router-dom";
-import SkipToMain from "@/components/skip-to-main";
 import { Header } from "@/components/layout/header";
-import { TopNav } from "@/components/layout/top-nav";
+import NotificationBell from "@/components/layout/notification-bell";
 import { Search } from "@/components/search";
-import { ProfileDropdown } from "@/components/profile-dropdown";
+import SkipToMain from "@/components/skip-to-main";
 import { ThemeSwitch } from "@/components/theme-switch";
-import { Main } from "@/components/layout/main";
+import { SidebarProvider } from "@/components/ui/sidebar";
+import { SearchProvider } from "@/context/search-context";
+import { cn } from "@/lib/utils";
+import Cookies from "js-cookie";
+import { Outlet } from "react-router-dom";
 
 function LayoutDefault() {
   const defaultOpen = Cookies.get("sidebar_state") !== "false";
@@ -38,12 +36,12 @@ function LayoutDefault() {
             <div className="ml-auto flex items-center space-x-4">
               <Search />
               <ThemeSwitch />
-              <ProfileDropdown />
+              <NotificationBell />
+              {/* <ProfileDropdown /> */}
             </div>
           </Header>
-          <Main>
-            <Outlet />
-          </Main>
+
+          <Outlet />
         </div>
       </SidebarProvider>
     </SearchProvider>

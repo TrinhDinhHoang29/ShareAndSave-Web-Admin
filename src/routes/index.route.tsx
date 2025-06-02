@@ -1,10 +1,12 @@
+import LayoutDefault from "@/components/layout";
+import LoadingSpinner from "@/components/ui/loading-spinner";
+import { ProtectedRoute } from "@/pages/_authenticated/_protected.route";
+import Chats from "@/pages/_authenticated/chats";
+import ListPostPage from "@/pages/_authenticated/posts";
+import CreatePostPage from "@/pages/_authenticated/posts/create";
+import UsersPage from "@/pages/_authenticated/users";
 import { lazy, Suspense } from "react";
 import { RouteObject } from "react-router-dom";
-import LoadingSpinner from "@/components/ui/loading-spinner";
-import LayoutDefault from "@/components/layout";
-import { ProtectedRoute } from "@/pages/_authenticated/_protected.route";
-import UsersPage from "@/pages/_authenticated/users";
-import ListRequestPage from "@/pages/_authenticated/requests";
 
 // Lazy load các components
 const Dashboard = lazy(() => import("@/pages/_authenticated/dashboard"));
@@ -40,11 +42,31 @@ export const routes: RouteObject[] = [
         ),
       },
       {
-        path: "/requests",
+        path: "/posts",
         element: (
           <ProtectedRoute>
             <ErrorBoundary>
-              <ListRequestPage />
+              <ListPostPage />
+            </ErrorBoundary>
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: "/posts/create",
+        element: (
+          <ProtectedRoute>
+            <ErrorBoundary>
+              <CreatePostPage />
+            </ErrorBoundary>
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: "/chats",
+        element: (
+          <ProtectedRoute>
+            <ErrorBoundary>
+              <Chats />
             </ErrorBoundary>
           </ProtectedRoute>
         ),

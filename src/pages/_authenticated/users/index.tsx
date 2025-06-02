@@ -1,3 +1,4 @@
+import { Main } from "@/components/layout/main";
 import { DataTable } from "@/components/users/data-table/data-table";
 import { useDeleteUser, useUsers } from "@/hooks/use-users";
 import { Order } from "@/types/filter-api.type";
@@ -44,7 +45,7 @@ const UsersPage = () => {
     }
   };
   return (
-    <>
+    <Main>
       <div className="mb-2 flex items-center justify-between space-y-2">
         <h1 className="text-2xl font-bold tracking-tight">
           Danh sách người dùng
@@ -63,7 +64,7 @@ const UsersPage = () => {
         setPagination={setPagination}
         isPending={isPending}
       />
-    </>
+    </Main>
   );
 };
 
