@@ -22,10 +22,12 @@ export const http = (version: number = 1): AxiosInstance => {
 
   // 👉 Interceptor Request – gắn access token
   instance.interceptors.request.use((config) => {
-    const token = localStorage.getItem("accessToken");
-    if (token && config.headers) {
-      config.headers.Authorization = `Bearer ${token}`;
-    }
+    // const token = localStorage.getItem("accessToken");
+    // if (token && config.headers) {
+    //   config.headers.Authorization = `Bearer ${"eyJBbGciOiJzaGEyNTYiLCJUeXAiOiJqd3QifQ.eyJTdWIiOnsiSWQiOjEsIkRldmljZSI6IndlYiIsIlZlcnNpb24iOjJ9LCJFeHAiOiIwNC0wNi0yMDI1IDAwOjU4OjQ0In0.bM_33dP4LS-CTQwRqcHteoEoofq0299h7y-rzcoCrMM"}`;
+    // }
+    config.headers.Authorization = `Bearer ${"eyJBbGciOiJzaGEyNTYiLCJUeXAiOiJqd3QifQ.eyJTdWIiOnsiSWQiOjEsIkRldmljZSI6IndlYiIsIlZlcnNpb24iOjJ9LCJFeHAiOiIwNC0wNi0yMDI1IDAwOjU4OjQ0In0.bM_33dP4LS-CTQwRqcHteoEoofq0299h7y-rzcoCrMM"}`;
+
     return config;
   });
 

@@ -33,6 +33,7 @@ export const CreatePostInfoSchema = z.object({
       z.object({
         quantity: z.coerce.number(),
         itemID: z.coerce.number(),
+        image: z.string(),
       })
     )
     .optional(),
@@ -70,6 +71,7 @@ export const CreatePostSchema = z.object({
       z.object({
         quantity: z.coerce.number(),
         itemID: z.coerce.number(),
+        image: z.string(),
       })
     )
     .optional(),

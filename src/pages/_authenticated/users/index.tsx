@@ -1,6 +1,6 @@
 import { Main } from "@/components/layout/main";
 import { DataTable } from "@/components/users/data-table/data-table";
-import { useDeleteUser, useUsers } from "@/hooks/use-users";
+import { useDeleteUser, useUsers } from "@/hooks/react-query-hooks/use-users";
 import { Order } from "@/types/filter-api.type";
 import { SortingState } from "@tanstack/react-table";
 import { useState } from "react";

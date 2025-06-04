@@ -2,13 +2,14 @@ import { Main } from "@/components/layout/main";
 import CreatePostStep2 from "@/components/posts/multi-form/step-2";
 import CreatePostStep3 from "@/components/posts/multi-form/step-3";
 import { StepProgress } from "@/components/posts/multi-form/step-progress";
-import { useCreatePost } from "@/hooks/use-post";
+import { useCreatePost } from "@/hooks/react-query-hooks/use-post";
 import {
   CreatePostDto,
   CreatePostInfoDto,
   CreatePostTypeDto,
 } from "@/schemas/posts/create-post.schema";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 export type FormData = CreatePostInfoDto & CreatePostTypeDto;
 
@@ -22,12 +23,14 @@ const CreatePostPage = () => {
   const handlePrevStep = () => {
     setStep((prevStep) => Math.max(prevStep - 1, 1));
   };
+  const navigate = useNavigate();
   const createPostMutation = useCreatePost({
     onSuccess: () => {
       toast.success("Tạo bài viết thành công");
+      navigate("/posts");
     },
     onError: (err) => {
-      toast.error(err.message);
+      toast.error(err.message || "Có lỗi xảy ra");
     },
   });
   const submitAll = (data: CreatePostInfoDto) => {

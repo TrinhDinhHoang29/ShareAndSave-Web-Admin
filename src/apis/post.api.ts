@@ -1,5 +1,6 @@
 import { http } from "@/lib/http";
 import { CreatePostDto } from "@/schemas/posts/create-post.schema";
+import { UpdatePostDto } from "@/schemas/posts/update-post.schema";
 import { IFilterExtend } from "@/types/filter-api.type";
 import { IPost } from "@/types/post.type";
 import { IResponseApi } from "@/types/response-api.type";
@@ -35,4 +36,16 @@ const createPost = async (
   const response = await api.post(`/posts`, createItemDto);
   return response.data;
 };
-export { getPosts, createPost };
+const updatePost = async (
+  id: number,
+  updatePostDto: UpdatePostDto
+): Promise<IResponseApi<{}>> => {
+  const response = await api.patch(`/posts/${id}`, updatePostDto);
+  return response.data;
+};
+const getPost = async (id: number): Promise<IResponseApi<{ post: IPost }>> => {
+  const response = await api.get(`/posts/${id}`);
+  console.log("res", response.data);
+  return response.data;
+};
+export { getPosts, createPost, getPost, updatePost };

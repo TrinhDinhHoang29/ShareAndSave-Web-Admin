@@ -13,8 +13,8 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { useCategories } from "@/hooks/use-category";
-import { useItems } from "@/hooks/use-item";
+import { useCategories } from "@/hooks/react-query-hooks/use-category";
+import { useItems } from "@/hooks/react-query-hooks/use-item";
 import {
   CreateItemDto,
   CreateItemSchema,
@@ -24,15 +24,17 @@ import { useEffect, useState } from "react";
 import { IOldItem } from "@/components/posts/multi-form/step-3";
 
 export function PopupDisplayItem({
-  selectedItems,
-  setSelectedItems,
+  selectedItem,
+  setSelectedItem,
 }: {
-  selectedItems: Set<IOldItem>;
-  setSelectedItems: React.Dispatch<React.SetStateAction<Set<IOldItem>>>;
+  selectedItem: IOldItem | null;
+  setSelectedItem: React.Dispatch<React.SetStateAction<IOldItem | null>>;
 }) {
   const form = useForm<CreateItemDto>({
     resolver: zodResolver(CreateItemSchema),
   });
+  const [open, setOpen] = useState(false);
+
   const getCategoryQuery = useCategories();
   const [selectedCategoryId, setSelectedCategoryId] = useState<
     string | null | any
@@ -57,10 +59,10 @@ export function PopupDisplayItem({
   }, [getCategoryQuery.isSuccess]);
 
   return (
-    <Dialog>
-      <DialogTrigger asChild className="w-full">
-        <Button variant={"outline"} className="w-full">
-          <PlusCircle /> Danh sách sản phẩm
+    <Dialog open={open} onOpenChange={setOpen}>
+      <DialogTrigger asChild>
+        <Button variant={"outline"}>
+          <PlusCircle /> Chọn sản phẩm
         </Button>
       </DialogTrigger>
       <DialogContent className="!w-[90vw] !max-w-[90vw] max-h-[90vh] overflow-y-auto rounded-xl p-6">
@@ -105,8 +107,8 @@ export function PopupDisplayItem({
                   <>
                     <ItemCardList
                       mockItems={getItemsQuery.data?.items ?? []}
-                      selectedItems={selectedItems}
-                      setSelectedItems={setSelectedItems}
+                      setSelectedItem={setSelectedItem}
+                      setOpen={setOpen}
                     />
                     <div className="flex justify-center gap-4 pt-4">
                       <Button
@@ -119,7 +121,11 @@ export function PopupDisplayItem({
                       <span className="self-center">Trang {page}</span>
                       <Button
                         variant="outline"
-                        disabled={!getItemsQuery.data?.totalPage}
+                        disabled={
+                          getItemsQuery.data?.totalPage
+                            ? getItemsQuery.data?.totalPage === page
+                            : true
+                        }
                         onClick={() => setPage((p) => p + 1)}
                       >
                         Trang sau

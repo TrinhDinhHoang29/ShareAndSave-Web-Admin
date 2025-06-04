@@ -1,8 +1,8 @@
 import { Main } from "@/components/layout/main";
 import { DataTable } from "@/components/posts/data-table/data-table";
 import { StatusSummary } from "@/components/posts/status-summary";
-import { usePosts } from "@/hooks/use-post";
-import { useDeleteUser } from "@/hooks/use-users";
+import { usePosts } from "@/hooks/react-query-hooks/use-post";
+import { useDeleteUser } from "@/hooks/react-query-hooks/use-users";
 import { Order } from "@/types/filter-api.type";
 import { PostStatus, PostType } from "@/types/status.type";
 import { SortingState } from "@tanstack/react-table";

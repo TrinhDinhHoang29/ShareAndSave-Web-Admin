@@ -8,7 +8,7 @@ import {
   VisibilityState,
 } from "@tanstack/react-table";
 import { PlusCircle, Settings } from "lucide-react";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import LoadingSpinner from "@/components/loading-spinner";
 import { getColumns } from "@/components/posts/data-table/columns";
@@ -38,9 +38,10 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { PostStatus, PostType } from "@/types/status.type";
-import { IUser } from "@/types/user.type";
 import { Link } from "react-router-dom";
 import { IPost } from "@/types/post.type";
+import { usePost } from "@/hooks/react-query-hooks/use-post";
+import SheetDetailPost from "@/components/posts/sheet-detail-post";
 
 interface DataTablePropsWithPage<TData> {
   data: TData[];
@@ -77,13 +78,24 @@ export function DataTable<TData, TValue>({
   const [columnVisibility, setColumnVisibility] =
     React.useState<VisibilityState>({});
 
-  const [selectedUser, setSelectedUser] = useState<IPost | null>(null);
+  const [selectedUser, setSelectedPost] = useState<IPost | null>(null);
+  const [openSheet, setOpenSheet] = useState(false);
+  const postQuery = usePost(selectedUser?.id || 0);
+  // useEffect(() => {
+  //   const fetchPost = () => {
+  //     if (selectedUser) {
+  //       setOpenSheet(true);
+  //     }
+  //   };
+  //   fetchPost();
+  // }, [selectedUser]);
 
   const columns = getColumns(
     handleDelete,
     sorting,
     setSorting,
-    setSelectedUser
+    setSelectedPost,
+    setOpenSheet
   );
   const table = useReactTable({
     data,
@@ -214,7 +226,7 @@ export function DataTable<TData, TValue>({
                 }
               >
                 <SelectTrigger className="w-[180px]">
-                  <SelectValue placeholder="Select a fruit" defaultValue={10} />
+                  <SelectValue placeholder="Chọn số dòng" defaultValue={10} />
                 </SelectTrigger>
                 <SelectContent>
                   <SelectGroup>
@@ -262,6 +274,11 @@ export function DataTable<TData, TValue>({
           </div>
         </div>
       </div>
+      <SheetDetailPost
+        openSheet={openSheet}
+        setOpenSheet={setOpenSheet}
+        data={postQuery.data?.post || null}
+      />
     </>
   );
 }

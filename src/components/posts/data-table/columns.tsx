@@ -10,7 +10,8 @@ export const getColumns = (
   onDelete: (id: string) => void,
   sorting: SortingState,
   setSorting: React.Dispatch<React.SetStateAction<SortingState>>,
-  setSelectedUser: (post: IPost) => void
+  setSelectedUser: (post: IPost) => void,
+  setOpenSheet: React.Dispatch<React.SetStateAction<boolean>>
 ): ColumnDef<IPost>[] => [
   {
     accessorKey: "authorName",
@@ -41,6 +42,7 @@ export const getColumns = (
           className="p-0 text-left font-medium  hover:underline text-black dark:text-white"
           onClick={() => {
             setSelectedUser(user);
+            setOpenSheet(true);
           }}
         >
           {user.authorName}
@@ -138,11 +140,16 @@ export const getColumns = (
     id: "actions",
     header: "Hành động",
     cell: ({ row }: any) => {
-      const id: string = row.original.id;
+      const post = row.original as IPost;
       return (
         <div className="flex items-center gap-2">
-          <PopupUpdatePost id={id} />
-          <Button variant={"outline"} onClick={() => onDelete(id)}>
+          {post.status === PostStatus.PENDING && (
+            <PopupUpdatePost post={post} />
+          )}
+          <Button
+            variant={"outline"}
+            onClick={() => onDelete(post.id.toString())}
+          >
             <Trash2 />
           </Button>
         </div>

@@ -5,4 +5,5 @@ export interface IItem {
   description: string;
   image: string;
   quantity: number;
+  categoryName: string;
 }

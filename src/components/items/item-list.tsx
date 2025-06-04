@@ -2,46 +2,18 @@ import ItemCard from "@/components/items/item-card";
 import { IOldItem } from "@/components/posts/multi-form/step-3";
 import { IItem } from "@/types/item.type";
 
-function isSameItem(a: IOldItem, b: IOldItem): boolean {
-  return a.id === b.id;
-}
-
-function hasItem(set: Set<IOldItem>, item: IOldItem): boolean {
-  for (let i of set) {
-    if (isSameItem(i, item)) return true;
-  }
-  return false;
-}
-
-function deleteItem(set: Set<IOldItem>, item: IOldItem): void {
-  for (let i of set) {
-    if (isSameItem(i, item)) {
-      set.delete(i);
-      break;
-    }
-  }
-}
-
 const ItemCardList = ({
   mockItems,
-  selectedItems,
-  setSelectedItems,
+  setSelectedItem,
+  setOpen,
 }: {
+  setOpen: React.Dispatch<React.SetStateAction<boolean>>;
   mockItems: IItem[];
-  selectedItems: Set<IOldItem>;
-  setSelectedItems: React.Dispatch<React.SetStateAction<Set<IOldItem>>>;
+  setSelectedItem: React.Dispatch<React.SetStateAction<IOldItem | null>>;
 }) => {
   const toggleSelection = (item: IOldItem) => {
-    setSelectedItems((prev) => {
-      const newSet = new Set(prev);
-      if (hasItem(newSet, item)) {
-        deleteItem(newSet, item);
-      } else {
-        item.quantity = 1;
-        newSet.add(item);
-      }
-      return newSet;
-    });
+    setSelectedItem(item);
+    setOpen(false);
   };
 
   return (
@@ -52,7 +24,6 @@ const ItemCardList = ({
             <ItemCard
               key={item.id}
               item={item}
-              isSelected={hasItem(selectedItems, item)}
               onToggle={() => toggleSelection(item)}
             />
           ))}

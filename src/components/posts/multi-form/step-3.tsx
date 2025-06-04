@@ -31,24 +31,29 @@ const CreatePostStep3 = ({ onNext, onBack, formData }: Props) => {
   const form = useForm<CreatePostInfoDto>({
     resolver: zodResolver(CreatePostInfoSchema),
   });
-  const [selectedItems, setSelectedItems] = useState<Set<IOldItem>>(new Set());
+  const [listOldItems, setListOldItems] = useState<IOldItem[]>([]);
   const [listNewItem, setListNewItem] = useState<CreateItemDto[]>([]);
   const onSubmit = (data: CreatePostInfoDto) => {
     data.newItems = listNewItem;
-    data.oldItems = Array.from(selectedItems).map((item) => ({
+    data.oldItems = listOldItems.map((item) => ({
       quantity: item.quantity,
       itemID: item.id,
+      image: item.image,
     }));
     onNext(data);
   };
   return (
     <div className="mx-12">
-      <div className="my-4 flex">
+      <div className="my-4 flex gap-2 justify-end">
         {formData!.type === PostType.GIVE_AWAY_OLD_ITEM && (
-          <PopupCreateItem
-            listNewItem={listNewItem}
-            setListNewItem={setListNewItem}
-          />
+          <>
+            <PopupCreateItem
+              listOldItems={listOldItems}
+              setListOldItems={setListOldItems}
+              listNewItem={listNewItem}
+              setListNewItem={setListNewItem}
+            />
+          </>
         )}
       </div>
       <Form {...form}>
@@ -109,12 +114,6 @@ const CreatePostStep3 = ({ onNext, onBack, formData }: Props) => {
                 name="condition"
                 label="Tình trạng"
               />
-              <div>
-                <PopupDisplayItem
-                  selectedItems={selectedItems}
-                  setSelectedItems={setSelectedItems}
-                />
-              </div>
             </>
           ) : (
             <></>
@@ -130,79 +129,12 @@ const CreatePostStep3 = ({ onNext, onBack, formData }: Props) => {
             name="images"
             label="Hình ảnh"
           />{" "}
-          {Array.from(selectedItems).length > 0 && (
+          {[...listNewItem].length > 0 && (
             <div className="">
               <label htmlFor="" className="font-semibold">
-                Danh sách sản phẩm cũ
+                Danh sách sản phẩm
               </label>
-              {Array.from(selectedItems).map((item) => (
-                <div
-                  key={item.id}
-                  className="flex justify-between items-center border rounded-full border-dashed my-2 border-gray-500 bg-gray-200 p-2"
-                >
-                  <div className="flex items-center">
-                    <img
-                      src={item.image}
-                      alt=""
-                      className="w-10 h-10 rounded-full"
-                    />
-                    <div className="ml-2">
-                      <p className="font-semibold">{item.name}</p>
-                      <div className="flex items-center text-sm text-gray-500">
-                        <span>Số lượng:</span>
-                        <input
-                          type="number"
-                          min={1}
-                          value={item.quantity}
-                          onChange={(e) => {
-                            const value = Number(e.target.value);
-                            setSelectedItems((prev) => {
-                              const newSet = new Set<IOldItem>();
-                              for (let i of prev) {
-                                if (i.id === item.id) {
-                                  newSet.add({ ...i, quantity: value });
-                                } else {
-                                  newSet.add(i);
-                                }
-                              }
-                              return newSet;
-                            });
-                          }}
-                          className="ml-2 w-20 px-2 py-1 border rounded-md text-sm"
-                        />
-                      </div>
-                    </div>
-                  </div>
-                  <div className="flex items-center">
-                    <Button
-                      variant="outline"
-                      className="mr-2"
-                      onClick={() => {
-                        setSelectedItems((prev) => {
-                          const newSet = new Set(prev);
-                          for (let i of newSet) {
-                            if (i.id === item.id) {
-                              newSet.delete(i);
-                              break;
-                            }
-                          }
-                          return newSet;
-                        });
-                      }}
-                    >
-                      Xóa
-                    </Button>
-                  </div>
-                </div>
-              ))}
-            </div>
-          )}
-          {listNewItem.length > 0 && (
-            <div className="">
-              <label htmlFor="" className="font-semibold">
-                Danh sách sản phẩm mới
-              </label>
-              {listNewItem.map((item) => (
+              {[...listNewItem].map((item) => (
                 <div
                   key={item.name}
                   className="flex justify-between items-center border rounded-full border-dashed my-2 border-gray-500 bg-gray-200 p-2"
@@ -226,6 +158,46 @@ const CreatePostStep3 = ({ onNext, onBack, formData }: Props) => {
                       className="mr-2"
                       onClick={() => {
                         setListNewItem((prev) =>
+                          prev.filter((i) => i.name !== item.name)
+                        );
+                      }}
+                    >
+                      Xóa
+                    </Button>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+          {[...listOldItems].length > 0 && (
+            <div className="">
+              <label htmlFor="" className="font-semibold">
+                Danh sách sản phẩm
+              </label>
+              {[...listOldItems].map((item) => (
+                <div
+                  key={item.name}
+                  className="flex justify-between items-center border rounded-full border-dashed my-2 border-gray-500 bg-gray-200 p-2"
+                >
+                  <div className="flex items-center">
+                    <img
+                      src={item.image}
+                      alt=""
+                      className="w-10 h-10 rounded-full"
+                    />
+                    <div className="ml-2">
+                      <p className="font-semibold">{item.name}</p>
+                      <p className="text-sm text-gray-500">
+                        {item.quantity} sản phẩm
+                      </p>
+                    </div>
+                  </div>
+                  <div className="flex items-center">
+                    <Button
+                      variant={"outline"}
+                      className="mr-2"
+                      onClick={() => {
+                        setListOldItems((prev) =>
                           prev.filter((i) => i.name !== item.name)
                         );
                       }}

@@ -1,19 +1,19 @@
 import { Check } from "lucide-react";
 
-const ItemCard = ({ item, isSelected, onToggle }: any) => {
+const ItemCard = ({ item, onToggle }: any) => {
   return (
     <div
       onClick={onToggle}
       role="button"
-      aria-pressed={isSelected}
+      aria-pressed={false}
       className={`relative bg-white rounded-xl shadow-md hover:shadow-lg transition-all duration-300 cursor-pointer border-2 overflow-hidden ${
-        isSelected
+        false
           ? "border-blue-500 ring-2 ring-blue-200 transform scale-[1.02]"
           : "border-gray-200 hover:border-gray-300"
       }`}
     >
       {/* Checkbox indicator */}
-      <div
+      {/* <div
         className={`absolute top-3 right-3 z-20 w-6 h-6 rounded-full border-2 flex items-center justify-center transition-all duration-200 ${
           isSelected
             ? "bg-blue-500 border-blue-500"
@@ -21,7 +21,7 @@ const ItemCard = ({ item, isSelected, onToggle }: any) => {
         }`}
       >
         {isSelected && <Check className="w-4 h-4 text-white" />}
-      </div>
+      </div> */}
 
       {/* Image */}
       <div className="w-full h-48 bg-gray-100 overflow-hidden relative z-10">
@@ -51,9 +51,6 @@ const ItemCard = ({ item, isSelected, onToggle }: any) => {
       </div>
 
       {/* Overlay highlight */}
-      {isSelected && (
-        <div className="absolute inset-0 bg-blue-50 bg-opacity-20 pointer-events-none z-0" />
-      )}
     </div>
   );
 };

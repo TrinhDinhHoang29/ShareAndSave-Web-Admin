@@ -13,7 +13,7 @@ import {
 } from "@/components/ui/dialog";
 import { Form } from "@/components/ui/form";
 import FormInput from "@/components/ui/form-input";
-import { useUpdateUser, useUser } from "@/hooks/use-users";
+import { useUpdateUser, useUser } from "@/hooks/react-query-hooks/use-users";
 import {
   UpdateUserDto,
   UpdateUserSchema,
@@ -41,9 +41,8 @@ export function PopupUpdateUser({ id }: { id: string }) {
     form.setValue("status", userQuery.data.user.status);
   }
   const userUpdateMutation = useUpdateUser({});
-
+  console.log(form.formState.errors);
   const onSubmit = (data: UpdateUserDto) => {
-    console.log(data);
     userUpdateMutation.mutate(data, {
       onSuccess: () => {
         toast.success("Chỉnh sửa thông tin người dùng thành công");
