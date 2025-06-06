@@ -1,3 +1,4 @@
+import { getAccessToken, getRefreshToken, setAccessToken } from "@/lib/token";
 import axios, { AxiosInstance, AxiosResponse } from "axios";
 
 let isRefreshing = false;
@@ -22,11 +23,10 @@ export const http = (version: number = 1): AxiosInstance => {
 
   // 👉 Interceptor Request – gắn access token
   instance.interceptors.request.use((config) => {
-    // const token = localStorage.getItem("accessToken");
-    // if (token && config.headers) {
-    //   config.headers.Authorization = `Bearer ${"eyJBbGciOiJzaGEyNTYiLCJUeXAiOiJqd3QifQ.eyJTdWIiOnsiSWQiOjEsIkRldmljZSI6IndlYiIsIlZlcnNpb24iOjJ9LCJFeHAiOiIwNC0wNi0yMDI1IDAwOjU4OjQ0In0.bM_33dP4LS-CTQwRqcHteoEoofq0299h7y-rzcoCrMM"}`;
-    // }
-    config.headers.Authorization = `Bearer ${"eyJBbGciOiJzaGEyNTYiLCJUeXAiOiJqd3QifQ.eyJTdWIiOnsiSWQiOjEsIkRldmljZSI6IndlYiIsIlZlcnNpb24iOjJ9LCJFeHAiOiIwNC0wNi0yMDI1IDAwOjU4OjQ0In0.bM_33dP4LS-CTQwRqcHteoEoofq0299h7y-rzcoCrMM"}`;
+    const token = getAccessToken();
+    if (token && config.headers) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
 
     return config;
   });
@@ -37,7 +37,6 @@ export const http = (version: number = 1): AxiosInstance => {
     async (error) => {
       const originalRequest = error.config;
 
-      // 👉 Chỉ bắt khi token hết hạn và chưa retry
       if (error.response?.status === 401 && !originalRequest._retry) {
         if (isRefreshing) {
           return new Promise((resolve, reject) => {
@@ -54,26 +53,20 @@ export const http = (version: number = 1): AxiosInstance => {
         originalRequest._retry = true;
         isRefreshing = true;
 
-        const refreshToken = localStorage.getItem("refreshToken");
+        const refreshToken = getRefreshToken();
 
         try {
           // 👉 Gửi refreshToken trong header
           const res = await axios.post(
-            `${import.meta.env.VITE_BASE_API_URL}/v1/auth/refresh-token`,
-            null,
+            `${import.meta.env.VITE_BASE_API_URL}/auth/refresh-token`,
             {
-              headers: {
-                Authorization: `Bearer ${refreshToken}`,
-              },
+              refreshToken,
             }
           );
 
-          const newToken = res.data.data.accessToken;
-          const newRefreshToken = res.data.data.refreshToken;
-          localStorage.setItem("accessToken", newToken);
-          localStorage.setItem("refreshToken", newRefreshToken);
+          const newToken = res.data.data.jwt;
+          setAccessToken(newToken);
           axios.defaults.headers.common["Authorization"] = "Bearer " + newToken;
-
           processQueue(null, newToken);
           originalRequest.headers["Authorization"] = "Bearer " + newToken;
 
@@ -96,7 +89,7 @@ export const http = (version: number = 1): AxiosInstance => {
       }
       // Trả lỗi khác
       return Promise.reject({
-        message: error.response?.data?.message,
+        message: error.response?.data?.message.split(":")[0],
         status: error.response?.status,
       });
     }

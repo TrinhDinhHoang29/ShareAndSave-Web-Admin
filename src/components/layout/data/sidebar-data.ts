@@ -72,12 +72,12 @@ export const sidebarData: SidebarData = {
         },
         {
           title: "Phiếu nhập",
-          url: "/warehouse",
+          url: "/import-invoices",
           icon: IconPackageImport,
         },
         {
           title: "Phiếu xuất",
-          url: "/warehouse",
+          url: "/export-invoices",
           icon: IconPackageExport,
         },
       ],

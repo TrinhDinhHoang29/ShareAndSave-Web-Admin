@@ -13,24 +13,18 @@ import {
 } from "@/components/ui/dialog";
 import { Form } from "@/components/ui/form";
 import FormInput from "@/components/ui/form-input";
+import { MultiImageUpload } from "@/components/ui/multi-Image-upload";
 import { RadioGroupForm } from "@/components/ui/radio-group-form";
-import { SingleImageUpload } from "@/components/ui/single-image-upload";
-import { useUpdateUser } from "@/hooks/react-query-hooks/use-users";
-import {
-  UpdateUserDto,
-  UpdateUserSchema,
-} from "@/schemas/users/update-user.schema";
-import { SquarePen } from "lucide-react";
-import { toast } from "sonner";
-import { IPost } from "@/types/post.type";
+import FormTextarea from "@/components/ui/textarea-form";
+import { usePost, useUpdatePost } from "@/hooks/react-query-hooks/use-post";
 import {
   UpdatePostDto,
   UpdatePostSchema,
 } from "@/schemas/posts/update-post.schema";
-import { usePost, useUpdatePost } from "@/hooks/react-query-hooks/use-post";
-import FormTextarea from "@/components/ui/textarea-form";
-import { MultiImageUpload } from "@/components/ui/multi-Image-upload";
+import { IPost } from "@/types/post.type";
 import { PostStatus } from "@/types/status.type";
+import { SquarePen } from "lucide-react";
+import { toast } from "sonner";
 
 export function PopupUpdatePost({ post }: { post: IPost }) {
   const form = useForm<UpdatePostDto>({

@@ -1,7 +1,9 @@
 import LayoutDefault from "@/components/layout";
 import LoadingSpinner from "@/components/ui/loading-spinner";
+import LoginPage from "@/pages/(auth)/login";
 import { ProtectedRoute } from "@/pages/_authenticated/_protected.route";
 import Chats from "@/pages/_authenticated/chats";
+import ListImportInvoice from "@/pages/_authenticated/import-invoices";
 import ListPostPage from "@/pages/_authenticated/posts";
 import CreatePostPage from "@/pages/_authenticated/posts/create";
 import UsersPage from "@/pages/_authenticated/users";
@@ -18,11 +20,29 @@ const ErrorBoundary = ({ children }: { children: React.ReactNode }) => {
 
 export const routes: RouteObject[] = [
   {
+    path: "/login",
+    element: (
+      <ErrorBoundary>
+        <LoginPage />
+      </ErrorBoundary>
+    ),
+  },
+  {
     path: "/",
     element: <LayoutDefault />,
     children: [
       {
         index: true,
+        element: (
+          <ProtectedRoute>
+            <ErrorBoundary>
+              <Dashboard />
+            </ErrorBoundary>
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: "dashboard",
         element: (
           <ProtectedRoute>
             <ErrorBoundary>
@@ -57,6 +77,16 @@ export const routes: RouteObject[] = [
           <ProtectedRoute>
             <ErrorBoundary>
               <CreatePostPage />
+            </ErrorBoundary>
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: "/import-invoices",
+        element: (
+          <ProtectedRoute>
+            <ErrorBoundary>
+              <ListImportInvoice />
             </ErrorBoundary>
           </ProtectedRoute>
         ),

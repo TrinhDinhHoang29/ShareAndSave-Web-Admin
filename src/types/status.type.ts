@@ -9,3 +9,8 @@ export enum PostType {
   SEEK_LOST_ITEM = 3,
   OTHER = 4,
 }
+export enum ClassifyImportInvoice {
+  ALL = 0,
+  OLD_ITEM = 1,
+  LOSE_ITEM = 2,
+}
