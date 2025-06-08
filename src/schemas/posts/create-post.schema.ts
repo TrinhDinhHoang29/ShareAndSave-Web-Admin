@@ -7,17 +7,35 @@ export const CreatePostPersonalInfoSchema = z.object({
 });
 export const CreatePostInfoSchema = z.object({
   images: z
-    .array(z.string().url().or(z.string().startsWith("data:image/")))
-    .max(4, "Tối đa 4 ảnh"),
-  description: z.string(),
-  lostDate: z.string().optional(),
+    .array(
+      z
+        .string({ message: "Vui lòng chọn ảnh" })
+        .url({ message: "Ảnh phải là đường dẫn hợp lệ" })
+        .or(
+          z.string().startsWith("data:image/", { message: "Ảnh không hợp lệ" })
+        )
+    )
+    .nonempty({ message: "Vui lòng chọn ít nhất 1 ảnh" })
+    .max(4, { message: "Chỉ được chọn tối đa 4 ảnh" }),
+
+  description: z.string({ message: "Mô tả không được để trống" }),
+  lostDate: z.coerce
+    .date()
+    .max(new Date(), { message: "Ngày mất phải nhỏ hơn hoặc bằng hôm nay" })
+    .optional(),
+
   lostLocation: z.string().optional(),
   category: z.string().optional(),
   condition: z.string().optional(),
   reward: z.string().optional(),
   foundLocation: z.string().optional(),
-  foundDate: z.string().optional(),
-  title: z.string().min(2, "Tiêu đề phải chứa ít nhất 2 ký tự"),
+  foundDate: z.coerce
+    .date()
+    .max(new Date(), { message: "Ngày nhặt phải nhỏ hơn hoặc bằng hôm nay" })
+    .optional(),
+  title: z
+    .string({ message: "Tiêu đề phải chứa ít nhất 2 ký tự" })
+    .min(2, "Tiêu đề phải chứa ít nhất 2 ký tự"),
   newItems: z
     .array(
       z.object({
@@ -39,7 +57,9 @@ export const CreatePostInfoSchema = z.object({
     .optional(),
 });
 export const CreatePostTypeSchema = z.object({
-  type: z.coerce.number().min(1, "Vui lòng chọn loại bài đăng"),
+  type: z.coerce
+    .number({ message: "Vui lòng chọn loại bài đăng" })
+    .min(1, "Vui lòng chọn loại bài đăng"),
 });
 export type CreatePostTypeDto = z.infer<typeof CreatePostTypeSchema>;
 

@@ -24,13 +24,11 @@ import { toast } from "sonner";
 import { SquarePen } from "lucide-react";
 
 export function PopupUpdateUser({ id }: { id: string }) {
-  console.log(id);
   const form = useForm<UpdateUserDto>({
     resolver: zodResolver(UpdateUserSchema),
   });
   const userQuery = useUser(id);
   if (userQuery.isSuccess) {
-    console.log(userQuery.data.user.id);
     form.setValue("id", userQuery.data.user.id);
     form.setValue("fullName", userQuery.data.user.fullName);
     form.setValue("goodPoint", userQuery.data.user.goodPoint);
@@ -41,7 +39,6 @@ export function PopupUpdateUser({ id }: { id: string }) {
     form.setValue("status", userQuery.data.user.status);
   }
   const userUpdateMutation = useUpdateUser({});
-  console.log(form.formState.errors);
   const onSubmit = (data: UpdateUserDto) => {
     userUpdateMutation.mutate(data, {
       onSuccess: () => {

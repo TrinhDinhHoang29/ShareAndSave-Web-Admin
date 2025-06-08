@@ -204,7 +204,7 @@ export function DataTable<TData, TValue>({
             </TableBody>
           </Table>
           <div className="mx-6 flex flex-wrap items-center justify-end gap-4 py-2">
-            <div className="flex items-center gap-2">
+            <div className="hidden sm:flex items-center gap-2">
               <span>Hiển thị</span>
               <Select
                 value={pagination.pageSize.toString()} // 👈 Thêm dòng này

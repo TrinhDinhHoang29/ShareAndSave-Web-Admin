@@ -28,10 +28,12 @@ interface FormSelectProps {
   className?: string;
   selectLabel?: string;
 }
+
 interface DataOption {
   field: string | number;
   value: string | number;
 }
+
 const SelectForm: FC<FormSelectProps> = ({
   name,
   label,
@@ -48,8 +50,11 @@ const SelectForm: FC<FormSelectProps> = ({
       name={name}
       render={({ field }) => (
         <FormItem>
-          <FormLabel>{label}</FormLabel>
-          <Select onValueChange={field.onChange} defaultValue={field.value}>
+          {label && <FormLabel>{label}</FormLabel>}
+          <Select
+            onValueChange={(val) => field.onChange(Number(val))} // string → number
+            value={field.value !== undefined ? String(field.value) : undefined} // number → string
+          >
             <FormControl className={className}>
               <SelectTrigger>
                 <SelectValue placeholder={placeholder} />
@@ -57,17 +62,19 @@ const SelectForm: FC<FormSelectProps> = ({
             </FormControl>
             <SelectContent>
               <SelectGroup>
-                <SelectLabel>{selectLabel}</SelectLabel>
-                {data &&
-                  data.map((item) => (
-                    <SelectItem key={item.field} value={item.field.toString()}>
-                      {item.value}
-                    </SelectItem>
-                  ))}
+                {selectLabel && <SelectLabel>{selectLabel}</SelectLabel>}
+                {data.map((item) => (
+                  <SelectItem
+                    key={item.field}
+                    value={String(item.field)} // luôn dùng string
+                  >
+                    {item.value}
+                  </SelectItem>
+                ))}
               </SelectGroup>
             </SelectContent>
           </Select>
-          <FormDescription>{description}</FormDescription>
+          {description && <FormDescription>{description}</FormDescription>}
           <FormMessage />
         </FormItem>
       )}

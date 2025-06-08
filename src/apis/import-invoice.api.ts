@@ -1,7 +1,7 @@
 import { http } from "@/lib/http";
-import { IFilterApi, IFilterExtend } from "@/types/filter-api.type";
+import { CreateImportInvoiceDto } from "@/schemas/import-invoices/create-import-invoice";
+import { IFilterApi } from "@/types/filter-api.type";
 import { IImportInvoice } from "@/types/import-invoice.type";
-import { IPost } from "@/types/post.type";
 import { IResponseApi } from "@/types/response-api.type";
 const api = http();
 
@@ -28,12 +28,12 @@ const getImportInvoices = async ({
   );
   return response.data;
 };
-// const createPost = async (
-//   createItemDto: CreatePostDto
-// ): Promise<IResponseApi<{}>> => {
-//   const response = await api.post(`/posts`, createItemDto);
-//   return response.data;
-// };
+const createImportInvoice = async (
+  CreateImportInvoiceDto: CreateImportInvoiceDto
+): Promise<IResponseApi<{}>> => {
+  const response = await api.post(`/import-invoice`, CreateImportInvoiceDto);
+  return response.data;
+};
 // const updatePost = async (
 //   id: number,
 //   updatePostDto: UpdatePostDto
@@ -46,4 +46,4 @@ const getImportInvoices = async ({
 //   console.log("res", response.data);
 //   return response.data;
 // };
-export { getImportInvoices };
+export { createImportInvoice, getImportInvoices };

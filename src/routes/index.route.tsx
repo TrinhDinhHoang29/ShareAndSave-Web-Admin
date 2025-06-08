@@ -4,6 +4,8 @@ import LoginPage from "@/pages/(auth)/login";
 import { ProtectedRoute } from "@/pages/_authenticated/_protected.route";
 import Chats from "@/pages/_authenticated/chats";
 import ListImportInvoice from "@/pages/_authenticated/import-invoices";
+import CreateImportInvoicePage from "@/pages/_authenticated/import-invoices/create-import-invoice";
+import ListItemPage from "@/pages/_authenticated/items";
 import ListPostPage from "@/pages/_authenticated/posts";
 import CreatePostPage from "@/pages/_authenticated/posts/create";
 import UsersPage from "@/pages/_authenticated/users";
@@ -87,6 +89,26 @@ export const routes: RouteObject[] = [
           <ProtectedRoute>
             <ErrorBoundary>
               <ListImportInvoice />
+            </ErrorBoundary>
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: "/import-invoices/create",
+        element: (
+          <ProtectedRoute>
+            <ErrorBoundary>
+              <CreateImportInvoicePage />
+            </ErrorBoundary>
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: "/items",
+        element: (
+          <ProtectedRoute>
+            <ErrorBoundary>
+              <ListItemPage />
             </ErrorBoundary>
           </ProtectedRoute>
         ),

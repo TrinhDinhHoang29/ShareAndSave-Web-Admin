@@ -7,13 +7,11 @@ import {
   useReactTable,
   VisibilityState,
 } from "@tanstack/react-table";
-import { PlusCircle, Settings } from "lucide-react";
+import { Search, Settings, X } from "lucide-react";
 import React, { useState } from "react";
 
+import { getColumns } from "@/components/items/data-table/columns";
 import LoadingSpinner from "@/components/loading-spinner";
-import { getColumns } from "@/components/posts/data-table/columns";
-import { FilterForm } from "@/components/posts/filter-form";
-import SheetDetailPost from "@/components/posts/sheet-detail-post";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -21,6 +19,7 @@ import {
   DropdownMenuContent,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { Input } from "@/components/ui/input";
 import {
   Select,
   SelectContent,
@@ -38,10 +37,8 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { usePost } from "@/hooks/react-query-hooks/use-post";
-import { IPost } from "@/types/post.type";
-import { PostStatus, PostType } from "@/types/status.type";
-import { Link } from "react-router-dom";
+import { IItem } from "@/types/item.type";
+import SheetDetailItem from "@/components/items/sheet-item-post";
 
 interface DataTablePropsWithPage<TData> {
   data: TData[];
@@ -50,16 +47,9 @@ interface DataTablePropsWithPage<TData> {
   sorting: SortingState;
   setSorting: React.Dispatch<React.SetStateAction<SortingState>>;
   handleDelete: (id: string) => Promise<void>;
-  handleInterest: (id: number) => Promise<void>;
-  handleDeleteInterest: (id: number) => Promise<void>;
   pagination: { pageIndex: number; pageSize: number };
   setGlobalFilter: React.Dispatch<
-    React.SetStateAction<{
-      searchValue?: string;
-      searchBy?: string;
-      type?: PostType;
-      status?: PostStatus;
-    }>
+    React.SetStateAction<{ searchValue: string; searchBy: string }>
   >;
   setPagination: React.Dispatch<
     React.SetStateAction<{ pageIndex: number; pageSize: number }>
@@ -72,27 +62,25 @@ export function DataTable<TData, TValue>({
   totalPage,
   pagination,
   sorting,
-  handleDeleteInterest,
   setSorting, // 👈 Thêm prop này
   handleDelete,
   setGlobalFilter,
-  handleInterest,
   setPagination,
 }: DataTablePropsWithPage<TData>) {
   const [columnVisibility, setColumnVisibility] =
     React.useState<VisibilityState>({});
+  const [searchInput, setSearchInput] = React.useState("");
+  const [searchBy, setSearchBy] = useState<string>("");
 
-  const [selectedUser, setSelectedPost] = useState<IPost | null>(null);
+  const [selectedItem, setSelectedItem] = useState<IItem | null>(null);
+
   const [openSheet, setOpenSheet] = useState(false);
-  const postQuery = usePost(selectedUser?.id || 0);
+
   const columns = getColumns(
-    handleInterest,
     handleDelete,
     sorting,
-    handleDeleteInterest,
-
     setSorting,
-    setSelectedPost,
+    setSelectedItem,
     setOpenSheet
   );
   const table = useReactTable({
@@ -116,8 +104,58 @@ export function DataTable<TData, TValue>({
   return (
     <>
       <div>
-        <FilterForm onFilter={setGlobalFilter} />
         <div className="my-4 grid grid-cols-7 gap-4">
+          <div className="col-span-7 flex items-center gap-x-2 md:col-span-4">
+            <Select
+              onValueChange={(value) => setSearchBy(value)}
+              value={searchBy}
+            >
+              <SelectTrigger className="w-[180px]">
+                <SelectValue placeholder="Chọn trường" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectGroup>
+                  <SelectLabel>Tìm kiếm theo</SelectLabel>
+                  <SelectItem value="email">Email</SelectItem>
+                  <SelectItem value="fullName">Họ và tên</SelectItem>
+                </SelectGroup>
+              </SelectContent>
+            </Select>
+            <div className="flex-1">
+              <Input
+                className="w-full flex-1"
+                placeholder="Tìm kiếm theo tên chiến dịch..."
+                value={searchInput}
+                onChange={(event) => setSearchInput(event.target.value)}
+              />
+            </div>
+            <Button
+              disabled={searchBy && searchInput ? false : true}
+              onClick={() =>
+                setGlobalFilter({
+                  searchValue: searchInput,
+                  searchBy: searchBy,
+                })
+              }
+            >
+              <Search />
+            </Button>
+            {(searchBy || searchInput) && (
+              <Button
+                variant={"destructive"}
+                onClick={() => {
+                  setSearchInput("");
+                  setSearchBy("");
+                  setGlobalFilter({
+                    searchValue: "",
+                    searchBy: "",
+                  });
+                }}
+              >
+                <X />
+              </Button>
+            )}
+          </div>
           <div className="col-span-7 flex items-center space-x-2 md:col-span-2 md:col-start-6">
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
@@ -145,11 +183,6 @@ export function DataTable<TData, TValue>({
                   })}
               </DropdownMenuContent>
             </DropdownMenu>
-            <Link to="/posts/create">
-              <Button variant={"outline"}>
-                Thêm bài viết <PlusCircle />
-              </Button>
-            </Link>
           </div>
         </div>
         <div>
@@ -211,7 +244,7 @@ export function DataTable<TData, TValue>({
             </TableBody>
           </Table>
           <div className="mx-6 flex flex-wrap items-center justify-end gap-4 py-2">
-            <div className="flex items-center gap-2">
+            <div className="sm:flex hidden items-center gap-2">
               <span>Hiển thị</span>
               <Select
                 value={pagination.pageSize.toString()} // 👈 Thêm dòng này
@@ -224,7 +257,7 @@ export function DataTable<TData, TValue>({
                 }
               >
                 <SelectTrigger className="w-[180px]">
-                  <SelectValue placeholder="Chọn số dòng" defaultValue={10} />
+                  <SelectValue placeholder="Select a fruit" defaultValue={10} />
                 </SelectTrigger>
                 <SelectContent>
                   <SelectGroup>
@@ -240,6 +273,7 @@ export function DataTable<TData, TValue>({
 
               <span>dòng</span>
             </div>
+
             <div className="flex items-center space-x-2">
               <Button
                 variant="outline"
@@ -272,10 +306,10 @@ export function DataTable<TData, TValue>({
           </div>
         </div>
       </div>
-      <SheetDetailPost
+      <SheetDetailItem
+        data={selectedItem}
         openSheet={openSheet}
         setOpenSheet={setOpenSheet}
-        data={postQuery.data?.post || null}
       />
     </>
   );

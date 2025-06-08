@@ -1,5 +1,6 @@
-import { createItems, getItems } from "@/apis/item.api";
+import { createItems, getItems, updateItem } from "@/apis/item.api";
 import { CreateItemDto } from "@/schemas/items/create-item.schema";
+import { UpdateItemDto } from "@/schemas/items/update-item.schema";
 import { IFilterApi } from "@/types/filter-api.type";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
@@ -43,6 +44,28 @@ export const useCreateItem = (config?: {
     onSuccess: () => {
       // refetch chiến dịch đang sửa
 
+      queryClient.invalidateQueries({ queryKey: itemKeys.all }); // hoặc list
+      config?.onSuccess?.();
+    },
+    onError: config?.onError,
+    onSettled: config?.onSettled,
+  });
+};
+export const useUpdateItem = (config?: {
+  onSuccess?: () => void;
+  onError?: (err: any) => void;
+  onSettled?: () => void;
+}) => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async ({ id, data }: { id: number; data: UpdateItemDto }) => {
+      console.log("data", data);
+      const res = await updateItem(id, data);
+      console.log("res", res);
+      return res.data!;
+    },
+    onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: itemKeys.all }); // hoặc list
       config?.onSuccess?.();
     },

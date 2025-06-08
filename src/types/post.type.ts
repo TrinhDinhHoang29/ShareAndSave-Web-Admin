@@ -17,4 +17,5 @@ export interface IPost {
   interests: IInterest[];
   items: IItem[];
   slug: string;
+  isInterest: boolean;
 }

@@ -43,7 +43,7 @@ const CreatePostStep3 = ({ onNext, onBack, formData }: Props) => {
     onNext(data);
   };
   return (
-    <div className="mx-12">
+    <div className="sm:mx-12 mx-2">
       <div className="my-4 flex gap-2 justify-end">
         {formData!.type === PostType.GIVE_AWAY_OLD_ITEM && (
           <>

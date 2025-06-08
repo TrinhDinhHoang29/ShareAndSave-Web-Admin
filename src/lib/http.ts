@@ -82,6 +82,7 @@ export const http = (version: number = 1): AxiosInstance => {
       }
       if (error.response?.status === 500) {
         // Trả lỗi 500
+        console.log(error.response);
         return Promise.reject({
           message: "Đã có lỗi xảy ra, vui lòng thử lại sau.",
           status: 500,

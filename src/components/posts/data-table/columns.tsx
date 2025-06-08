@@ -4,11 +4,13 @@ import { Button } from "@/components/ui/button";
 import { IPost } from "@/types/post.type";
 import { PostStatus, PostType } from "@/types/status.type";
 import { ColumnDef, SortingState } from "@tanstack/react-table";
-import { ArrowUpDown, Trash2 } from "lucide-react";
+import { ArrowUpDown, Heart, Trash2 } from "lucide-react";
 
 export const getColumns = (
+  onInterest: (id: number) => void,
   onDelete: (id: string) => void,
   sorting: SortingState,
+  handleDeleteInterest: (id: number) => void,
   setSorting: React.Dispatch<React.SetStateAction<SortingState>>,
   setSelectedUser: (post: IPost) => void,
   setOpenSheet: React.Dispatch<React.SetStateAction<boolean>>
@@ -141,8 +143,22 @@ export const getColumns = (
     header: "Hành động",
     cell: ({ row }: any) => {
       const post = row.original as IPost;
+      console.log(post.isInterest);
       return (
         <div className="flex items-center gap-2">
+          {post.isInterest ? (
+            <Button
+              variant={"outline"}
+              onClick={() => handleDeleteInterest(post.id)}
+            >
+              <Heart className="text-red-500" />
+            </Button>
+          ) : (
+            <Button variant={"outline"} onClick={() => onInterest(post.id)}>
+              <Heart />
+            </Button>
+          )}
+
           {post.status === PostStatus.PENDING && (
             <PopupUpdatePost post={post} />
           )}

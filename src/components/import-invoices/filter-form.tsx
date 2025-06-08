@@ -68,13 +68,13 @@ export function FilterForm({ onFilter }: any) {
           </div>
         </div>
 
-        <div className="w-full sm:w-auto">
+        <div className="w-auto">
           <Button onClick={handleFilter}>
             <FilterIcon className="inline-block h-4 w-4 mr-1" />
             Lọc
           </Button>
         </div>
-        <div className="w-full sm:w-auto">
+        <div className="w-auto">
           <Button onClick={handleRefetch}>
             <RefreshCcwIcon />
           </Button>

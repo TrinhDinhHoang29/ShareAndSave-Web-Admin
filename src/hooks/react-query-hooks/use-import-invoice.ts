@@ -1,9 +1,13 @@
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
-import { getImportInvoices } from "@/apis/import-invoice.api";
+import {
+  createImportInvoice,
+  getImportInvoices,
+} from "@/apis/import-invoice.api";
 import { IFilterApi, IFilterExtend } from "@/types/filter-api.type";
+import { CreateImportInvoiceDto } from "@/schemas/import-invoices/create-import-invoice";
 
-export const postKeys = {
+export const importInvoiceKeys = {
   all: ["import-invoices"] as const,
   list: (params: IFilterApi) =>
     [
@@ -20,7 +24,7 @@ export const postKeys = {
 
 export const useImportInvoices = (params: IFilterExtend) => {
   return useQuery({
-    queryKey: postKeys.list(params),
+    queryKey: importInvoiceKeys.list(params),
     queryFn: async () => {
       const res = await getImportInvoices(params);
       return res.data!;
@@ -29,27 +33,27 @@ export const useImportInvoices = (params: IFilterExtend) => {
   });
 };
 
-// export const useCreatePost = (config?: {
-//   onSuccess?: () => void;
-//   onError?: (err: any) => void;
-//   onSettled?: () => void;
-// }) => {
-//   const queryClient = useQueryClient();
+export const useCreateImportInvoice = (config?: {
+  onSuccess?: () => void;
+  onError?: (err: any) => void;
+  onSettled?: () => void;
+}) => {
+  const queryClient = useQueryClient();
 
-//   return useMutation({
-//     mutationFn: async (data: CreatePostDto) => {
-//       const res = await createPost(data);
-//       return res.data!;
-//     },
-//     onSuccess: () => {
-//       // refetch chiến dịch đang sửa
-//       queryClient.invalidateQueries({ queryKey: postKeys.all }); // hoặc list
-//       config?.onSuccess?.();
-//     },
-//     onError: config?.onError,
-//     onSettled: config?.onSettled,
-//   });
-// };
+  return useMutation({
+    mutationFn: async (data: CreateImportInvoiceDto) => {
+      const res = await createImportInvoice(data);
+      return res.data!;
+    },
+    onSuccess: () => {
+      // refetch chiến dịch đang sửa
+      queryClient.invalidateQueries({ queryKey: importInvoiceKeys.all }); // hoặc list
+      config?.onSuccess?.();
+    },
+    onError: config?.onError,
+    onSettled: config?.onSettled,
+  });
+};
 
 // export const usePost = (id: number) => {
 //   return useQuery({

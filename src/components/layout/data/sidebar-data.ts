@@ -10,6 +10,7 @@ import {
   IconPalette,
   IconPencil,
   IconSettings,
+  IconTag,
   IconTool,
   IconUserCog,
   IconUsers,
@@ -64,6 +65,11 @@ export const sidebarData: SidebarData = {
           title: "Bài viết",
           url: "/posts",
           icon: IconPencil,
+        },
+        {
+          title: "Đồ đạc",
+          url: "/items",
+          icon: IconTag,
         },
         {
           title: "Kho đồ cũ",

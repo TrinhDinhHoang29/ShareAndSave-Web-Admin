@@ -14,3 +14,9 @@ export enum ClassifyImportInvoice {
   OLD_ITEM = 1,
   LOSE_ITEM = 2,
 }
+export enum InterestType {
+  INTERESTED = 1,
+  FOLLOWING = 2,
+}
+
+export enum InterestStatus {}

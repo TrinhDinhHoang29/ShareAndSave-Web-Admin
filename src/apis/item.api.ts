@@ -1,8 +1,8 @@
 import { http } from "@/lib/http";
 import { CreateItemDto } from "@/schemas/items/create-item.schema";
-import { IFilterApi, IFilterExtend } from "@/types/filter-api.type";
+import { UpdateItemDto } from "@/schemas/items/update-item.schema";
+import { IFilterApi } from "@/types/filter-api.type";
 import { IItem } from "@/types/item.type";
-import { IPost } from "@/types/post.type";
 import { IResponseApi } from "@/types/response-api.type";
 const api = http();
 
@@ -32,4 +32,15 @@ const createItems = async (
   const response = await api.post(`/items`, createItemDto);
   return response.data;
 };
-export { getItems, createItems };
+const updateItem = async (
+  id: number,
+  UpdateItemDto: UpdateItemDto
+): Promise<IResponseApi<{ item: IItem }>> => {
+  const response = await api.patch(`/items/${id}`, UpdateItemDto);
+  return response.data;
+};
+const deleteItem = async (id: number): Promise<IResponseApi<{}>> => {
+  const response = await api.delete(`/items/${id}`);
+  return response.data;
+};
+export { createItems, getItems, updateItem, deleteItem };

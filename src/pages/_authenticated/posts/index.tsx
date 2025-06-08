@@ -1,6 +1,10 @@
 import { Main } from "@/components/layout/main";
 import { DataTable } from "@/components/posts/data-table/data-table";
 import { StatusSummary } from "@/components/posts/status-summary";
+import {
+  useCreateInterest,
+  useDeleteInterest,
+} from "@/hooks/react-query-hooks/use-interest";
 import { usePosts } from "@/hooks/react-query-hooks/use-post";
 import { useDeleteUser } from "@/hooks/react-query-hooks/use-users";
 import { Order } from "@/types/filter-api.type";
@@ -19,7 +23,22 @@ const ListPostPage = () => {
     status?: PostStatus;
   }>({});
   const [sorting, setSorting] = useState<SortingState>([]);
-
+  const createInterestMutation = useCreateInterest({
+    onSuccess: () => {
+      toast.success("Quan tâm bài viết thành công");
+    },
+    onError: (err) => {
+      toast.error(err?.message || "Lỗi hệ thống");
+    },
+  });
+  const deleteInterestMutation = useDeleteInterest({
+    onSuccess: () => {
+      toast.success("Hủy quan tâm bài viết thành công");
+    },
+    onError: (err) => {
+      toast.error(err?.message || "Lỗi hệ thống");
+    },
+  });
   const [pagination, setPagination] = useState<{
     pageIndex: number;
     pageSize: number;
@@ -27,7 +46,7 @@ const ListPostPage = () => {
   const { data, isPending, error } = usePosts({
     page: pagination.pageIndex + 1,
     limit: pagination.pageSize,
-    sort: sorting[0]?.id ?? "",
+    sort: sorting[0]?.id,
     order: sorting[0]?.desc ? Order.DESC : Order.ASC,
     searchBy: globalFilter.searchBy,
     searchValue: globalFilter.searchValue,
@@ -45,6 +64,18 @@ const ListPostPage = () => {
       toast.error(err?.message || "Xóa bài viết thất bại");
     },
   });
+  const handleInterest = async (id: number) => {
+    const res = await ask("Bạn có chất muốn quan tâm bài viết này không?");
+    if (res) {
+      createInterestMutation.mutate(id);
+    }
+  };
+  const handleDeleteInterest = async (id: number) => {
+    const res = await ask("Bạn có chất muốn hủy quan tâm bài viết này không ?");
+    if (res) {
+      deleteInterestMutation.mutate(id);
+    }
+  };
   const handleDelete = async (id: string) => {
     const res = await ask("Bạn có chất xóa bài viết này không?");
     if (res) {
@@ -65,6 +96,8 @@ const ListPostPage = () => {
         <StatusSummary />
 
         <DataTable
+          handleDeleteInterest={handleDeleteInterest}
+          handleInterest={handleInterest}
           handleDelete={handleDelete}
           sorting={sorting} // 👈 THÊM
           setSorting={setSorting} // 👈 THÊM

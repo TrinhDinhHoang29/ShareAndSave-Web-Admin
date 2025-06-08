@@ -9,6 +9,7 @@ import {
 
 import { Button } from "@/components/ui/button";
 import { PostType } from "@/types/status.type";
+import { toast } from "sonner";
 
 const categories = [
   {
@@ -74,7 +75,9 @@ const CreatePostStep2 = ({ onBack, onNext }: Props) => {
   } = useForm<CreatePostTypeDto>({
     resolver: zodResolver(CreatePostTypeSchema),
   });
-
+  if (errors.type) {
+    toast.error(errors.type?.message);
+  }
   const onSubmit: SubmitHandler<CreatePostTypeDto> = (data) => {
     onNext(data);
   };
@@ -161,10 +164,6 @@ const CreatePostStep2 = ({ onBack, onNext }: Props) => {
                 );
               })}
             </div>
-            {/* 🧩 Hiển thị lỗi */}
-            {errors.type && (
-              <p className="text-sm text-red-600 mt-2">{errors.type.message}</p>
-            )}
           </>
         )}
       />

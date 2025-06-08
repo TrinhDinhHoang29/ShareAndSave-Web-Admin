@@ -6,4 +6,5 @@ export interface IItem {
   image: string;
   quantity: number;
   categoryName: string;
+  createdAt: string;
 }

@@ -11,10 +11,12 @@ import {
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
+import { useConfirm } from "use-confirm-hook";
 export type FormData = CreatePostInfoDto & CreatePostTypeDto;
 
 const CreatePostPage = () => {
   const [step, setStep] = useState(1);
+  const { ask } = useConfirm();
   const [formData, setFormData] = useState<FormData>();
   const handleNextStep = (data: any) => {
     setFormData((prevData) => ({ ...prevData, ...data }));
@@ -30,30 +32,33 @@ const CreatePostPage = () => {
       navigate("/posts");
     },
     onError: (err) => {
-      toast.error(err.message || "Có lỗi xảy ra");
+      toast.error(err.message || "Lỗi hệ thống");
     },
   });
-  const submitAll = (data: CreatePostInfoDto) => {
-    const finalData: FormData = { ...formData, ...data } as FormData;
-    const info = JSON.stringify({
-      lostDate: finalData.lostDate,
-      lostLocation: finalData.lostLocation,
-      category: finalData.category,
-      condition: finalData.condition,
-      reward: finalData.reward,
-      foundLocation: finalData.foundLocation,
-      foundDate: finalData.foundDate,
-    });
-    const postData: CreatePostDto = {
-      type: finalData.type,
-      title: finalData.title,
-      description: finalData.description,
-      images: finalData.images,
-      oldItems: finalData.oldItems,
-      newItems: finalData.newItems,
-      info: info,
-    };
-    createPostMutation.mutate(postData);
+  const submitAll = async (data: CreatePostInfoDto) => {
+    const res = await ask("Bạn có chắc chắn muốn tạo bài viết này?");
+    if (res) {
+      const finalData: FormData = { ...formData, ...data } as FormData;
+      const info = JSON.stringify({
+        lostDate: finalData.lostDate,
+        lostLocation: finalData.lostLocation,
+        category: finalData.category,
+        condition: finalData.condition,
+        reward: finalData.reward,
+        foundLocation: finalData.foundLocation,
+        foundDate: finalData.foundDate,
+      });
+      const postData: CreatePostDto = {
+        type: finalData.type,
+        title: finalData.title,
+        description: finalData.description,
+        images: finalData.images,
+        oldItems: finalData.oldItems,
+        newItems: finalData.newItems,
+        info: info,
+      };
+      createPostMutation.mutate(postData);
+    }
   };
   return (
     <Main>
@@ -69,7 +74,7 @@ const CreatePostPage = () => {
       </div>
       <div className="flex justify-center my-16">
         <div
-          className="w-[80%] p-6 border rounded-2xl"
+          className="sm:w-[80%] w-full p-6 border rounded-2xl"
           style={{ boxShadow: "0px 0px 10px 0px rgba(0,0,0,0.1)" }}
         >
           <StepProgress currentStep={step} />
