@@ -65,10 +65,6 @@ const getTypeColor = (type: PostType) => {
 // Sample data
 
 export default function PostInfoSheet({ post }: { post: IPost }) {
-  // const [post] = useState(samplePost);
-  console.log("post", post.authorName);
-  console.log("post", post);
-
   const formatDate = (dateString: string) => {
     return new Date(dateString).toLocaleDateString("vi-VN", {
       year: "numeric",

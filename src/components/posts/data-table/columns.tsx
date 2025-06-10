@@ -12,7 +12,7 @@ export const getColumns = (
   sorting: SortingState,
   handleDeleteInterest: (id: number) => void,
   setSorting: React.Dispatch<React.SetStateAction<SortingState>>,
-  setSelectedUser: (post: IPost) => void,
+  setSelectedPost: (post: IPost) => void,
   setOpenSheet: React.Dispatch<React.SetStateAction<boolean>>
 ): ColumnDef<IPost>[] => [
   {
@@ -37,17 +37,17 @@ export const getColumns = (
       );
     },
     cell: ({ row }) => {
-      const user = row.original as IPost;
+      const post = row.original as IPost;
       return (
         <Button
           variant="link"
           className="p-0 text-left font-medium  hover:underline text-black dark:text-white"
           onClick={() => {
-            setSelectedUser(user);
+            setSelectedPost(post);
             setOpenSheet(true);
           }}
         >
-          {user.authorName}
+          {post.authorName}
         </Button>
       );
     },
@@ -143,7 +143,6 @@ export const getColumns = (
     header: "Hành động",
     cell: ({ row }: any) => {
       const post = row.original as IPost;
-      console.log(post.isInterest);
       return (
         <div className="flex items-center gap-2">
           {post.isInterest ? (

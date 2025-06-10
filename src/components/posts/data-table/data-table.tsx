@@ -82,9 +82,10 @@ export function DataTable<TData, TValue>({
   const [columnVisibility, setColumnVisibility] =
     React.useState<VisibilityState>({});
 
-  const [selectedUser, setSelectedPost] = useState<IPost | null>(null);
+  const [selectedPost, setSelectedPost] = useState<IPost | null>(null);
   const [openSheet, setOpenSheet] = useState(false);
-  const postQuery = usePost(selectedUser?.id || 0);
+
+  const postQuery = usePost(selectedPost?.id || 0);
   const columns = getColumns(
     handleInterest,
     handleDelete,
