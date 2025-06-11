@@ -1,5 +1,5 @@
 import { http } from "@/lib/http";
-import { ICategory } from "@/types/category.type";
+import { ICategory } from "@/types/models/category.type";
 import { IResponseApi } from "@/types/response-api.type";
 
 const api = http();

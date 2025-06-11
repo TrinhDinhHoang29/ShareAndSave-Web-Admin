@@ -14,6 +14,15 @@ export enum ClassifyImportInvoice {
   OLD_ITEM = 1,
   LOSE_ITEM = 2,
 }
+export enum ClassifyWarhouse {
+  ALL = 0,
+  OLD_ITEM = 1,
+  LOSE_ITEM = 2,
+}
+export enum WarehouseItemStatus {
+  INSTOCK = 1,
+  OUTSTOCK = 2,
+}
 export enum InterestType {
   INTERESTED = 1,
   FOLLOWING = 2,

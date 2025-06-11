@@ -72,8 +72,8 @@ export const sidebarData: SidebarData = {
           icon: IconTag,
         },
         {
-          title: "Kho đồ cũ",
-          url: "/warehouse",
+          title: "Lô hàng",
+          url: "/warehouses",
           icon: IconPackage,
         },
         {

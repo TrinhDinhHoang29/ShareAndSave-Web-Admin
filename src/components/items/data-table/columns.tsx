@@ -1,7 +1,7 @@
 import { PopupUpdateItem } from "@/components/items/popup-update-item";
 import { Button } from "@/components/ui/button";
 import { PopupUpdateUser } from "@/components/users/popup-update";
-import { IItem } from "@/types/item.type";
+import { IItem } from "@/types/models/item.type";
 import { ColumnDef, SortingState } from "@tanstack/react-table";
 import { ArrowUpDown, Trash2 } from "lucide-react";
 

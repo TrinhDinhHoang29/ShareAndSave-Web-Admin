@@ -37,7 +37,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { IItem } from "@/types/item.type";
+import { IItem } from "@/types/models/item.type";
 import SheetDetailItem from "@/components/items/sheet-item-post";
 
 interface DataTablePropsWithPage<TData> {

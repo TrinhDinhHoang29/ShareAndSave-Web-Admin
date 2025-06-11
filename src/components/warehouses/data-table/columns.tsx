@@ -1,9 +1,7 @@
-import { PopupUpdatePost } from "@/components/posts/popup-update";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { IImportInvoice } from "@/types/models/import-invoice.type";
-import { IPost } from "@/types/models/post.type";
-import { ClassifyImportInvoice, PostStatus } from "@/types/status.type";
+import { IWarehouse } from "@/types/models/warehouse.type";
+import { ClassifyImportInvoice } from "@/types/status.type";
 import { ColumnDef, SortingState } from "@tanstack/react-table";
 import { ArrowUpDown, Trash2 } from "lucide-react";
 
@@ -11,24 +9,24 @@ export const getColumns = (
   onDelete: (id: string) => void,
   sorting: SortingState,
   setSorting: React.Dispatch<React.SetStateAction<SortingState>>,
-  setSelectedImportInvoice: (importInvoice: IImportInvoice) => void,
+  setSelectedWarehouse: (warehouse: IWarehouse) => void,
   setOpenSheet: React.Dispatch<React.SetStateAction<boolean>>
-): ColumnDef<IImportInvoice>[] => [
+): ColumnDef<IWarehouse>[] => [
   {
-    accessorKey: "receiverName",
-    header: "Tên người nhận",
+    accessorKey: "sku",
+    header: "Mã lô hàng",
     cell: ({ row }) => {
-      const importInvoice = row.original as IImportInvoice;
+      const warehouse = row.original as IWarehouse;
       return (
         <Button
           variant="link"
           className="p-0 text-left font-medium  hover:underline text-black dark:text-white"
           onClick={() => {
-            setSelectedImportInvoice(importInvoice);
+            setSelectedWarehouse(warehouse);
             setOpenSheet(true);
           }}
         >
-          {importInvoice.receiverName}
+          {warehouse.sku}
         </Button>
       );
     },
@@ -40,7 +38,7 @@ export const getColumns = (
     enableSorting: true,
   },
   {
-    accessorKey: "itemCount",
+    accessorKey: "quantity",
     header: ({ column }) => {
       const isSorted = sorting.find((s) => s.id === column.id);
       const nextDirection = isSorted?.desc ? "asc" : "desc";
@@ -61,13 +59,13 @@ export const getColumns = (
       );
     },
     cell: ({ row }) => {
-      const typePost = row.getValue("itemCount");
+      const typePost = row.getValue("quantity");
       return `${typePost} món`;
     },
   },
   {
     accessorKey: "classify",
-    header: "Loại phiếu nhập",
+    header: "Loại lô hàng",
     cell: ({ row }) => {
       const typePost = row.getValue("classify");
       return typePost == ClassifyImportInvoice.ALL ? (
@@ -106,20 +104,20 @@ export const getColumns = (
     },
     enableSorting: true,
   },
-
+  {
+    accessorKey: "stockPlace",
+    header: "Vị trí lưu kho",
+  },
   {
     id: "actions",
     header: "Hành động",
     cell: ({ row }: any) => {
-      const post = row.original as IPost;
+      const warehouse = row.original as IWarehouse;
       return (
         <div className="flex items-center gap-2">
-          {post.status === PostStatus.PENDING && (
-            <PopupUpdatePost post={post} />
-          )}
           <Button
             variant={"outline"}
-            onClick={() => onDelete(post.id.toString())}
+            onClick={() => onDelete(warehouse.id.toString())}
           >
             <Trash2 />
           </Button>

@@ -1,6 +1,6 @@
 import { http } from "@/lib/http";
 import { IFilterInterest } from "@/types/filter-api.type";
-import { IInterest } from "@/types/interests.type";
+import { IInterest } from "@/types/models/interests.type";
 import { IResponseApi } from "@/types/response-api.type";
 
 const api = http();

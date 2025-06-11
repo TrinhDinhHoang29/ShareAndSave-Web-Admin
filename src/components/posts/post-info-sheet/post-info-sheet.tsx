@@ -1,7 +1,7 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { IPost } from "@/types/post.type";
+import { IPost } from "@/types/models/post.type";
 import { PostStatus, PostType } from "@/types/status.type";
 import { CalendarDays, Heart, Package, Tag, User } from "lucide-react";
 

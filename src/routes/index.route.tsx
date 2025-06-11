@@ -9,6 +9,7 @@ import ListItemPage from "@/pages/_authenticated/items";
 import ListPostPage from "@/pages/_authenticated/posts";
 import CreatePostPage from "@/pages/_authenticated/posts/create";
 import UsersPage from "@/pages/_authenticated/users";
+import ListWarehousesPage from "@/pages/_authenticated/warehouses";
 import { lazy, Suspense } from "react";
 import { RouteObject } from "react-router-dom";
 
@@ -99,6 +100,16 @@ export const routes: RouteObject[] = [
           <ProtectedRoute>
             <ErrorBoundary>
               <CreateImportInvoicePage />
+            </ErrorBoundary>
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: "/warehouses",
+        element: (
+          <ProtectedRoute>
+            <ErrorBoundary>
+              <ListWarehousesPage />
             </ErrorBoundary>
           </ProtectedRoute>
         ),

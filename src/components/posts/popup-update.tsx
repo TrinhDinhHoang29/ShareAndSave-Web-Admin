@@ -21,7 +21,7 @@ import {
   UpdatePostDto,
   UpdatePostSchema,
 } from "@/schemas/posts/update-post.schema";
-import { IPost } from "@/types/post.type";
+import { IPost } from "@/types/models/post.type";
 import { PostStatus } from "@/types/status.type";
 import { SquarePen } from "lucide-react";
 import { toast } from "sonner";

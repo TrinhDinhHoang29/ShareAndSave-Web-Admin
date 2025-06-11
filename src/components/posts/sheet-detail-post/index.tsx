@@ -7,7 +7,7 @@ import {
   SheetHeader,
   SheetTitle,
 } from "@/components/ui/sheet";
-import { IPost } from "@/types/post.type";
+import { IPost } from "@/types/models/post.type";
 import React from "react";
 
 export interface SheetDetailPostProps {

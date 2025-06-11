@@ -36,7 +36,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { IImportInvoice } from "@/types/import-invoice.type";
+import { IImportInvoice } from "@/types/models/import-invoice.type";
 import { PostStatus, PostType } from "@/types/status.type";
 import { Link } from "react-router-dom";
 import { FilterForm } from "@/components/import-invoices/filter-form";

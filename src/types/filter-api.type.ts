@@ -15,6 +15,7 @@ export interface IFilterExtend extends IFilterApi {
 export interface IFilterInterest extends IFilterApi {
   type?: InterestType;
 }
+
 export enum Order {
   ASC = "ASC",
   DESC = "DESC",

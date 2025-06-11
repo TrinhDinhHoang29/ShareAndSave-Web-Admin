@@ -10,10 +10,8 @@ import {
 import { PlusCircle, Settings } from "lucide-react";
 import React, { useState } from "react";
 
+import { FilterForm } from "@/components/import-invoices/filter-form";
 import LoadingSpinner from "@/components/loading-spinner";
-import { getColumns } from "@/components/posts/data-table/columns";
-import { FilterForm } from "@/components/posts/filter-form";
-import SheetDetailPost from "@/components/posts/sheet-detail-post";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -38,10 +36,13 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { usePost } from "@/hooks/react-query-hooks/use-post";
-import { IPost } from "@/types/models/post.type";
+import { getColumns } from "@/components/warehouses/data-table/columns";
+import { IWarehouse } from "@/types/models/warehouse.type";
 import { PostStatus, PostType } from "@/types/status.type";
 import { Link } from "react-router-dom";
+import PopupWarehouseDetail from "@/components/warehouses/detail/popup-warehouse-detail";
+import { useWarehouse } from "@/hooks/react-query-hooks/use-warehouse";
+import { IconPackageExport } from "@tabler/icons-react";
 
 interface DataTablePropsWithPage<TData> {
   data: TData[];
@@ -50,8 +51,6 @@ interface DataTablePropsWithPage<TData> {
   sorting: SortingState;
   setSorting: React.Dispatch<React.SetStateAction<SortingState>>;
   handleDelete: (id: string) => Promise<void>;
-  handleInterest: (id: number) => Promise<void>;
-  handleDeleteInterest: (id: number) => Promise<void>;
   pagination: { pageIndex: number; pageSize: number };
   setGlobalFilter: React.Dispatch<
     React.SetStateAction<{
@@ -72,29 +71,26 @@ export function DataTable<TData, TValue>({
   totalPage,
   pagination,
   sorting,
-  handleDeleteInterest,
   setSorting, // 👈 Thêm prop này
   handleDelete,
   setGlobalFilter,
-  handleInterest,
   setPagination,
 }: DataTablePropsWithPage<TData>) {
   const [columnVisibility, setColumnVisibility] =
     React.useState<VisibilityState>({});
 
-  const [selectedPost, setSelectedPost] = useState<IPost | null>(null);
-  const [openSheet, setOpenSheet] = useState(false);
+  const [selectedWarehouse, setSelectedWarehouse] = useState<IWarehouse | null>(
+    null
+  );
+  const [open, setOpen] = useState(false);
+  const warehouseQuery = useWarehouse(selectedWarehouse?.id || 0);
 
-  const postQuery = usePost(selectedPost?.id || 0);
   const columns = getColumns(
-    handleInterest,
     handleDelete,
     sorting,
-    handleDeleteInterest,
-
     setSorting,
-    setSelectedPost,
-    setOpenSheet
+    setSelectedWarehouse,
+    setOpen
   );
   const table = useReactTable({
     data,
@@ -146,9 +142,9 @@ export function DataTable<TData, TValue>({
                   })}
               </DropdownMenuContent>
             </DropdownMenu>
-            <Link to="/posts/create">
+            <Link to="/import-invoices/create">
               <Button variant={"outline"}>
-                Thêm bài viết <PlusCircle />
+                Xuất kho <IconPackageExport />
               </Button>
             </Link>
           </div>
@@ -212,7 +208,7 @@ export function DataTable<TData, TValue>({
             </TableBody>
           </Table>
           <div className="mx-6 flex flex-wrap items-center justify-end gap-4 py-2">
-            <div className="flex items-center gap-2">
+            <div className="hidden sm:flex items-center gap-2">
               <span>Hiển thị</span>
               <Select
                 value={pagination.pageSize.toString()} // 👈 Thêm dòng này
@@ -273,10 +269,10 @@ export function DataTable<TData, TValue>({
           </div>
         </div>
       </div>
-      <SheetDetailPost
-        openSheet={openSheet}
-        setOpenSheet={setOpenSheet}
-        data={postQuery.data?.post || null}
+      <PopupWarehouseDetail
+        open={open}
+        setOpen={setOpen}
+        warehouse={warehouseQuery.data}
       />
     </>
   );

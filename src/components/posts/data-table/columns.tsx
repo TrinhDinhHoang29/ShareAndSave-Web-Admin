@@ -1,7 +1,7 @@
 import { PopupUpdatePost } from "@/components/posts/popup-update";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { IPost } from "@/types/post.type";
+import { IPost } from "@/types/models/post.type";
 import { PostStatus, PostType } from "@/types/status.type";
 import { ColumnDef, SortingState } from "@tanstack/react-table";
 import { ArrowUpDown, Heart, Trash2 } from "lucide-react";

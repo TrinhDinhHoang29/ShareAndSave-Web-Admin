@@ -37,7 +37,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { getColumns } from "@/components/users/data-table/columns";
-import { IUser } from "@/types/user.type";
+import { IUser } from "@/types/models/user.type";
 import {
   Sheet,
   SheetContent,

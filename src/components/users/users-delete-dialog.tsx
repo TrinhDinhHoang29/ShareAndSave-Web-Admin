@@ -4,7 +4,7 @@ import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { showSubmittedData } from "@/utils/show-submitted-data";
-import { IUser } from "@/types/user.type";
+import { IUser } from "@/types/models/user.type";
 import { ConfirmDialog } from "@/components/confirm-dialog";
 
 interface Props {

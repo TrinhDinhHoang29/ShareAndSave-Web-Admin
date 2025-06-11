@@ -1,7 +1,7 @@
 import { ColumnDef, SortingState } from "@tanstack/react-table";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { IUser } from "@/types/user.type";
+import { IUser } from "@/types/models/user.type";
 import { ArrowUpDown, IdCard, Trash2 } from "lucide-react";
 import { PopupUpdateUser } from "@/components/users/popup-update";
 

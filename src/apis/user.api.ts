@@ -2,7 +2,7 @@ import { http } from "@/lib/http";
 import { UpdateUserDto } from "@/schemas/users/update-user.schema";
 import { IFilterApi } from "@/types/filter-api.type";
 import { IResponseApi } from "@/types/response-api.type";
-import { IUser } from "@/types/user.type";
+import { IUser } from "@/types/models/user.type";
 const api = http();
 
 const getUsers = async ({

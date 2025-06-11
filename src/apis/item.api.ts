@@ -2,7 +2,7 @@ import { http } from "@/lib/http";
 import { CreateItemDto } from "@/schemas/items/create-item.schema";
 import { UpdateItemDto } from "@/schemas/items/update-item.schema";
 import { IFilterApi } from "@/types/filter-api.type";
-import { IItem } from "@/types/item.type";
+import { IItem } from "@/types/models/item.type";
 import { IResponseApi } from "@/types/response-api.type";
 const api = http();
 

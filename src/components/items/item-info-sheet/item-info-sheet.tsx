@@ -1,6 +1,6 @@
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { IItem } from "@/types/item.type";
+import { IItem } from "@/types/models/item.type";
 import { CalendarDays, Package, Tag, Hash, Clock, Grid3X3 } from "lucide-react";
 
 export default function ItemInfoSheet({ item }: { item: IItem }) {

@@ -22,7 +22,7 @@ import {
   UpdateItemDto,
   UpdateItemSchema,
 } from "@/schemas/items/update-item.schema";
-import { IItem } from "@/types/item.type";
+import { IItem } from "@/types/models/item.type";
 import { SquarePen } from "lucide-react";
 import { toast } from "sonner";
 import { useConfirm } from "use-confirm-hook";

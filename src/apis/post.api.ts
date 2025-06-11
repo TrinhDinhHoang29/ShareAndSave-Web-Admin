@@ -2,7 +2,7 @@ import { http } from "@/lib/http";
 import { CreatePostDto } from "@/schemas/posts/create-post.schema";
 import { UpdatePostDto } from "@/schemas/posts/update-post.schema";
 import { IFilterExtend } from "@/types/filter-api.type";
-import { IPost } from "@/types/post.type";
+import { IPost } from "@/types/models/post.type";
 import { IResponseApi } from "@/types/response-api.type";
 const api = http();
 

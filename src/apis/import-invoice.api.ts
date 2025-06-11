@@ -1,7 +1,7 @@
 import { http } from "@/lib/http";
 import { CreateImportInvoiceDto } from "@/schemas/import-invoices/create-import-invoice";
 import { IFilterApi } from "@/types/filter-api.type";
-import { IImportInvoice } from "@/types/import-invoice.type";
+import { IImportInvoice } from "@/types/models/import-invoice.type";
 import { IResponseApi } from "@/types/response-api.type";
 const api = http();
 

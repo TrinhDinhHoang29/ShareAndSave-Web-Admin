@@ -1,6 +1,6 @@
 import ItemCard from "@/components/items/item-card";
 import { IOldItem } from "@/components/posts/multi-form/step-3";
-import { IItem } from "@/types/item.type";
+import { IItem } from "@/types/models/item.type";
 
 const ItemCardList = ({
   mockItems,

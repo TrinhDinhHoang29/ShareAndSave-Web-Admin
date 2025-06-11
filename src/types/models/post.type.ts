@@ -1,5 +1,5 @@
-import { IInterest } from "@/types/interests.type";
-import { IItem } from "@/types/item.type";
+import { IInterest } from "@/types/models/interests.type";
+import { IItem } from "@/types/models/item.type";
 import { PostStatus, PostType } from "@/types/status.type";
 
 export interface IPost {
