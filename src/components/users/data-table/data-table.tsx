@@ -7,10 +7,11 @@ import {
   useReactTable,
   VisibilityState,
 } from "@tanstack/react-table";
-import { ArrowUp, Search, Settings, X } from "lucide-react";
+import { Search, Settings, X } from "lucide-react";
 import React, { useState } from "react";
 
 import LoadingSpinner from "@/components/loading-spinner";
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -29,6 +30,13 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import {
+  Sheet,
+  SheetContent,
+  SheetDescription,
+  SheetHeader,
+  SheetTitle,
+} from "@/components/ui/sheet";
+import {
   Table,
   TableBody,
   TableCell,
@@ -38,14 +46,6 @@ import {
 } from "@/components/ui/table";
 import { getColumns } from "@/components/users/data-table/columns";
 import { IUser } from "@/types/models/user.type";
-import {
-  Sheet,
-  SheetContent,
-  SheetDescription,
-  SheetHeader,
-  SheetTitle,
-} from "@/components/ui/sheet";
-import { Badge } from "@/components/ui/badge";
 
 interface DataTablePropsWithPage<TData> {
   data: TData[];

@@ -27,6 +27,7 @@ const UsersPage = () => {
     searchBy: globalFilter.searchBy,
     searchValue: globalFilter.searchValue,
   });
+  console.log(data);
   if (error) {
     toast.error(error?.message || "Lỗi");
   }
@@ -57,7 +58,7 @@ const UsersPage = () => {
         handleDelete={handleDelete}
         sorting={sorting} // 👈 THÊM
         setSorting={setSorting} // 👈 THÊM
-        data={data?.users!}
+        data={data?.clients!}
         totalPage={data?.totalPage!}
         setGlobalFilter={setGlobalFilter}
         pagination={pagination}

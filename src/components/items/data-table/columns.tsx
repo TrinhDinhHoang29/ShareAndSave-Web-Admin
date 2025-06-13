@@ -77,7 +77,9 @@ export const getColumns = (
     },
     cell: ({ row }) => {
       const date = new Date(row.getValue("createdAt"));
-      return `${date.getHours()}h${date.getMinutes()}, ${date.getDate()}/${date.getMonth()}/${date.getFullYear()}`;
+      return `${date.getHours()}h${date.getMinutes()}, ${date.getDate()}/${
+        date.getMonth() + 1
+      }/${date.getFullYear()}`;
     },
     enableSorting: true,
   },

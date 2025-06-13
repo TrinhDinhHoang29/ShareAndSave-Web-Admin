@@ -4,30 +4,28 @@ import { IWarehouse } from "@/types/models/warehouse.type";
 import { ClassifyImportInvoice } from "@/types/status.type";
 import { ColumnDef, SortingState } from "@tanstack/react-table";
 import { ArrowUpDown, Trash2 } from "lucide-react";
+import { Link } from "react-router-dom";
 
 export const getColumns = (
   onDelete: (id: string) => void,
   sorting: SortingState,
   setSorting: React.Dispatch<React.SetStateAction<SortingState>>,
-  setSelectedWarehouse: (warehouse: IWarehouse) => void,
-  setOpenSheet: React.Dispatch<React.SetStateAction<boolean>>
+  setSelectedWarehouse: (warehouse: IWarehouse) => void
 ): ColumnDef<IWarehouse>[] => [
   {
-    accessorKey: "sku",
+    accessorKey: "SKU",
     header: "Mã lô hàng",
     cell: ({ row }) => {
       const warehouse = row.original as IWarehouse;
       return (
-        <Button
-          variant="link"
-          className="p-0 text-left font-medium  hover:underline text-black dark:text-white"
-          onClick={() => {
-            setSelectedWarehouse(warehouse);
-            setOpenSheet(true);
-          }}
-        >
-          {warehouse.sku}
-        </Button>
+        <Link to={"/warehouses/" + warehouse.id}>
+          <Button
+            variant="link"
+            className="p-0 text-left font-medium  hover:underline text-black dark:text-white"
+          >
+            {warehouse.SKU}
+          </Button>
+        </Link>
       );
     },
     enableSorting: true,
@@ -107,6 +105,11 @@ export const getColumns = (
   {
     accessorKey: "stockPlace",
     header: "Vị trí lưu kho",
+    cell: ({ row }) => {
+      const stockPlace = row.getValue("stockPlace") as string;
+      const result = stockPlace === "" ? "Chưa có" : stockPlace;
+      return `${result}`;
+    },
   },
   {
     id: "actions",

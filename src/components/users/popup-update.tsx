@@ -29,14 +29,14 @@ export function PopupUpdateUser({ id }: { id: string }) {
   });
   const userQuery = useUser(id);
   if (userQuery.isSuccess) {
-    form.setValue("id", userQuery.data.user.id);
-    form.setValue("fullName", userQuery.data.user.fullName);
-    form.setValue("goodPoint", userQuery.data.user.goodPoint);
-    form.setValue("phoneNumber", userQuery.data.user.phoneNumber);
-    form.setValue("avatar", userQuery.data.user.avatar);
-    form.setValue("address", userQuery.data.user.address);
-    form.setValue("major", userQuery.data.user.major);
-    form.setValue("status", userQuery.data.user.status);
+    form.setValue("id", userQuery.data.client.id);
+    form.setValue("fullName", userQuery.data.client.fullName);
+    form.setValue("goodPoint", userQuery.data.client.goodPoint);
+    form.setValue("phoneNumber", userQuery.data.client.phoneNumber);
+    form.setValue("avatar", userQuery.data.client.avatar);
+    form.setValue("address", userQuery.data.client.address);
+    form.setValue("major", userQuery.data.client.major);
+    form.setValue("status", userQuery.data.client.status);
   }
   const userUpdateMutation = useUpdateUser({});
   const onSubmit = (data: UpdateUserDto) => {

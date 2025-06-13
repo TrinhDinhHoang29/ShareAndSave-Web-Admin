@@ -13,9 +13,9 @@ const getUsers = async ({
   page,
   limit,
 }: IFilterApi): Promise<
-  IResponseApi<{ users: IUser[]; totalPage: number }>
+  IResponseApi<{ clients: IUser[]; totalPage: number }>
 > => {
-  const response = await api.get(`/users?page=${page}&limit=${limit}`, {
+  const response = await api.get(`/clients?page=${page}&limit=${limit}`, {
     params: {
       searchBy,
       searchValue,
@@ -25,19 +25,21 @@ const getUsers = async ({
   });
   return response.data;
 };
-const getUser = async (id: string): Promise<IResponseApi<{ user: IUser }>> => {
-  const response = await api.get(`/users/${id}`);
+const getUser = async (
+  id: string
+): Promise<IResponseApi<{ client: IUser }>> => {
+  const response = await api.get(`/clients/${id}`);
   return response.data;
 };
 
 const updateUser = async (
   user: UpdateUserDto
-): Promise<IResponseApi<{ user: IUser }>> => {
-  const response = await api.put(`/users`, user);
+): Promise<IResponseApi<{ client: IUser }>> => {
+  const response = await api.patch(`/clients/${user.id}`, user);
   return response.data;
 };
 const deleteUser = async (id: string): Promise<IResponseApi<null>> => {
-  const response = await api.delete(`/users/${id}`);
+  const response = await api.delete(`/clients/${id}`);
   return response.data;
 };
 export { getUsers, deleteUser, getUser, updateUser };

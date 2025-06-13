@@ -27,7 +27,7 @@ export const SenderSelect = ({
   label?: string;
 }) => {
   const [searchValue, setSearchValue] = useState("");
-  const { data: { users = [] } = {} } = useUsers({
+  const { data: { clients = [] } = {} } = useUsers({
     searchBy: "fullName",
     searchValue,
     page: 1,
@@ -46,9 +46,9 @@ export const SenderSelect = ({
             <PopoverTrigger asChild>
               <Button variant="outline" className="w-full justify-start">
                 {field.value
-                  ? users.find((u) => u.id === field.value)?.fullName ||
+                  ? clients.find((u) => u.id === field.value)?.fullName ||
                     "Không rõ"
-                  : "Chọn người gửi"}
+                  : "Chọn một người"}
               </Button>
             </PopoverTrigger>
             <PopoverContent className="w-[300px] p-0">
@@ -58,7 +58,7 @@ export const SenderSelect = ({
                   onValueChange={setSearchValue}
                 />
                 <CommandList>
-                  {users.map((user) => (
+                  {clients.map((user) => (
                     <CommandItem
                       key={user.id}
                       value={user.fullName}

@@ -80,7 +80,6 @@ const CreateImportInvoicePage = () => {
                       className="w-full"
                       placeholder="Chọn loại phiếu nhập"
                       data={[
-                        { field: ClassifyImportInvoice.ALL, value: "Tất cả" },
                         {
                           field: ClassifyImportInvoice.LOSE_ITEM,
                           value: "Đồ thất lạc",

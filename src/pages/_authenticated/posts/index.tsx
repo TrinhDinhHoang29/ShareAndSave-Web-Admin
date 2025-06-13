@@ -53,6 +53,7 @@ const ListPostPage = () => {
     type: globalFilter.type,
     status: globalFilter.status,
   });
+  console.log(data);
   if (error) {
     toast.error(error?.message || "Lỗi");
   }

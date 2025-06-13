@@ -10,7 +10,9 @@ import {
 import { Settings } from "lucide-react";
 import React, { useState } from "react";
 
+import PopupCreateExportInvoice from "@/components/export-invoices/popup-create-export-invoice";
 import { FilterForm } from "@/components/import-invoices/filter-form";
+import { getColumns } from "@/components/inventories/data-table/columns";
 import LoadingSpinner from "@/components/loading-spinner";
 import { Button } from "@/components/ui/button";
 import {
@@ -36,10 +38,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { getColumns } from "@/components/warehouses/data-table/columns";
-import PopupWarehouseDetail from "@/components/warehouses/detail/popup-warehouse-detail";
-import { useWarehouse } from "@/hooks/react-query-hooks/use-warehouse";
-import { IWarehouse } from "@/types/models/warehouse.type";
+import { IItemWarehouse } from "@/types/models/item-warehouse.type";
 import { PostStatus, PostType } from "@/types/status.type";
 
 interface DataTablePropsWithPage<TData> {
@@ -48,7 +47,6 @@ interface DataTablePropsWithPage<TData> {
   isPending: boolean;
   sorting: SortingState;
   setSorting: React.Dispatch<React.SetStateAction<SortingState>>;
-  handleDelete: (id: string) => Promise<void>;
   pagination: { pageIndex: number; pageSize: number };
   setGlobalFilter: React.Dispatch<
     React.SetStateAction<{
@@ -70,23 +68,22 @@ export function DataTable<TData, TValue>({
   pagination,
   sorting,
   setSorting, // 👈 Thêm prop này
-  handleDelete,
   setGlobalFilter,
   setPagination,
 }: DataTablePropsWithPage<TData>) {
   const [columnVisibility, setColumnVisibility] =
     React.useState<VisibilityState>({});
 
-  const [selectedWarehouse, setSelectedWarehouse] = useState<IWarehouse | null>(
-    null
-  );
+  const [selectedItemWarehouses, setSelectedItemWarehouses] = useState<
+    IItemWarehouse[]
+  >([]);
   const [open, setOpen] = useState(false);
-  const warehouseQuery = useWarehouse(selectedWarehouse?.id || 0);
+  // const postQuery = usePost(selectedUser?.id || 0);
   const columns = getColumns(
-    handleDelete,
     sorting,
     setSorting,
-    setSelectedWarehouse
+    selectedItemWarehouses,
+    setSelectedItemWarehouses
   );
   const table = useReactTable({
     data,
@@ -138,6 +135,13 @@ export function DataTable<TData, TValue>({
                   })}
               </DropdownMenuContent>
             </DropdownMenu>
+            {selectedItemWarehouses.length > 0 && (
+              <PopupCreateExportInvoice
+                itemWarehouses={selectedItemWarehouses}
+                open={open}
+                setOpen={setOpen}
+              />
+            )}
           </div>
         </div>
         <div>

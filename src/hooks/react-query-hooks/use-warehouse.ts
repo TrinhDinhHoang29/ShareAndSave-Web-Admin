@@ -1,6 +1,11 @@
-import { getWarehouse, getWarehouses } from "@/apis/warehouse.api";
+import {
+  getWarehouse,
+  getWarehouses,
+  updateWarehouse,
+} from "@/apis/warehouse.api";
+import { UpdateWarehouseDto } from "@/schemas/warehouses/update-warehouse";
 import { IFilterApi } from "@/types/filter-api.type";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 export const warehouseKeys = {
   all: ["warehouses"] as const,
@@ -32,9 +37,39 @@ export const useWarehouse = (id: number) => {
     queryKey: warehouseKeys.detail(id),
     queryFn: async () => {
       const res = await getWarehouse(id);
-      return res.warehouse;
+      return res.data!;
     },
     enabled: id !== 0,
     staleTime: 5 * 60 * 1000, // 5 phút,
+  });
+};
+export const useUpdateWarehouse = (config?: {
+  onSuccess?: () => void;
+  onError?: (err: any) => void;
+  onSettled?: () => void;
+}) => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async ({
+      id,
+      data,
+    }: {
+      id: number;
+      data: UpdateWarehouseDto;
+    }) => {
+      const res = await updateWarehouse(id, data);
+      return res.data!;
+    },
+    onSuccess: (_, { id }) => {
+      // refetch chiến dịch đang sửa
+      queryClient.invalidateQueries({
+        queryKey: warehouseKeys.detail(id),
+      });
+      queryClient.invalidateQueries({ queryKey: warehouseKeys.all }); // hoặc list
+      config?.onSuccess?.();
+    },
+    onError: config?.onError,
+    onSettled: config?.onSettled,
   });
 };

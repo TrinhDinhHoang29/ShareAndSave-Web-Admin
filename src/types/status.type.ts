@@ -19,6 +19,11 @@ export enum ClassifyWarhouse {
   OLD_ITEM = 1,
   LOSE_ITEM = 2,
 }
+export enum ClassifyExportInvoice {
+  ALL = 0,
+  OLD_ITEM = 1,
+  LOSE_ITEM = 2,
+}
 export enum WarehouseItemStatus {
   INSTOCK = 1,
   OUTSTOCK = 2,

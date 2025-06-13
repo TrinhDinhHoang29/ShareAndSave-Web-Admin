@@ -26,7 +26,7 @@ const ProductItemsCard = ({
 
   if (listItems.length === 0) {
     return (
-      <Card className="h-fit">
+      <Card className="h-full shadow-lg">
         <CardHeader>
           <CardTitle className="flex items-center gap-2 text-lg justify-between">
             <div className="flex items-center gap-2">
@@ -49,7 +49,7 @@ const ProductItemsCard = ({
   }
 
   return (
-    <Card className="h-fit">
+    <Card className="h-full shadow-lg">
       <CardHeader>
         <CardTitle className="flex items-center justify-between">
           <div className="flex items-center gap-2">
@@ -64,7 +64,7 @@ const ProductItemsCard = ({
           </div>
         </CardTitle>
       </CardHeader>
-      <CardContent>
+      <CardContent className="overflow-hidden p-x-8">
         <div className="space-y-3 max-h-96 overflow-y-auto">
           {listItems.map((item, index) => (
             <div
