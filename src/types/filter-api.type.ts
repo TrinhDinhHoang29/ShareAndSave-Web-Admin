@@ -1,4 +1,9 @@
-import { InterestType, PostStatus, PostType } from "@/types/status.type";
+import {
+  InterestType,
+  PostStatus,
+  PostType,
+  TransactionStatus,
+} from "@/types/status.type";
 
 export interface IFilterApi {
   searchBy?: string;
@@ -12,10 +17,17 @@ export interface IFilterExtend extends IFilterApi {
   status?: PostStatus;
   type?: PostType;
 }
-export interface IFilterInterest extends IFilterApi {
+export interface IFilterInterest {
+  search?: string;
+  page?: number;
+  limit?: number;
+  order?: Order;
   type?: InterestType;
 }
-
+export interface IFilterTransaction extends IFilterApi {
+  status?: TransactionStatus;
+  postID?: number;
+}
 export enum Order {
   ASC = "ASC",
   DESC = "DESC",

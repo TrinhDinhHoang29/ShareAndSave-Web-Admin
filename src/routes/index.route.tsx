@@ -6,6 +6,7 @@ import Chats from "@/pages/_authenticated/chats";
 import CreateExportInvoicePage from "@/pages/_authenticated/export-invoices/create";
 import ListImportInvoice from "@/pages/_authenticated/import-invoices";
 import CreateImportInvoicePage from "@/pages/_authenticated/import-invoices/create-import-invoice";
+import InterestsPage from "@/pages/_authenticated/interests";
 import ListInventoriesPage from "@/pages/_authenticated/inventory";
 import ListItemPage from "@/pages/_authenticated/items";
 import ListPostPage from "@/pages/_authenticated/posts";
@@ -158,11 +159,21 @@ export const routes: RouteObject[] = [
         ),
       },
       {
-        path: "/chats",
+        path: "/chats/:interestId",
         element: (
           <ProtectedRoute>
             <ErrorBoundary>
               <Chats />
+            </ErrorBoundary>
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: "/interests",
+        element: (
+          <ProtectedRoute>
+            <ErrorBoundary>
+              <InterestsPage />
             </ErrorBoundary>
           </ProtectedRoute>
         ),

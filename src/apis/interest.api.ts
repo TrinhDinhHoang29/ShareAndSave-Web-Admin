@@ -17,8 +17,7 @@ const getInterests = async ({
   limit,
   order,
   page,
-  searchValue,
-  sort,
+  search,
   type,
 }: IFilterInterest): Promise<
   IResponseApi<{ interests: IInterest[]; totalPage: number }>
@@ -28,11 +27,19 @@ const getInterests = async ({
       limit,
       order,
       page,
-      searchValue,
-      sort,
+      search,
+      sort: "createdAt",
       type,
     },
   });
+  console.log("type of interests", type);
+  console.log("getInterests response", response.data);
   return response.data;
 };
-export { createInterest, deleteInterest, getInterests };
+const getInterest = async (
+  id: string
+): Promise<IResponseApi<{ interest: IInterest }>> => {
+  const response = await api.get(`/interests/${id}`);
+  return response.data;
+};
+export { createInterest, deleteInterest, getInterests, getInterest };

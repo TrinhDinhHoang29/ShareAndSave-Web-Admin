@@ -1,8 +1,33 @@
+import { InterestType, PostType } from "@/types/status.type";
+
 export interface IInterest {
+  authorAvatar: string;
+  authorID: number;
+  authorName: string;
+  createdAt: string;
+  description: string;
   id: number;
-  postID: number;
-  status: string;
-  userAvatar: string;
-  userID: number;
-  userName: string;
+  interests: {
+    createdAt: string;
+    id: number;
+    postID: number;
+    status: number;
+    userAvatar: string;
+    userID: number;
+    userName: string;
+  }[];
+  items: IItemInterest[];
+  slug: string;
+  title: string;
+  type: PostType;
+  updatedAt: string;
+}
+export interface IItemInterest {
+  categoryName: string;
+  currentQuantity: number;
+  id: number;
+  image: string;
+  itemID: number;
+  name: string;
+  quantity: number;
 }

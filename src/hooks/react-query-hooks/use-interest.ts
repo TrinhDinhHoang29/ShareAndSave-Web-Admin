@@ -1,6 +1,7 @@
 import {
   createInterest,
   deleteInterest,
+  getInterest,
   getInterests,
 } from "@/apis/interest.api";
 import { postKeys } from "@/hooks/react-query-hooks/use-post";
@@ -11,9 +12,8 @@ export const interestKeys = {
   list: (params: IFilterInterest) =>
     [
       "interests",
-      params.searchValue ?? "",
+      params.search ?? "",
       params.order ?? "",
-      params.sort ?? "",
       params.type ?? "",
       params.page ?? 1,
       params.limit ?? 10,
@@ -69,6 +69,16 @@ export const useInterests = (params: IFilterInterest) => {
     queryKey: interestKeys.list(params),
     queryFn: async () => {
       const res = await getInterests(params);
+      return res.data!;
+    },
+    staleTime: 5 * 60 * 1000, // 5 phút,
+  });
+};
+export const useInterest = (id: string) => {
+  return useQuery({
+    queryKey: interestKeys.detail(id),
+    queryFn: async () => {
+      const res = await getInterest(id);
       return res.data!;
     },
     staleTime: 5 * 60 * 1000, // 5 phút,

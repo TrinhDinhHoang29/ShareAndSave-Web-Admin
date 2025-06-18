@@ -15,7 +15,7 @@ import {
   IconUserCog,
   IconUsers,
 } from "@tabler/icons-react";
-import { Command } from "lucide-react";
+import { Command, Heart, HeartIcon, WarehouseIcon } from "lucide-react";
 import { type SidebarData } from "../types";
 
 export const sidebarData: SidebarData = {
@@ -30,16 +30,6 @@ export const sidebarData: SidebarData = {
       logo: Command,
       plan: "Trang quản trị",
     },
-    // {
-    //   name: "Acme Inc",
-    //   logo: GalleryVerticalEnd,
-    //   plan: "Enterprise",
-    // },
-    // {
-    //   name: "Acme Corp.",
-    //   logo: AudioWaveform,
-    //   plan: "Startup",
-    // },
   ],
   navGroups: [
     {
@@ -49,6 +39,12 @@ export const sidebarData: SidebarData = {
           title: "Bảng điều khiển",
           url: "/",
           icon: IconLayoutDashboard,
+        },
+        {
+          title: "Quan tâm",
+          url: "/interests",
+          badge: "3",
+          icon: HeartIcon,
         },
         {
           title: "Nhắn tin",
@@ -70,6 +66,11 @@ export const sidebarData: SidebarData = {
           title: "Đồ đạc",
           url: "/items",
           icon: IconTag,
+        },
+        {
+          title: "Hàng tồn",
+          url: "/inventories",
+          icon: WarehouseIcon,
         },
         {
           title: "Lô hàng",
