@@ -2,11 +2,8 @@
 import { useAuth } from "@/context/auth-context";
 import { interestKeys } from "@/hooks/react-query-hooks/use-interest";
 import { getAccessToken } from "@/lib/token";
-import { InterestType } from "@/types/status.type";
 import { useQueryClient } from "@tanstack/react-query";
 import { useEffect, useRef } from "react";
-import { useLocation } from "react-router-dom";
-import { toast } from "sonner";
 
 export function useNotificationSocket() {
   const socketRef = useRef<WebSocket | null>(null);
