@@ -71,7 +71,6 @@ export const useInterests = (params: IFilterInterest) => {
       const res = await getInterests(params);
       return res.data!;
     },
-    staleTime: 5 * 60 * 1000, // 5 phút,
   });
 };
 export const useInterest = (id: string) => {

@@ -24,6 +24,12 @@ export interface IFilterInterest {
   order?: Order;
   type?: InterestType;
 }
+export interface IFilterChat {
+  interestID?: number;
+  page?: number;
+  limit?: number;
+  search?: string;
+}
 export interface IFilterTransaction extends IFilterApi {
   status?: TransactionStatus;
   postID?: number;

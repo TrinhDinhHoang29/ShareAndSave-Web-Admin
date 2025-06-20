@@ -1,11 +1,9 @@
-import { createInterest } from "@/apis/interest.api";
 import {
   createTransaction,
   getTransactions,
   updateTransaction,
 } from "@/apis/transaction.api";
 import { interestKeys } from "@/hooks/react-query-hooks/use-interest";
-import { postKeys } from "@/hooks/react-query-hooks/use-post";
 import { CreateTransactionDto } from "@/schemas/trasactions/create-transaction.schema";
 import { IFilterTransaction } from "@/types/filter-api.type";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
@@ -31,10 +29,8 @@ export const useGetTransactions = (params: IFilterTransaction) => {
       const res = await getTransactions(params);
       return res.data!;
     },
-    staleTime: 5 * 60 * 1000, // 5 phút,
   });
 };
-
 export const useCreateTransaction = (config?: {
   onSuccess?: () => void;
   onError?: (err: any) => void;

@@ -15,6 +15,7 @@ const PostPill = ({
   title,
   description,
   interests,
+  unreadMessageCount,
   type,
 }: IInterest) => {
   const navigate = useNavigate();
@@ -57,7 +58,7 @@ const PostPill = ({
     }
   };
   return (
-    <div className="bg-gradient-to-r from-white to-gray-50 rounded-md shadow-lg hover:shadow-2xl transition-all duration-300 p-5 mx-auto border border-gray-200 hover:border-blue-200 mb-4">
+    <div className="bg-gradient-to-r from-white  to-gray-50 rounded-md shadow-lg hover:shadow-2xl transition-all duration-300 p-5 mx-auto border border-gray-200 hover:border-blue-200 mb-4">
       <div className="flex items-center gap-4">
         {/* Avatar */}
         <div className="flex-shrink-0 relative">
@@ -101,10 +102,21 @@ const PostPill = ({
 
                 <button
                   onClick={handleMessage}
-                  className="flex items-center gap-2 px-4 py-2 rounded-full text-gray-500 bg-gray-50 border border-gray-200 hover:text-blue-600 hover:bg-blue-50 hover:border-blue-200 transition-all duration-300 transform hover:scale-105 shadow-sm hover:shadow-md"
+                  className="flex items-center relative gap-2 px-4 py-2 rounded-full text-gray-500 bg-gray-50 border border-gray-200 hover:text-blue-600 hover:bg-blue-50 hover:border-blue-200 transition-all duration-300 transform hover:scale-105 shadow-sm hover:shadow-md"
                 >
                   <MessageCircle className="w-5 h-5" />
                   <span className="text-sm font-semibold">Nhắn tin</span>
+                  {unreadMessageCount > 0 && (
+                    <div className="flex justify-center absolute top-[-2px] right-[-10px]">
+                      <span className="relative flex h-4 w-4 items-center justify-center">
+                        <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-red-400 opacity-75"></span>
+                        <span className="absolute inline-flex h-full w-full rounded-full bg-red-500"></span>
+                        <span className="absolute text-white text-xs font-bold">
+                          {unreadMessageCount}
+                        </span>
+                      </span>
+                    </div>
+                  )}
                 </button>
               </div>
             </div>

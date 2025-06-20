@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>WebSocket Room Test</title>
+</head>
+<body>
+  <h1>WebSocket Room Test</h1>
+
+  <label>JWT: <input type="text" id="token" value=""></label><br><br>
+  <label>User ID: <input type="number" id="userID" value="1"></label><br><br>
+  <label>Interest ID: <input type="number" id="interestID" value="1"></label><br><br>
+  <div>
+    <button onclick="connect()">Connect Chat 1-1</button>
+    <button onclick="connectNoti()">Connect Chat Noti</button>
+  </div>
+  <hr>
+  <div>
+    <button onclick="joinRoom()">Join Room</button>
+    <button onclick="leftRoom()">Left Room</button>
+  </div>
+  <hr>
+
+  <label>Message: <input type="text" id="messageText"></label>
+  <button onclick="sendMessageAsOwner()">Send Message As Owner</button>
+   <button onclick="sendMessageAsUser()">Send Message As User</button>
+
+  <pre id="log" style="background: #f3f3f3; padding: 10px; border: 1px solid #ccc;"></pre>
+
+  <script>
+    let socket;
+    let socketPublic;
+
+    function log(msg) {
+      const logElem = document.getElementById('log');
+      logElem.textContent += msg + "\n";
+    }
+
+// 34.142.168.171
+    function connectNoti() {
+      const token = document.getElementById('token').value;
+
+      const wsUrl = `ws://34.142.168.171:8001/chat-noti`; // chỉnh lại path nếu khác
+
+      socketPublic = new WebSocket(wsUrl, token);
+
+      socketPublic.onopen = () => {
+        log("[✅] Connected to server noti");
+      };
+
+      socketPublic.onmessage = (event) => {
+        log("[📨] Received: " + event.data);
+      };
+
+      socketPublic.onclose = () => {
+        log("[❌] Connection closed");
+      };
+
+      socketPublic.onerror = (err) => {
+        log("[⚠️] Error: " + err);
+      };
+    }
+
+    function connect() {
+      const token = document.getElementById('token').value;
+
+      const wsUrl = `ws://34.142.168.171:8001/chat`; // chỉnh lại path nếu khác
+
+      socket = new WebSocket(wsUrl, token);
+
+      socket.onopen = () => {
+        log("[✅] Connected to server");
+      };
+
+      socket.onmessage = (event) => {
+        log("[📨] Received: " + event.data);
+      };
+
+      socket.onclose = () => {
+        log("[❌] Connection closed");
+      };
+
+      socket.onerror = (err) => {
+        log("[⚠️] Error: " + err);
+      };
+    }
+
+    function joinRoom() {
+      const interestID = document.getElementById('interestID').value;
+
+      const msg = {
+        event: "join_room",
+        data: {
+          interestID: Number(interestID)
+        }
+      };
+
+      socket.send(JSON.stringify(msg));
+      log(`[🚪] Sent join_room_as_owner`);
+    }
+
+     function leftRoom() {
+      const interestID = document.getElementById('interestID').value;
+
+      const msg = {
+        event: "left_room",
+        data: {
+          interestID: Number(interestID)
+        }
+      };
+
+      socket.send(JSON.stringify(msg));
+      log(`[🚪] Sent left_room_as_owner`);
+    }
+
+    function sendMessageAsOwner() {
+      const userID = document.getElementById('userID').value;
+      const message = document.getElementById('messageText').value;
+      const interestID = document.getElementById('interestID').value;
+
+      const msg = {
+        event: "send_message",
+        data: {
+          isOwner: true,
+          interestID: Number(interestID),
+          userID: Number(userID),
+          message: message
+        }
+      };
+
+      socket.send(JSON.stringify(msg));
+      log(`[📤] Sent message: ${message}`);
+    }
+
+    function sendMessageAsUser() {
+       const userID = document.getElementById('userID').value;
+      const message = document.getElementById('messageText').value;
+      const interestID = document.getElementById('interestID').value;
+
+      const msg = {
+        event: "send_message",
+        data: {
+          isOwner: false,
+          interestID: Number(interestID),
+          userID: Number(userID),
+          message: message
+        }
+      };
+
+      socket.send(JSON.stringify(msg));
+      log(`[📤] Sent message: ${message}`);
+    }
+  </script>
+</body>
+</html>

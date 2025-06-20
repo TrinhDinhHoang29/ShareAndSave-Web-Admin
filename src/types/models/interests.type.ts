@@ -15,12 +15,14 @@ export interface IInterest {
     userAvatar: string;
     userID: number;
     userName: string;
+    unreadMessageCount: number;
   }[];
   items: IItemInterest[];
   slug: string;
   title: string;
   type: PostType;
   updatedAt: string;
+  unreadMessageCount: number;
 }
 export interface IItemInterest {
   categoryName: string;

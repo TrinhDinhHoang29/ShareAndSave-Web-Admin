@@ -1,0 +1,52 @@
+// hooks/use-chat-socket.ts
+import { useAuth } from "@/context/auth-context";
+import { interestKeys } from "@/hooks/react-query-hooks/use-interest";
+import { getAccessToken } from "@/lib/token";
+import { InterestType } from "@/types/status.type";
+import { useQueryClient } from "@tanstack/react-query";
+import { useEffect, useRef } from "react";
+import { useLocation } from "react-router-dom";
+import { toast } from "sonner";
+
+export function useNotificationSocket() {
+  const socketRef = useRef<WebSocket | null>(null);
+  const token = getAccessToken();
+  const auth = useAuth();
+  const queryClient = useQueryClient();
+
+  useEffect(() => {
+    if (!token) return;
+    const socket = new WebSocket(`ws://34.142.168.171:8001/chat-noti`, token);
+    socketRef.current = socket;
+
+    socket.onopen = () => {
+      console.log("[✅] Connected to server noti");
+    };
+
+    socket.onmessage = (event) => {
+      const parsed =
+        typeof event.data === "string" ? JSON.parse(event.data) : event.data;
+      console.log(parsed);
+      if (
+        parsed.event === "send_message_response" &&
+        parsed.data.senderID !== auth.user?.id
+      ) {
+        queryClient.invalidateQueries({
+          queryKey: interestKeys.all,
+        });
+      }
+    };
+
+    socket.onclose = () => console.log("[❌] Socket closed");
+    socket.onerror = (err) => console.error("[⚠️] Socket error", err);
+
+    return () => {
+      if (socketRef.current?.readyState === WebSocket.OPEN) {
+        // <-- This is important
+        socket.close();
+      }
+    };
+  }, [token]);
+
+  return socketRef;
+}

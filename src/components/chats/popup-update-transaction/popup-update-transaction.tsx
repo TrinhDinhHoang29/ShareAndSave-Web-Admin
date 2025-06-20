@@ -21,15 +21,17 @@ const PopupUpdateTransaction = ({
       <DialogTrigger asChild>
         <Button variant="outline" size={"icon"} className="relative">
           <ArrowLeftRight />
-          <div className="flex justify-center absolute top-[-10px] right-[-10px]">
-            <span className="relative flex h-4 w-4 items-center justify-center">
-              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-red-400 opacity-75"></span>
-              <span className="absolute inline-flex h-full w-full rounded-full bg-red-500"></span>
-              <span className="absolute text-white text-xs font-bold">
-                {transactions.length}
+          {transactions.length > 0 && (
+            <div className="flex justify-center absolute top-[-10px] right-[-10px]">
+              <span className="relative flex h-4 w-4 items-center justify-center">
+                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-red-400 opacity-75"></span>
+                <span className="absolute inline-flex h-full w-full rounded-full bg-red-500"></span>
+                <span className="absolute text-white text-xs font-bold">
+                  {transactions.length}
+                </span>
               </span>
-            </span>
-          </div>
+            </div>
+          )}
         </Button>
       </DialogTrigger>
       <DialogContent className="!w-[80vw] !max-w-[80vw]  max-h-[90vh] overflow-y-auto">

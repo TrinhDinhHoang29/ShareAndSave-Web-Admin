@@ -1,8 +1,10 @@
 import { IInterest } from "@/types/models/interests.type";
 import { PostType } from "@/types/status.type";
+import { IconNotification } from "@tabler/icons-react";
 import {
   ChevronDown,
   Clock,
+  MailWarning,
   MessageCircle,
   NewspaperIcon,
   User,
@@ -22,7 +24,10 @@ const formatDate = (dateString: string) => {
 const PostFollowed = ({ title, interests, type }: IInterest) => {
   const [isOpen, setIsOpen] = useState(false);
   const navigate = useNavigate();
-
+  const countUnread = interests.reduce(
+    (acc, curr) => acc + curr.unreadMessageCount,
+    0
+  );
   const handleMessage = ({
     id,
     name,
@@ -75,9 +80,18 @@ const PostFollowed = ({ title, interests, type }: IInterest) => {
             </div>
           </div>
           <div className="flex items-center space-x-2">
-            <div className="flex items-center space-x-1 bg-white px-3 py-2 border rounded-full shadow-sm">
+            <div className="flex items-center space-x-1 relative bg-white px-3 py-2 border rounded-full shadow-sm">
               <User className="w-4 h-4 text-gray-600" />
-              <span className="text-sm font-medium">1</span>
+              <span className="text-sm font-medium">{interests.length}</span>
+              {countUnread > 0 && (
+                <div className="flex justify-center absolute top-[-2px] right-[-10px]">
+                  <span className="relative flex h-4 w-4 items-center justify-center">
+                    <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-red-400 opacity-75"></span>
+                    <span className="absolute inline-flex h-full w-full rounded-full bg-red-500"></span>
+                    <span className="absolute text-white text-xs font-bold"></span>
+                  </span>
+                </div>
+              )}
             </div>
             <button className="p-2 hover:bg-gray-100 rounded-lg">
               <ChevronDown
@@ -116,10 +130,21 @@ const PostFollowed = ({ title, interests, type }: IInterest) => {
                       avatar: interest.userAvatar,
                     })
                   }
-                  className="flex items-center gap-2 px-4 py-2 rounded-full text-gray-500 bg-gray-50 border border-gray-200 hover:text-blue-600 hover:bg-blue-50 hover:border-blue-200 transition-all duration-300 transform hover:scale-105 shadow-sm hover:shadow-md"
+                  className="flex items-center relative gap-2 px-4 py-2 rounded-full text-gray-500 bg-gray-50 border border-gray-200 hover:text-blue-600 hover:bg-blue-50 hover:border-blue-200 transition-all duration-300 transform hover:scale-105 shadow-sm hover:shadow-md"
                 >
                   <MessageCircle className="w-5 h-5" />
                   <span className="text-sm font-semibold">Nhắn tin</span>
+                  {interest.unreadMessageCount > 0 && (
+                    <div className="flex justify-center absolute top-[-2px] right-[-10px]">
+                      <span className="relative flex h-4 w-4 items-center justify-center">
+                        <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-red-400 opacity-75"></span>
+                        <span className="absolute inline-flex h-full w-full rounded-full bg-red-500"></span>
+                        <span className="absolute text-white text-xs font-bold">
+                          {interest.unreadMessageCount}
+                        </span>
+                      </span>
+                    </div>
+                  )}
                 </button>
               </div>
             </div>
