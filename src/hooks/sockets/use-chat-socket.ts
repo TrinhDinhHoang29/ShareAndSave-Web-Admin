@@ -18,6 +18,7 @@ export function useChatSocket(
     socketRef.current = socket;
 
     socket.onopen = () => {
+      console.log("[✅] Connected to server chat");
       const joinMsg = {
         event: "join_room",
         data: {
@@ -31,6 +32,7 @@ export function useChatSocket(
     socket.onmessage = (event) => {
       const parsed =
         typeof event.data === "string" ? JSON.parse(event.data) : event.data;
+      console.log(event);
       if (
         parsed.event === "send_message_response" &&
         parsed.data.senderID !== senderID

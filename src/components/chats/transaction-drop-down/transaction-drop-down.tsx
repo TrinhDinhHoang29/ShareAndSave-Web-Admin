@@ -2,9 +2,20 @@ import { Button } from "@/components/ui/button";
 import { useAuth } from "@/context/auth-context";
 import { useUpdateTransaction } from "@/hooks/react-query-hooks/use-transaction";
 import { ITransaction } from "@/types/models/transaction.type";
-import { TransactionStatus } from "@/types/status.type";
-import { ChevronDown, CircleCheck, Clock, Package, X } from "lucide-react";
-import { use, useState } from "react";
+import { DeliveryMethod, TransactionStatus } from "@/types/status.type";
+import { IconReload } from "@tabler/icons-react";
+import {
+  Ban,
+  CheckCircle2,
+  ChevronDown,
+  CircleCheck,
+  Clock,
+  Package,
+  Truck,
+  Users,
+  X,
+} from "lucide-react";
+import { useState } from "react";
 import { toast } from "sonner";
 import { useConfirm } from "use-confirm-hook";
 const formatDate = (dateString: string) => {
@@ -21,6 +32,7 @@ const TransactionDropDown = ({
   createdAt,
   items,
   status,
+  method,
   receiverID,
   id,
 }: ITransaction) => {
@@ -58,18 +70,35 @@ const TransactionDropDown = ({
               <Package className="w-4 h-4 text-gray-600" />
               <span className="text-sm font-medium">{items.length}</span>
             </div>
-            <div className="flex gap-x-2">
+            <div className="flex gap-x-4">
+              <div className="flex gap-x-2 items-center">
+                <span>
+                  {method == DeliveryMethod.DELIVERY ? (
+                    <Truck className="w-4 h-4 text-gray-600" />
+                  ) : (
+                    <Users className="w-4 h-4 text-gray-600" />
+                  )}
+                </span>
+                <span className="text-gray-600"> {method}</span>
+              </div>
               <div className="flex items-center gap-1 flex-shrink-0">
                 {status === TransactionStatus.CANCELLED ? (
-                  <span className="text-xs text-red-500 font-semibold px-3 py-1 bg-gradient-to-r from-red-50 to-red-100 rounded-full border border-red-100">
-                    Đã hủy
-                  </span>
+                  <>
+                    <span className="text-xs flex gap-2 items-center text-red-500 font-semibold px-3 py-1 bg-gradient-to-r from-red-50 to-red-100 rounded-full border border-red-100">
+                      <Ban className="w-4 h-4  text-red-500 " />
+                      Đã hủy
+                    </span>
+                  </>
                 ) : status === TransactionStatus.PENDING ? (
-                  <span className="text-xs text-yellow-500 font-semibold px-3 py-1 bg-gradient-to-r from-yellow-50 to-yellow-100 rounded-full border border-yellow-100">
-                    Đang chờ
-                  </span>
+                  <>
+                    <span className="flex gap-2 items-center text-xs text-yellow-500 font-semibold px-3 py-1 bg-gradient-to-r from-yellow-50 to-yellow-100 rounded-full border border-yellow-100">
+                      <IconReload className="w-4 h-4 text-yellow-500 " />
+                      Đang chờ
+                    </span>
+                  </>
                 ) : (
-                  <span className="text-xs text-green-500 font-semibold px-3 py-1 bg-gradient-to-r from-green-50 to-green-100 rounded-full border border-green-100">
+                  <span className="text-xs text-green-500 flex gap-2 items-center font-semibold px-3 py-1 bg-gradient-to-r from-green-50 to-green-100 rounded-full border border-green-100">
+                    <CheckCircle2 className="w-4 h-4  text-green-500 " />
                     Đã hoàn thành
                   </span>
                 )}

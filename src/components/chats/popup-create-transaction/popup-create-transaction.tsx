@@ -1,4 +1,5 @@
 import ItemPill from "@/components/chats/item-pill/item-pill";
+import TabTransaction from "@/components/transactions/tab";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -8,7 +9,9 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import { SelectForm } from "@/components/ui/select-form";
 import { SelectedItem } from "@/pages/_authenticated/chats";
+import { useState } from "react";
 
 const PopupCreateTransaction = ({
   isOpen,
@@ -17,6 +20,8 @@ const PopupCreateTransaction = ({
   handleClose,
   handleChangeQuantity,
   handleCreateTransaction,
+  activeTab,
+  setActiveTab,
 }: {
   isOpen: boolean;
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
@@ -24,6 +29,8 @@ const PopupCreateTransaction = ({
   handleChangeQuantity: (item: SelectedItem) => void;
   handleClose: (item: SelectedItem) => void;
   handleCreateTransaction: () => void;
+  activeTab: number;
+  setActiveTab: React.Dispatch<React.SetStateAction<number>>;
 }) => {
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
@@ -45,6 +52,13 @@ const PopupCreateTransaction = ({
             tin cần thiết để hoàn tất giao dịch.
           </DialogDescription>
         </DialogHeader>
+        <div>
+          <TabTransaction
+            activeTab={activeTab}
+            setActiveTab={setActiveTab}
+            key={1}
+          />
+        </div>
         {items.map((item) => (
           <ItemPill
             key={item.postItemID}

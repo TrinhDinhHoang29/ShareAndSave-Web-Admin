@@ -38,3 +38,8 @@ export enum TransactionStatus {
   CANCELLED = 3,
 }
 export enum InterestStatus {}
+
+export enum DeliveryMethod {
+  MEETINPERSON = "Gặp trực tiếp",
+  DELIVERY = "Giao hàng",
+}

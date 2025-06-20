@@ -31,6 +31,7 @@ import { format } from "date-fns";
 import { Package } from "lucide-react";
 import { useLocation, useParams } from "react-router-dom";
 import { toast } from "sonner";
+import { DeliveryMethod } from "@/types/status.type";
 export type SelectedItem = {
   postItemID: number;
   quantity: number;
@@ -44,6 +45,8 @@ export default function Chats() {
   const { user } = location.state || {};
   const userAuth = useAuth();
   const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [activeTab, setActiveTab] = useState(1);
+
   const [selectedItem, setSelectedItem] = useState<SelectedItem[]>([]);
   const interestQuery = useInterest(params.interestId as string);
   const getTransactionsQuery = useGetTransactions({
@@ -100,6 +103,8 @@ export default function Chats() {
   const handleCreateTransaction = () => {
     createTransactionMutation.mutate({
       interestID: Number(params.interestId),
+      method:
+        activeTab === 1 ? DeliveryMethod.DELIVERY : DeliveryMethod.MEETINPERSON,
       items: selectedItem.map((item) => ({
         postItemID: item.postItemID,
         quantity: item.quantity,
@@ -234,6 +239,8 @@ export default function Chats() {
                   <div className="flex items-center gap-1">
                     {selectedItem.length > 0 && (
                       <PopupCreateTransaction
+                        activeTab={activeTab}
+                        setActiveTab={setActiveTab}
                         isOpen={isOpen}
                         setIsOpen={setIsOpen}
                         handleCreateTransaction={handleCreateTransaction}

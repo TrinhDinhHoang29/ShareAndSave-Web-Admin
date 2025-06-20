@@ -6,6 +6,7 @@ import { SortingState } from "@tanstack/react-table";
 import { useState } from "react";
 import { toast } from "sonner";
 import { useConfirm } from "use-confirm-hook";
+import QRCode from "react-qr-code";
 
 const ListInventoriesPage = () => {
   const { ask } = useConfirm();
@@ -39,7 +40,7 @@ const ListInventoriesPage = () => {
             Danh sách hàng tồn kho
           </h1>
           <p className="text-gray-500 mt-1  dark:text-white">
-            Quản lý tồn kho của hệ thống, có thể xuất hàng tại đây.
+            Quản lý tồn kho của hệ thống, có thể xuất hàng tại đây
           </p>
         </div>
         {/* <StatusSummary /> */}

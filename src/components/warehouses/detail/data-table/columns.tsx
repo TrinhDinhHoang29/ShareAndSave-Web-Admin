@@ -1,5 +1,6 @@
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import PopDisplayQR from "@/components/warehouses/popup-display-qr";
 import { IItemWarehouse } from "@/types/models/item-warehouse.type";
 import { WarehouseItemStatus } from "@/types/status.type";
 import { ColumnDef } from "@tanstack/react-table";
@@ -58,6 +59,7 @@ export const getColumns = (
             Xem mô tả
             <Eye />
           </Button>
+          <PopDisplayQR value={warehouse.code} />
         </div>
       );
     },

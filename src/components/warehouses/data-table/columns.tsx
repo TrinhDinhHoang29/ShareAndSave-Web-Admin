@@ -1,5 +1,6 @@
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import PopDisplayQR from "@/components/warehouses/popup-display-qr";
 import { IWarehouse } from "@/types/models/warehouse.type";
 import { ClassifyImportInvoice } from "@/types/status.type";
 import { ColumnDef, SortingState } from "@tanstack/react-table";

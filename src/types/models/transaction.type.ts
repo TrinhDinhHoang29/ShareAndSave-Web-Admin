@@ -1,4 +1,4 @@
-import { TransactionStatus } from "@/types/status.type";
+import { DeliveryMethod, TransactionStatus } from "@/types/status.type";
 
 export interface ITransaction {
   createdAt: string;
@@ -11,6 +11,7 @@ export interface ITransaction {
   senderName: string;
   status: TransactionStatus;
   updatedAt: string;
+  method: DeliveryMethod;
 }
 export interface IItemTransaction {
   itemID: number;

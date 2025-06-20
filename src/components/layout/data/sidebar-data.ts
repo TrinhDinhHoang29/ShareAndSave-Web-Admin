@@ -2,7 +2,6 @@ import {
   IconBrowserCheck,
   IconHelp,
   IconLayoutDashboard,
-  IconMessages,
   IconNotification,
   IconPackage,
   IconPackageExport,
@@ -15,7 +14,7 @@ import {
   IconUserCog,
   IconUsers,
 } from "@tabler/icons-react";
-import { Command, Heart, HeartIcon, WarehouseIcon } from "lucide-react";
+import { Command, HeartIcon, WarehouseIcon } from "lucide-react";
 import { type SidebarData } from "../types";
 
 export const sidebarData: SidebarData = {
@@ -43,14 +42,7 @@ export const sidebarData: SidebarData = {
         {
           title: "Quan tâm",
           url: "/interests",
-          badge: "3",
           icon: HeartIcon,
-        },
-        {
-          title: "Nhắn tin",
-          url: "/chats",
-          badge: "3",
-          icon: IconMessages,
         },
         {
           title: "Người dùng",
