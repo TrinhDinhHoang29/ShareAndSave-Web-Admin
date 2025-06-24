@@ -56,6 +56,13 @@ export function useChatSocket(
     return () => {
       if (socketRef.current?.readyState === WebSocket.OPEN) {
         // <-- This is important
+        const msg = {
+          event: "left_room",
+          data: {
+            interestID: Number(interestID),
+          },
+        };
+        socketRef.current.send(JSON.stringify(msg));
         socket.close();
       }
     };

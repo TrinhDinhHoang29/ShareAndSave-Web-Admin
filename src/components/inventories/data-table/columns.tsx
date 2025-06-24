@@ -1,9 +1,12 @@
+import PopupShowDescription from "@/components/inventories/popup-show-des";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
+import PopDisplayQR from "@/components/warehouses/popup-display-qr";
 import { IItemWarehouse } from "@/types/models/item-warehouse.type";
+import { ITransaction } from "@/types/models/transaction.type";
 import { ColumnDef, SortingState } from "@tanstack/react-table";
-import { ArrowUpDown } from "lucide-react";
+import { ArrowUpDown, Eye } from "lucide-react";
 
 export const getColumns = (
   sorting: SortingState,
@@ -43,20 +46,30 @@ export const getColumns = (
     size: 10,
   },
   {
-    accessorKey: "code",
-    header: "Mã món đồ",
+    id: "qr",
+    header: "Mã QR",
     cell: ({ row }: any) => {
       const warehouse = row.original as IItemWarehouse;
+      console.log(warehouse.code);
       return (
-        <span className="font-medium text-blue-500">{warehouse.code}</span>
+        <div className="flex items-center gap-2">
+          <PopDisplayQR value={warehouse.code} />
+        </div>
       );
     },
   },
   {
-    accessorKey: "nameItem",
+    accessorKey: "code",
+    header: "Mã món đồ",
+    cell: ({ row }: any) => {
+      const warehouse = row.original as IItemWarehouse;
+      return <span className="font-medium">{warehouse.code}</span>;
+    },
+  },
+  {
+    accessorKey: "itemName",
     header: "Tên món đồ",
   },
-
   {
     accessorKey: "categoryName",
     header: "Loại món đồ",
@@ -94,25 +107,12 @@ export const getColumns = (
     },
     enableSorting: true,
   },
-
-  // {
-  //   id: "actions",
-  //   header: "Hành động",
-  //   cell: ({ row }: any) => {
-  //     const post = row.original as IPost;
-  //     return (
-  //       <div className="flex items-center gap-2">
-  //         {post.status === PostStatus.PENDING && (
-  //           <PopupUpdatePost post={post} />
-  //         )}
-  //         <Button
-  //           variant={"outline"}
-  //           onClick={() => onDelete(post.id.toString())}
-  //         >
-  //           <Trash2 />
-  //         </Button>
-  //       </div>
-  //     );
-  //   },
-  // },
+  {
+    id: "actions",
+    header: "Mô tả",
+    cell: ({ row }: any) => {
+      const warehouse = row.original as IItemWarehouse;
+      return <PopupShowDescription description={warehouse.description} />;
+    },
+  },
 ];

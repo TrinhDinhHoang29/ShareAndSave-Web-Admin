@@ -7,11 +7,9 @@ import {
   useReactTable,
   VisibilityState,
 } from "@tanstack/react-table";
-import { Settings } from "lucide-react";
+import { PlusCircle, Settings } from "lucide-react";
 import React, { useState } from "react";
 
-import PopupCreateExportInvoice from "@/components/export-invoices/popup-create-export-invoice";
-import { FilterForm } from "@/components/import-invoices/filter-form";
 import { getColumns } from "@/components/inventories/data-table/columns";
 import LoadingSpinner from "@/components/loading-spinner";
 import { Button } from "@/components/ui/button";
@@ -40,6 +38,8 @@ import {
 } from "@/components/ui/table";
 import { IItemWarehouse } from "@/types/models/item-warehouse.type";
 import { PostStatus, PostType } from "@/types/status.type";
+import { useNavigate } from "react-router-dom";
+import { FilterForm } from "@/components/inventories/filter-form";
 
 interface DataTablePropsWithPage<TData> {
   data: TData[];
@@ -77,8 +77,7 @@ export function DataTable<TData, TValue>({
   const [selectedItemWarehouses, setSelectedItemWarehouses] = useState<
     IItemWarehouse[]
   >([]);
-  const [open, setOpen] = useState(false);
-  // const postQuery = usePost(selectedUser?.id || 0);
+  const navigate = useNavigate();
   const columns = getColumns(
     sorting,
     setSorting,
@@ -136,11 +135,21 @@ export function DataTable<TData, TValue>({
               </DropdownMenuContent>
             </DropdownMenu>
             {selectedItemWarehouses.length > 0 && (
-              <PopupCreateExportInvoice
-                itemWarehouses={selectedItemWarehouses}
-                open={open}
-                setOpen={setOpen}
-              />
+              <Button
+                variant={"outline"}
+                onClick={() =>
+                  navigate("/export-invoices/create", {
+                    state: selectedItemWarehouses,
+                  })
+                }
+              >
+                <div className="flex items-center gap-x-2">
+                  <span> Xuất kho</span>
+                  <span>
+                    <PlusCircle />
+                  </span>
+                </div>
+              </Button>
             )}
           </div>
         </div>

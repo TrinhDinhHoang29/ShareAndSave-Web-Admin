@@ -14,7 +14,12 @@ import {
   IconUserCog,
   IconUsers,
 } from "@tabler/icons-react";
-import { Command, HeartIcon, WarehouseIcon } from "lucide-react";
+import {
+  ArrowLeftRightIcon,
+  Command,
+  HeartIcon,
+  WarehouseIcon,
+} from "lucide-react";
 import { type SidebarData } from "../types";
 
 export const sidebarData: SidebarData = {
@@ -51,8 +56,17 @@ export const sidebarData: SidebarData = {
         },
         {
           title: "Bài viết",
-          url: "/posts",
           icon: IconPencil,
+          items: [
+            {
+              title: "Quản trị",
+              url: "/posts/admin",
+            },
+            {
+              title: "Người dùng",
+              url: "/posts/client",
+            },
+          ],
         },
         {
           title: "Đồ đạc",
@@ -63,6 +77,11 @@ export const sidebarData: SidebarData = {
           title: "Hàng tồn",
           url: "/inventories",
           icon: WarehouseIcon,
+        },
+        {
+          title: "Giao dịch",
+          url: "/transactions",
+          icon: ArrowLeftRightIcon,
         },
         {
           title: "Lô hàng",

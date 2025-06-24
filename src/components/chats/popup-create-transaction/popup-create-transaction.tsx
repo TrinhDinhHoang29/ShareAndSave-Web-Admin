@@ -9,9 +9,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { SelectForm } from "@/components/ui/select-form";
 import { SelectedItem } from "@/pages/_authenticated/chats";
-import { useState } from "react";
 
 const PopupCreateTransaction = ({
   isOpen,

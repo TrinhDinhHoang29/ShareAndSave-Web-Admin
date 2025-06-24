@@ -1,83 +1,38 @@
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
+import LoadingSpinner from "@/components/loading-spinner";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { useUsers } from "@/hooks/react-query-hooks/use-users";
+import { Order } from "@/types/filter-api.type";
 
 export function RecentSales() {
+  const userQuery = useUsers({
+    limit: 5,
+    page: 1,
+    sort: "goodPoint",
+    order: Order.DESC,
+  });
   return (
-    <div className='space-y-8'>
-      <div className='flex items-center gap-4'>
-        <Avatar className='h-9 w-9'>
-          <AvatarImage src='/avatars/01.png' alt='Avatar' />
-          <AvatarFallback>OM</AvatarFallback>
-        </Avatar>
-        <div className='flex flex-1 flex-wrap items-center justify-between'>
-          <div className='space-y-1'>
-            <p className='text-sm leading-none font-medium'>Olivia Martin</p>
-            <p className='text-muted-foreground text-sm'>
-              olivia.martin@email.com
-            </p>
-          </div>
-          <div className='font-medium'>+$1,999.00</div>
+    <div className="space-y-8">
+      {userQuery.isLoading || !userQuery.data ? (
+        <LoadingSpinner />
+      ) : (
+        <div className="space-y-8">
+          {userQuery.data.clients.map((user) => (
+            <div className="flex items-center" key={user.id}>
+              <Avatar className="h-9 w-9">
+                <AvatarImage src={user.avatar} alt="Avatar" />
+                <AvatarFallback>OM</AvatarFallback>
+              </Avatar>
+              <div className="ml-4 space-y-1">
+                <p className="text-sm font-medium leading-none">
+                  {user.fullName}
+                </p>
+                <p className="text-sm text-muted-foreground">{user.email}</p>
+              </div>
+              <div className="ml-auto font-medium">{user.goodPoint} Điểm</div>
+            </div>
+          ))}
         </div>
-      </div>
-      <div className='flex items-center gap-4'>
-        <Avatar className='flex h-9 w-9 items-center justify-center space-y-0 border'>
-          <AvatarImage src='/avatars/02.png' alt='Avatar' />
-          <AvatarFallback>JL</AvatarFallback>
-        </Avatar>
-        <div className='flex flex-1 flex-wrap items-center justify-between'>
-          <div className='space-y-1'>
-            <p className='text-sm leading-none font-medium'>Jackson Lee</p>
-            <p className='text-muted-foreground text-sm'>
-              jackson.lee@email.com
-            </p>
-          </div>
-          <div className='font-medium'>+$39.00</div>
-        </div>
-      </div>
-      <div className='flex items-center gap-4'>
-        <Avatar className='h-9 w-9'>
-          <AvatarImage src='/avatars/03.png' alt='Avatar' />
-          <AvatarFallback>IN</AvatarFallback>
-        </Avatar>
-        <div className='flex flex-1 flex-wrap items-center justify-between'>
-          <div className='space-y-1'>
-            <p className='text-sm leading-none font-medium'>Isabella Nguyen</p>
-            <p className='text-muted-foreground text-sm'>
-              isabella.nguyen@email.com
-            </p>
-          </div>
-          <div className='font-medium'>+$299.00</div>
-        </div>
-      </div>
-
-      <div className='flex items-center gap-4'>
-        <Avatar className='h-9 w-9'>
-          <AvatarImage src='/avatars/04.png' alt='Avatar' />
-          <AvatarFallback>WK</AvatarFallback>
-        </Avatar>
-        <div className='flex flex-1 flex-wrap items-center justify-between'>
-          <div className='space-y-1'>
-            <p className='text-sm leading-none font-medium'>William Kim</p>
-            <p className='text-muted-foreground text-sm'>will@email.com</p>
-          </div>
-          <div className='font-medium'>+$99.00</div>
-        </div>
-      </div>
-
-      <div className='flex items-center gap-4'>
-        <Avatar className='h-9 w-9'>
-          <AvatarImage src='/avatars/05.png' alt='Avatar' />
-          <AvatarFallback>SD</AvatarFallback>
-        </Avatar>
-        <div className='flex flex-1 flex-wrap items-center justify-between'>
-          <div className='space-y-1'>
-            <p className='text-sm leading-none font-medium'>Sofia Davis</p>
-            <p className='text-muted-foreground text-sm'>
-              sofia.davis@email.com
-            </p>
-          </div>
-          <div className='font-medium'>+$39.00</div>
-        </div>
-      </div>
+      )}
     </div>
-  )
+  );
 }

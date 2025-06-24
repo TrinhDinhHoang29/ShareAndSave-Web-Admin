@@ -3,6 +3,7 @@ import LoadingSpinner from "@/components/ui/loading-spinner";
 import LoginPage from "@/pages/(auth)/login";
 import { ProtectedRoute } from "@/pages/_authenticated/_protected.route";
 import Chats from "@/pages/_authenticated/chats";
+import ListExportInvoice from "@/pages/_authenticated/export-invoices";
 import CreateExportInvoicePage from "@/pages/_authenticated/export-invoices/create";
 import ListImportInvoice from "@/pages/_authenticated/import-invoices";
 import CreateImportInvoicePage from "@/pages/_authenticated/import-invoices/create-import-invoice";
@@ -11,6 +12,7 @@ import ListInventoriesPage from "@/pages/_authenticated/inventory";
 import ListItemPage from "@/pages/_authenticated/items";
 import ListPostPage from "@/pages/_authenticated/posts";
 import CreatePostPage from "@/pages/_authenticated/posts/create";
+import ListTransactionsPage from "@/pages/_authenticated/transactions";
 import UsersPage from "@/pages/_authenticated/users";
 import ListWarehousesPage from "@/pages/_authenticated/warehouses";
 import WarehouseDetailPage from "@/pages/_authenticated/warehouses/[id]/detail";
@@ -69,7 +71,7 @@ export const routes: RouteObject[] = [
         ),
       },
       {
-        path: "/posts",
+        path: "/posts/client",
         element: (
           <ProtectedRoute>
             <ErrorBoundary>
@@ -104,6 +106,16 @@ export const routes: RouteObject[] = [
           <ProtectedRoute>
             <ErrorBoundary>
               <CreateImportInvoicePage />
+            </ErrorBoundary>
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: "/export-invoices",
+        element: (
+          <ProtectedRoute>
+            <ErrorBoundary>
+              <ListExportInvoice />
             </ErrorBoundary>
           </ProtectedRoute>
         ),
@@ -174,6 +186,16 @@ export const routes: RouteObject[] = [
           <ProtectedRoute>
             <ErrorBoundary>
               <InterestsPage />
+            </ErrorBoundary>
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: "/transactions",
+        element: (
+          <ProtectedRoute>
+            <ErrorBoundary>
+              <ListTransactionsPage />
             </ErrorBoundary>
           </ProtectedRoute>
         ),

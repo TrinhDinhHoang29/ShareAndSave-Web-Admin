@@ -42,8 +42,9 @@ export function FilterForm({ onFilter }: any) {
             <SelectContent>
               <SelectGroup>
                 <SelectLabel>Chọn trường</SelectLabel>
-                <SelectItem value="receiverName">Tên người nhận</SelectItem>
-                <SelectItem value="senderName">Tên người gửi</SelectItem>
+                <SelectItem value="itemName">Tên món đồ</SelectItem>
+                <SelectItem value="code">Mã code</SelectItem>
+                <SelectItem value="description">Mô tả</SelectItem>
               </SelectGroup>
             </SelectContent>
           </Select>

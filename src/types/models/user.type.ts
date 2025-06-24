@@ -8,4 +8,5 @@ export interface IUser {
   major: string;
   phoneNumber: string;
   status: number;
+  createdAt: string;
 }

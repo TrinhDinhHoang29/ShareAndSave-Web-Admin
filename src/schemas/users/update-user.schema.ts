@@ -14,7 +14,7 @@ export const UpdateUserSchema = z.object({
   }),
   major: z.string().optional(),
   phoneNumber: z.string().min(10, "Số điện thoại không được để trống"),
-  status: z.coerce.number().min(0).max(1),
+  status: z.coerce.number().min(1).max(2),
 });
 
 export type UpdateUserDto = z.infer<typeof UpdateUserSchema>;

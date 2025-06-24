@@ -32,6 +32,7 @@ import { Package } from "lucide-react";
 import { useLocation, useParams } from "react-router-dom";
 import { toast } from "sonner";
 import { DeliveryMethod } from "@/types/status.type";
+import aiGenerate from "@/helpers/ai-generate.helper";
 export type SelectedItem = {
   postItemID: number;
   quantity: number;
@@ -81,6 +82,7 @@ export default function Chats() {
       setCurrentMessage(data.messages);
     }
   }, [data]);
+  const [warningMessage, setWarningMessage] = useState("");
 
   const accessToken = getAccessToken();
   const socketRef = useChatSocket(
@@ -89,6 +91,27 @@ export default function Chats() {
     userAuth.user?.id as number,
     setCurrentMessage
   );
+  useEffect(() => {
+    if (currentMessage.length > 0) {
+      const combinedText = currentMessage
+        .slice(0, 20) // Giới hạn 20 tin nhắn gần nhất để tiết kiệm token
+        .map(
+          (m) =>
+            `${m.senderID === userAuth.user?.id ? "Tôi" : "Người kia"}: ${
+              m.message
+            }`
+        )
+        .join("\n");
+
+      moderateConversation(combinedText).then((result) => {
+        if (result !== "OK") {
+          setWarningMessage(result);
+        } else {
+          setWarningMessage("");
+        }
+      });
+    }
+  }, [currentMessage]);
 
   const createTransactionMutation = useCreateTransaction({
     onSuccess: () => {
@@ -171,7 +194,6 @@ export default function Chats() {
           <LoadingSpinner />
         ) : (
           <>
-            {" "}
             <section className="flex h-full gap-2">
               {/* Left Side */}
               <div className="flex w-full flex-col sm:w-90 border rounded-t-md overflow-hidden shadow-md">
@@ -256,6 +278,13 @@ export default function Chats() {
                     )}
                   </div>
                 </div>
+
+                {/* Warning Message */}
+                {warningMessage && (
+                  <div className="bg-yellow-100 text-yellow-800 text-sm p-3 rounded-md border border-yellow-300 mx-4 mb-2">
+                    {warningMessage}
+                  </div>
+                )}
 
                 {/* Conversation */}
                 <div className="flex flex-1 flex-col gap-2 rounded-md px-4 pt-0 pb-4">
@@ -372,3 +401,34 @@ export default function Chats() {
     </>
   );
 }
+const moderateConversation = async (content: string): Promise<string> => {
+  const prompt = `
+Bạn là một trợ lý AI kiểm duyệt nội dung cuộc trò chuyện giữa người dùng.
+
+Dưới đây là nội dung hội thoại (giữa nhiều người, có thể là hỏi/đáp, trao đổi...):
+
+---
+${content}
+---
+
+Hãy kiểm tra xem hội thoại này có chứa nội dung **không phù hợp** như:
+- Buôn bán trái phép (ma túy, vũ khí, giấy tờ giả...)
+- Nói tục, thô tục, xúc phạm, bạo lực
+- Spam, lừa đảo, khiêu dâm, kích động thù ghét
+
+Nếu **có vi phạm**, hãy trả lời:
+⚠️ Nội dung cuộc trò chuyện có dấu hiệu không phù hợp, vui lòng giữ lịch sự và tuân thủ quy định.
+
+Nếu **không có vi phạm**, chỉ trả lời:
+OK
+`;
+
+  try {
+    const res = await aiGenerate(prompt);
+    console.log("trả lời từ AI là: ", res);
+    return res || "OK";
+  } catch (err) {
+    console.error("Moderation error:", err);
+    return "OK";
+  }
+};

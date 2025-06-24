@@ -106,7 +106,7 @@ export function PopupUpdateUser({ id }: { id: string }) {
                   },
                   {
                     display: "Dừng hoạt động",
-                    value: 0,
+                    value: 2,
                   },
                 ]}
               />

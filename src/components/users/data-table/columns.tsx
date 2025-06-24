@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { IUser } from "@/types/models/user.type";
 import { ArrowUpDown, IdCard, Trash2 } from "lucide-react";
 import { PopupUpdateUser } from "@/components/users/popup-update";
+import { formatDate } from "@/utils/format-date";
 
 export const getColumns = (
   onDelete: (id: string) => void,
@@ -14,25 +15,7 @@ export const getColumns = (
 ): ColumnDef<IUser>[] => [
   {
     accessorKey: "fullName",
-    header: ({ column }) => {
-      const isSorted = sorting.find((s) => s.id === column.id);
-      const nextDirection = isSorted?.desc ? "asc" : "desc";
-      return (
-        <Button
-          variant="ghost"
-          onClick={() => {
-            setSorting([{ id: column.id, desc: nextDirection === "desc" }]);
-          }}
-        >
-          Họ và tên
-          <ArrowUpDown
-            className={`ml-2 h-4 w-4 ${
-              isSorted ? (isSorted.desc ? "rotate-180" : "") : "opacity-50"
-            }`}
-          />
-        </Button>
-      );
-    },
+    header: "Họ và tên",
     cell: ({ row }) => {
       const user = row.original as IUser;
       return (
@@ -52,26 +35,7 @@ export const getColumns = (
   },
   {
     accessorKey: "email",
-    header: ({ column }) => {
-      const isSorted = sorting.find((s) => s.id === column.id);
-      const nextDirection = isSorted?.desc ? "asc" : "desc";
-
-      return (
-        <Button
-          variant="ghost"
-          onClick={() => {
-            setSorting([{ id: column.id, desc: nextDirection === "desc" }]);
-          }}
-        >
-          Email
-          <ArrowUpDown
-            className={`ml-2 h-4 w-4 ${
-              isSorted ? (isSorted.desc ? "rotate-180" : "") : "opacity-50"
-            }`}
-          />
-        </Button>
-      );
-    },
+    header: "Email",
     enableSorting: true,
   },
   {
@@ -80,7 +44,25 @@ export const getColumns = (
   },
   {
     accessorKey: "goodPoint",
-    header: "Điểm tốt",
+    header: ({ column }) => {
+      const isSorted = sorting.find((s) => s.id === column.id);
+      const nextDirection = isSorted?.desc ? "asc" : "desc";
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => {
+            setSorting([{ id: column.id, desc: nextDirection === "desc" }]);
+          }}
+        >
+          Điểm tốt
+          <ArrowUpDown
+            className={`ml-2 h-4 w-4 ${
+              isSorted ? (isSorted.desc ? "rotate-180" : "") : "opacity-50"
+            }`}
+          />
+        </Button>
+      );
+    },
     cell: ({ row }) => `${row.getValue("goodPoint")} điểm`,
   },
   {
@@ -88,11 +70,37 @@ export const getColumns = (
     header: "Số điện thoại",
   },
   {
+    accessorKey: "createdAt",
+    header: ({ column }) => {
+      const isSorted = sorting.find((s) => s.id === column.id);
+      const nextDirection = isSorted?.desc ? "asc" : "desc";
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => {
+            setSorting([{ id: column.id, desc: nextDirection === "desc" }]);
+          }}
+        >
+          Ngày tạo
+          <ArrowUpDown
+            className={`ml-2 h-4 w-4 ${
+              isSorted ? (isSorted.desc ? "rotate-180" : "") : "opacity-50"
+            }`}
+          />
+        </Button>
+      );
+    },
+    cell: ({ row }) => {
+      const value = row.getValue("createdAt") as string;
+      return formatDate(value);
+    },
+  },
+  {
     accessorKey: "status",
     header: "Trạng thái",
     cell: ({ row }) => {
       const value = row.getValue("status") as number;
-      return value ? (
+      return value === 1 ? (
         <Badge className="bg-emerald-600/10 dark:bg-emerald-600/20 hover:bg-emerald-600/10 text-emerald-500 border-emerald-600/60 shadow-none rounded-full">
           Đang hoạt động
         </Badge>

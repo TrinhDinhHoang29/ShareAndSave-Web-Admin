@@ -4,7 +4,7 @@ import PopDisplayQR from "@/components/warehouses/popup-display-qr";
 import { IItemWarehouse } from "@/types/models/item-warehouse.type";
 import { WarehouseItemStatus } from "@/types/status.type";
 import { ColumnDef } from "@tanstack/react-table";
-import { Eye, Pen } from "lucide-react";
+import { Eye } from "lucide-react";
 const formatStatus = (status: WarehouseItemStatus) => {
   return status === WarehouseItemStatus.INSTOCK ? (
     <Badge className="bg-emerald-600/10 dark:bg-emerald-600/20 hover:bg-emerald-600/10 text-emerald-500 border-emerald-600/60 shadow-none rounded-full">
@@ -20,6 +20,19 @@ export const getColumns = (
   setSelectedWarehouse: (itemWarehouse: IItemWarehouse) => void,
   setOpen: (open: boolean) => void
 ): ColumnDef<IItemWarehouse>[] => [
+  {
+    id: "qr",
+    header: "Mã QR",
+    cell: ({ row }: any) => {
+      const warehouse = row.original as IItemWarehouse;
+      console.log(warehouse.code);
+      return (
+        <div className="flex items-center gap-2">
+          <PopDisplayQR value={warehouse.code} />
+        </div>
+      );
+    },
+  },
   {
     accessorKey: "code",
     header: "Mã món đồ",
@@ -59,7 +72,6 @@ export const getColumns = (
             Xem mô tả
             <Eye />
           </Button>
-          <PopDisplayQR value={warehouse.code} />
         </div>
       );
     },

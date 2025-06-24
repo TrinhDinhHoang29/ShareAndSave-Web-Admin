@@ -40,6 +40,6 @@ export enum TransactionStatus {
 export enum InterestStatus {}
 
 export enum DeliveryMethod {
-  MEETINPERSON = "Gặp trực tiếp",
-  DELIVERY = "Giao hàng",
+  MEETINPERSON = "Đến nhận",
+  DELIVERY = "Ship",
 }

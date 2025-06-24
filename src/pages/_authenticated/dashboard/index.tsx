@@ -1,4 +1,8 @@
 import { Button } from "@/components/ui/button";
+
+import { Overview } from "@/components/dashboard/overview";
+import { RecentSales } from "@/components/dashboard/recent-sales";
+import { Main } from "@/components/layout/main";
 import {
   Card,
   CardContent,
@@ -7,11 +11,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-
-import { Overview } from "@/components/dashboard/overview";
-import { RecentSales } from "@/components/dashboard/recent-sales";
 import { useAuth } from "@/context/auth-context";
-import { Main } from "@/components/layout/main";
 
 export default function Dashboard() {
   const auth = useAuth();
@@ -24,6 +24,7 @@ export default function Dashboard() {
             <Button>Download</Button>
           </div>
         </div>
+
         <Tabs
           orientation="vertical"
           defaultValue="overview"
@@ -31,15 +32,15 @@ export default function Dashboard() {
         >
           <div className="w-full overflow-x-auto pb-2">
             <TabsList>
-              <TabsTrigger value="overview">Overview</TabsTrigger>
+              <TabsTrigger value="overview">Tổng quan</TabsTrigger>
               <TabsTrigger value="analytics" disabled>
-                Analytics
+                Phân tích
               </TabsTrigger>
               <TabsTrigger value="reports" disabled>
-                Reports
+                Báo cáo
               </TabsTrigger>
               <TabsTrigger value="notifications" disabled>
-                Notifications
+                Thông báo
               </TabsTrigger>
             </TabsList>
           </div>
@@ -48,7 +49,7 @@ export default function Dashboard() {
               <Card>
                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                   <CardTitle className="text-sm font-medium">
-                    Total Revenue
+                    Tổng giao dịch
                   </CardTitle>
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -73,7 +74,7 @@ export default function Dashboard() {
               <Card>
                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                   <CardTitle className="text-sm font-medium">
-                    Subscriptions
+                    Tổng người dùng
                   </CardTitle>
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -99,7 +100,9 @@ export default function Dashboard() {
               </Card>
               <Card>
                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                  <CardTitle className="text-sm font-medium">Sales</CardTitle>
+                  <CardTitle className="text-sm font-medium">
+                    Tổng bài viết
+                  </CardTitle>
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     viewBox="0 0 24 24"
@@ -124,7 +127,7 @@ export default function Dashboard() {
               <Card>
                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                   <CardTitle className="text-sm font-medium">
-                    Active Now
+                    Tổng hàng tồn kho
                   </CardTitle>
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -150,7 +153,7 @@ export default function Dashboard() {
             <div className="grid grid-cols-1 gap-4 lg:grid-cols-7">
               <Card className="col-span-1 lg:col-span-4">
                 <CardHeader>
-                  <CardTitle>Overview</CardTitle>
+                  <CardTitle>Tổng giao dịch trong 12 tháng </CardTitle>
                 </CardHeader>
                 <CardContent className="pl-2">
                   <Overview />
@@ -158,9 +161,9 @@ export default function Dashboard() {
               </Card>
               <Card className="col-span-1 lg:col-span-3">
                 <CardHeader>
-                  <CardTitle>Recent Sales</CardTitle>
+                  <CardTitle>Danh sách người có điểm cao nhất</CardTitle>
                   <CardDescription>
-                    You made 265 sales this month.
+                    Đây là những thành viên có đóng góp nhiều nhất
                   </CardDescription>
                 </CardHeader>
                 <CardContent>

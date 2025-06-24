@@ -1,5 +1,5 @@
 import { DeliveryMethod } from "@/types/status.type";
-import { CheckCircle, EyeIcon, ShoppingCart, Truck, Users } from "lucide-react";
+import { Truck, Users } from "lucide-react";
 
 export interface TabTransactionProps {
   activeTab: number;

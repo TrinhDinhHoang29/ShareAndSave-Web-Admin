@@ -3,13 +3,16 @@ import {
   flexRender,
   getCoreRowModel,
   getPaginationRowModel,
+  SortingState,
   useReactTable,
   VisibilityState,
 } from "@tanstack/react-table";
-import { Settings } from "lucide-react";
-import React, { useState } from "react";
+import { PlusCircle, Settings } from "lucide-react";
+import React from "react";
 
+import { FilterForm } from "@/components/import-invoices/filter-form";
 import LoadingSpinner from "@/components/loading-spinner";
+import { getColumns } from "@/components/transactions/data-table/columns";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -18,6 +21,15 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import {
   Table,
   TableBody,
   TableCell,
@@ -25,37 +37,56 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { getColumns } from "@/components/warehouses/detail/data-table/columns";
-import FormUpdateDescription from "@/components/warehouses/detail/form-update-description/form-update-description";
-import { IItemWarehouse } from "@/types/models/item-warehouse.type";
+import { IFilterTransaction } from "@/types/filter-api.type";
+import { Link } from "react-router-dom";
 
 interface DataTablePropsWithPage<TData> {
-  idWarehouse: number;
   data: TData[];
+  totalPage: number;
   isPending: boolean;
+  sorting: SortingState;
+  setSorting: React.Dispatch<React.SetStateAction<SortingState>>;
+  pagination: { pageIndex: number; pageSize: number };
+  globalFilter: IFilterTransaction;
+  setGlobalFilter: React.Dispatch<React.SetStateAction<IFilterTransaction>>;
+  setPagination: React.Dispatch<
+    React.SetStateAction<{ pageIndex: number; pageSize: number }>
+  >;
 }
 
 export function DataTable<TData, TValue>({
-  idWarehouse,
   data,
   isPending,
+  totalPage,
+  pagination,
+  globalFilter,
+  sorting,
+  setSorting, // 👈 Thêm prop này
+  setGlobalFilter,
+  setPagination,
 }: DataTablePropsWithPage<TData>) {
   const [columnVisibility, setColumnVisibility] =
     React.useState<VisibilityState>({});
-
-  const [selectedItemWarehouse, setSelectedItemWarehouse] =
-    useState<IItemWarehouse | null>(null);
-  const [open, setOpen] = useState(false);
-  const columns = getColumns(setSelectedItemWarehouse, setOpen);
+  const columns = getColumns(
+    globalFilter,
+    setGlobalFilter,
+    sorting,
+    setSorting
+  );
   const table = useReactTable({
     data,
     columns: columns as ColumnDef<TData, TValue>[],
+    pageCount: totalPage + 1,
     manualPagination: true,
     manualFiltering: true,
     manualSorting: true,
     state: {
+      pagination,
       columnVisibility,
+      sorting,
     },
+    onPaginationChange: setPagination,
+    onSortingChange: setSorting,
     getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
     onColumnVisibilityChange: setColumnVisibility,
@@ -63,6 +94,7 @@ export function DataTable<TData, TValue>({
   return (
     <>
       <div>
+        <FilterForm onFilter={setGlobalFilter} />
         <div className="my-4 grid grid-cols-7 gap-4">
           <div className="col-span-7 flex items-center space-x-2 md:col-span-2 md:col-start-6">
             <DropdownMenu>
@@ -151,16 +183,73 @@ export function DataTable<TData, TValue>({
               )}
             </TableBody>
           </Table>
+          <div className="mx-6 flex flex-wrap items-center justify-end gap-4 py-2">
+            <div className="hidden sm:flex items-center gap-2">
+              <span>Hiển thị</span>
+              <Select
+                value={pagination.pageSize.toString()} // 👈 Thêm dòng này
+                onValueChange={(e) =>
+                  setPagination((prev) => ({
+                    ...prev,
+                    pageIndex: 0, // reset về trang đầu khi đổi limit
+                    pageSize: Number(e),
+                  }))
+                }
+              >
+                <SelectTrigger className="w-[180px]">
+                  <SelectValue placeholder="Chọn số dòng" defaultValue={10} />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectGroup>
+                    <SelectLabel>Số dòng</SelectLabel>
+                    {[10, 20, 30, 50, 100].map((size) => (
+                      <SelectItem value={size.toString()} key={size}>
+                        {size}
+                      </SelectItem>
+                    ))}
+                  </SelectGroup>
+                </SelectContent>
+              </Select>
+
+              <span>dòng</span>
+            </div>
+            <div className="flex items-center space-x-2">
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() =>
+                  setPagination((prev) => ({
+                    ...prev,
+                    pageIndex: prev.pageIndex - 1,
+                  }))
+                }
+                disabled={pagination.pageIndex === 0}
+              >
+                Previous
+              </Button>
+
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() =>
+                  setPagination((prev) => ({
+                    ...prev,
+                    pageIndex: prev.pageIndex + 1,
+                  }))
+                }
+                disabled={pagination.pageIndex + 1 >= totalPage}
+              >
+                Next
+              </Button>
+            </div>
+          </div>
         </div>
       </div>
-      {selectedItemWarehouse && (
-        <FormUpdateDescription
-          itemWarehouse={selectedItemWarehouse}
-          idWarehouse={idWarehouse}
-          open={open}
-          setOpen={setOpen}
-        />
-      )}
+      {/* <SheetDetailPost
+        openSheet={openSheet}
+        setOpenSheet={setOpenSheet}
+        data={postQuery.data?.post || null}
+      /> */}
     </>
   );
 }

@@ -1,16 +1,15 @@
-import { exportToExcel } from "@/components/export-to-excel";
-import { DataTable } from "@/components/inventories/data-table/data-table";
+import { DataTable } from "@/components/export-invoices/data-table/data-table";
 import { Main } from "@/components/layout/main";
-import { Button } from "@/components/ui/button";
-import { useItemWarehouses } from "@/hooks/react-query-hooks/use-item-warehouses";
+import { useExportInvoices } from "@/hooks/react-query-hooks/use-export-invoice";
+import { useImportInvoices } from "@/hooks/react-query-hooks/use-import-invoice";
+import { useDeleteUser } from "@/hooks/react-query-hooks/use-users";
 import { Order } from "@/types/filter-api.type";
 import { SortingState } from "@tanstack/react-table";
-import { Download, Hand } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
 import { useConfirm } from "use-confirm-hook";
 
-const ListInventoriesPage = () => {
+const ListExportInvoice = () => {
   const { ask } = useConfirm();
   const [globalFilter, setGlobalFilter] = useState<{
     searchValue?: string;
@@ -22,7 +21,7 @@ const ListInventoriesPage = () => {
     pageIndex: number;
     pageSize: number;
   }>({ pageIndex: 0, pageSize: 10 });
-  const { data, isPending, error } = useItemWarehouses({
+  const { data, isPending, error } = useExportInvoices({
     page: pagination.pageIndex + 1,
     limit: pagination.pageSize,
     sort: sorting[0]?.id ?? "",
@@ -33,37 +32,24 @@ const ListInventoriesPage = () => {
   if (error) {
     toast.error(error?.message || "Lỗi");
   }
-  async function handleExportExcel() {
-    const res = await ask("Bạn có chắc muốn xuất file ?");
-    if (!res) return;
-    exportToExcel({
-      data: data?.itemWarehouses || [],
-      fileName: "User_List",
-    });
-  }
+
   return (
     <Main>
       <div className="">
-        <div className="mb-6 flex justify-between items-center">
-          <div>
-            <h1 className="text-2xl dark:text-white font-bold text-gray-900">
-              Danh sách hàng tồn kho
-            </h1>
-            <p className="text-gray-500 mt-1  dark:text-white">
-              Quản lý tồn kho của hệ thống, có thể xuất hàng tại đây
-            </p>
-          </div>
-          <div>
-            <Button onClick={handleExportExcel}>
-              Xuất excel <Download />
-            </Button>
-          </div>
+        <div className="mb-6">
+          <h1 className="text-2xl dark:text-white font-bold text-gray-900">
+            Danh sách phiếu xuất
+          </h1>
+          <p className="text-gray-500 mt-1  dark:text-white">
+            Quản lý tất cả phiếu xuất của hệ thống
+          </p>
         </div>
+        {/* <StatusSummary /> */}
 
         <DataTable
           sorting={sorting} // 👈 THÊM
           setSorting={setSorting} // 👈 THÊM
-          data={data?.itemWarehouses || []}
+          data={data?.exportInvoices || []}
           totalPage={Math.ceil(data?.totalPage!)}
           setGlobalFilter={setGlobalFilter}
           pagination={pagination}
@@ -75,4 +61,4 @@ const ListInventoriesPage = () => {
   );
 };
 
-export default ListInventoriesPage;
+export default ListExportInvoice;

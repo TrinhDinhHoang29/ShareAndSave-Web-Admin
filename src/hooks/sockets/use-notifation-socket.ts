@@ -28,9 +28,11 @@ export function useNotificationSocket() {
         parsed.event === "send_message_response" &&
         parsed.data.senderID !== auth.user?.id
       ) {
-        queryClient.invalidateQueries({
-          queryKey: interestKeys.all,
-        });
+        setTimeout(() => {
+          queryClient.invalidateQueries({
+            queryKey: interestKeys.all,
+          });
+        }, 1000);
       }
     };
 
