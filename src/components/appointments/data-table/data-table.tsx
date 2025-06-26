@@ -7,10 +7,11 @@ import {
   useReactTable,
   VisibilityState,
 } from "@tanstack/react-table";
-import { Search, Settings, X } from "lucide-react";
+import { Settings } from "lucide-react";
 import React, { useState } from "react";
 
-import { getColumns } from "@/components/items/data-table/columns";
+import { getColumns } from "@/components/appointments/data-table/columns";
+import { FilterForm } from "@/components/inventories/filter-form";
 import LoadingSpinner from "@/components/loading-spinner";
 import { Button } from "@/components/ui/button";
 import {
@@ -19,7 +20,6 @@ import {
   DropdownMenuContent,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Input } from "@/components/ui/input";
 import {
   Select,
   SelectContent,
@@ -37,8 +37,12 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { IItem } from "@/types/models/item.type";
-import SheetDetailItem from "@/components/items/sheet-item-post";
+import { useUpdateAppointment } from "@/hooks/react-query-hooks/use-appointment";
+import { IAppointment } from "@/types/models/appointment.type";
+import { AppointmentStatus, PostStatus, PostType } from "@/types/status.type";
+import { IconCancel } from "@tabler/icons-react";
+import { toast } from "sonner";
+import { useConfirm } from "use-confirm-hook";
 
 interface DataTablePropsWithPage<TData> {
   data: TData[];
@@ -46,10 +50,14 @@ interface DataTablePropsWithPage<TData> {
   isPending: boolean;
   sorting: SortingState;
   setSorting: React.Dispatch<React.SetStateAction<SortingState>>;
-  handleDelete: (id: string) => Promise<void>;
   pagination: { pageIndex: number; pageSize: number };
   setGlobalFilter: React.Dispatch<
-    React.SetStateAction<{ searchValue: string; searchBy: string }>
+    React.SetStateAction<{
+      searchValue?: string;
+      searchBy?: string;
+      type?: PostType;
+      status?: PostStatus;
+    }>
   >;
   setPagination: React.Dispatch<
     React.SetStateAction<{ pageIndex: number; pageSize: number }>
@@ -63,25 +71,20 @@ export function DataTable<TData, TValue>({
   pagination,
   sorting,
   setSorting, // 👈 Thêm prop này
-  handleDelete,
   setGlobalFilter,
   setPagination,
 }: DataTablePropsWithPage<TData>) {
   const [columnVisibility, setColumnVisibility] =
     React.useState<VisibilityState>({});
-  const [searchInput, setSearchInput] = React.useState("");
-  const [searchBy, setSearchBy] = useState<string>("");
-
-  const [selectedItem, setSelectedItem] = useState<IItem | null>(null);
-
-  const [openSheet, setOpenSheet] = useState(false);
-
+  const { ask } = useConfirm();
+  const [selectedAppointments, setSelectedAppointments] = useState<
+    IAppointment[]
+  >([]);
   const columns = getColumns(
-    handleDelete,
     sorting,
     setSorting,
-    setSelectedItem,
-    setOpenSheet
+    selectedAppointments,
+    setSelectedAppointments
   );
   const table = useReactTable({
     data,
@@ -101,61 +104,36 @@ export function DataTable<TData, TValue>({
     getPaginationRowModel: getPaginationRowModel(),
     onColumnVisibilityChange: setColumnVisibility,
   });
+  const updateAppointmentMutation = useUpdateAppointment({
+    onSuccess: () => {
+      toast.success("Cập nhật trạng thái lịch hẹn thành công");
+      setSelectedAppointments([]);
+    },
+    onError: (error) => {
+      toast.error(error?.message || "Lỗi");
+    },
+  });
+  const handleCancelAppointments = async () => {
+    const res = await ask("Bạn có chắc muốn hủy lịch hẹn này ?");
+    if (!res) return;
+    Promise.all(
+      selectedAppointments.map((appointment) => {
+        return updateAppointmentMutation.mutate({
+          id: appointment.id,
+          data: {
+            endTime: new Date(appointment.endTime),
+            startTime: new Date(appointment.startTime),
+            status: AppointmentStatus.REJECTED,
+          },
+        });
+      })
+    );
+  };
   return (
     <>
       <div>
+        <FilterForm onFilter={setGlobalFilter} />
         <div className="my-4 grid grid-cols-7 gap-4">
-          <div className="col-span-7 flex items-center gap-x-2 md:col-span-4">
-            <Select
-              onValueChange={(value) => setSearchBy(value)}
-              value={searchBy}
-            >
-              <SelectTrigger className="w-[180px]">
-                <SelectValue placeholder="Chọn trường" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectGroup>
-                  <SelectLabel>Tìm kiếm theo</SelectLabel>
-                  <SelectItem value="name">Tên món đồ</SelectItem>
-                  <SelectItem value="categoryName">Loại món đồ</SelectItem>
-                </SelectGroup>
-              </SelectContent>
-            </Select>
-            <div className="flex-1">
-              <Input
-                className="w-full flex-1"
-                placeholder="Tìm kiếm theo tên chiến dịch..."
-                value={searchInput}
-                onChange={(event) => setSearchInput(event.target.value)}
-              />
-            </div>
-            <Button
-              disabled={searchBy && searchInput ? false : true}
-              onClick={() =>
-                setGlobalFilter({
-                  searchValue: searchInput,
-                  searchBy: searchBy,
-                })
-              }
-            >
-              <Search />
-            </Button>
-            {(searchBy || searchInput) && (
-              <Button
-                variant={"destructive"}
-                onClick={() => {
-                  setSearchInput("");
-                  setSearchBy("");
-                  setGlobalFilter({
-                    searchValue: "",
-                    searchBy: "",
-                  });
-                }}
-              >
-                <X />
-              </Button>
-            )}
-          </div>
           <div className="col-span-7 flex items-center space-x-2 md:col-span-2 md:col-start-6">
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
@@ -183,6 +161,19 @@ export function DataTable<TData, TValue>({
                   })}
               </DropdownMenuContent>
             </DropdownMenu>
+            {selectedAppointments.length > 0 && (
+              <>
+                {" "}
+                <Button variant={"outline"} onClick={handleCancelAppointments}>
+                  <div className="flex items-center gap-x-2">
+                    <span> Từ chối</span>
+                    <span>
+                      <IconCancel />
+                    </span>
+                  </div>
+                </Button>
+              </>
+            )}
           </div>
         </div>
         <div>
@@ -244,7 +235,7 @@ export function DataTable<TData, TValue>({
             </TableBody>
           </Table>
           <div className="mx-6 flex flex-wrap items-center justify-end gap-4 py-2">
-            <div className="sm:flex hidden items-center gap-2">
+            <div className="hidden sm:flex items-center gap-2">
               <span>Hiển thị</span>
               <Select
                 value={pagination.pageSize.toString()} // 👈 Thêm dòng này
@@ -257,7 +248,7 @@ export function DataTable<TData, TValue>({
                 }
               >
                 <SelectTrigger className="w-[180px]">
-                  <SelectValue placeholder="Select a fruit" defaultValue={10} />
+                  <SelectValue placeholder="Chọn số dòng" defaultValue={10} />
                 </SelectTrigger>
                 <SelectContent>
                   <SelectGroup>
@@ -273,7 +264,6 @@ export function DataTable<TData, TValue>({
 
               <span>dòng</span>
             </div>
-
             <div className="flex items-center space-x-2">
               <Button
                 variant="outline"
@@ -306,11 +296,6 @@ export function DataTable<TData, TValue>({
           </div>
         </div>
       </div>
-      <SheetDetailItem
-        data={selectedItem}
-        openSheet={openSheet}
-        setOpenSheet={setOpenSheet}
-      />
     </>
   );
 }

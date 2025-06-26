@@ -16,6 +16,7 @@ const PopupUpdateTransaction = ({
 }: {
   transactions: ITransaction[];
 }) => {
+  console.log("transactions", transactions);
   return (
     <Dialog>
       <DialogTrigger asChild>

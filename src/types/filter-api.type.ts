@@ -1,5 +1,6 @@
 import {
   InterestType,
+  PostOf,
   PostStatus,
   PostType,
   TransactionStatus,
@@ -16,6 +17,7 @@ export interface IFilterApi {
 export interface IFilterExtend extends IFilterApi {
   status?: PostStatus;
   type?: PostType;
+  postOf?: PostOf;
 }
 export interface IFilterInterest {
   search?: string;

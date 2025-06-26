@@ -11,6 +11,7 @@ const getPosts = async ({
   searchValue,
   sort,
   order,
+  postOf,
   status,
   type,
   page,
@@ -20,6 +21,7 @@ const getPosts = async ({
 > => {
   const response = await api.get(`/posts?page=${page}&limit=${limit}`, {
     params: {
+      postOf,
       searchBy,
       searchValue,
       sort,
@@ -48,4 +50,8 @@ const getPost = async (id: number): Promise<IResponseApi<{ post: IPost }>> => {
   console.log("res", response.data);
   return response.data;
 };
-export { getPosts, createPost, getPost, updatePost };
+const deletePost = async (id: number): Promise<IResponseApi<{}>> => {
+  const response = await api.delete(`/posts/${id}`);
+  return response.data;
+};
+export { getPosts, createPost, getPost, updatePost, deletePost };

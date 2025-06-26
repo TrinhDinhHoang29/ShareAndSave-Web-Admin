@@ -2,6 +2,7 @@ export enum PostStatus {
   PENDING = 1,
   REJECTED = 2,
   APPROVED = 3,
+  CANCEL = 4,
 }
 export enum PostType {
   GIVE_AWAY_OLD_ITEM = 1,
@@ -42,4 +43,12 @@ export enum InterestStatus {}
 export enum DeliveryMethod {
   MEETINPERSON = "Đến nhận",
   DELIVERY = "Ship",
+}
+export enum AppointmentStatus {
+  APPROVED = 1,
+  REJECTED = 2,
+}
+export enum PostOf {
+  CLIENT = 1,
+  ADMIN = 2,
 }

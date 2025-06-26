@@ -2,6 +2,8 @@ import LayoutDefault from "@/components/layout";
 import LoadingSpinner from "@/components/ui/loading-spinner";
 import LoginPage from "@/pages/(auth)/login";
 import { ProtectedRoute } from "@/pages/_authenticated/_protected.route";
+import ListAppointmentPage from "@/pages/_authenticated/appointments";
+import ListCategoriesPage from "@/pages/_authenticated/categories";
 import Chats from "@/pages/_authenticated/chats";
 import ListExportInvoice from "@/pages/_authenticated/export-invoices";
 import CreateExportInvoicePage from "@/pages/_authenticated/export-invoices/create";
@@ -12,6 +14,8 @@ import ListInventoriesPage from "@/pages/_authenticated/inventory";
 import ListItemPage from "@/pages/_authenticated/items";
 import ListPostPage from "@/pages/_authenticated/posts";
 import CreatePostPage from "@/pages/_authenticated/posts/create";
+import ListPostAdminPage from "@/pages/_authenticated/posts/post-admin";
+import SettingsPage from "@/pages/_authenticated/settings";
 import ListTransactionsPage from "@/pages/_authenticated/transactions";
 import UsersPage from "@/pages/_authenticated/users";
 import ListWarehousesPage from "@/pages/_authenticated/warehouses";
@@ -76,6 +80,16 @@ export const routes: RouteObject[] = [
           <ProtectedRoute>
             <ErrorBoundary>
               <ListPostPage />
+            </ErrorBoundary>
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: "/posts/admin",
+        element: (
+          <ProtectedRoute>
+            <ErrorBoundary>
+              <ListPostAdminPage />
             </ErrorBoundary>
           </ProtectedRoute>
         ),
@@ -191,11 +205,41 @@ export const routes: RouteObject[] = [
         ),
       },
       {
+        path: "/appointments",
+        element: (
+          <ProtectedRoute>
+            <ErrorBoundary>
+              <ListAppointmentPage />
+            </ErrorBoundary>
+          </ProtectedRoute>
+        ),
+      },
+      {
         path: "/transactions",
         element: (
           <ProtectedRoute>
             <ErrorBoundary>
               <ListTransactionsPage />
+            </ErrorBoundary>
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: "/categories",
+        element: (
+          <ProtectedRoute>
+            <ErrorBoundary>
+              <ListCategoriesPage />
+            </ErrorBoundary>
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: "/settings",
+        element: (
+          <ProtectedRoute>
+            <ErrorBoundary>
+              <SettingsPage />
             </ErrorBoundary>
           </ProtectedRoute>
         ),

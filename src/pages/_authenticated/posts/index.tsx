@@ -8,7 +8,7 @@ import {
 import { usePosts } from "@/hooks/react-query-hooks/use-post";
 import { useDeleteUser } from "@/hooks/react-query-hooks/use-users";
 import { Order } from "@/types/filter-api.type";
-import { PostStatus, PostType } from "@/types/status.type";
+import { PostOf, PostStatus, PostType } from "@/types/status.type";
 import { SortingState } from "@tanstack/react-table";
 import { useState } from "react";
 import { toast } from "sonner";
@@ -44,6 +44,7 @@ const ListPostPage = () => {
     pageSize: number;
   }>({ pageIndex: 0, pageSize: 10 });
   const { data, isPending, error } = usePosts({
+    postOf: PostOf.CLIENT,
     page: pagination.pageIndex + 1,
     limit: pagination.pageSize,
     sort: sorting[0]?.id,

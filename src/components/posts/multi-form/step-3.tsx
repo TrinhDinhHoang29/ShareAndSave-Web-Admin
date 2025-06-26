@@ -1,5 +1,4 @@
 import { PopupCreateItem } from "@/components/items/popup-create-item";
-import { PopupDisplayItem } from "@/components/items/popup-list-item";
 import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
 import { FormDate } from "@/components/ui/form-date";
@@ -45,7 +44,7 @@ const CreatePostStep3 = ({ onNext, onBack, formData }: Props) => {
   return (
     <div className="sm:mx-12 mx-2">
       <div className="my-4 flex gap-2 justify-end">
-        {formData!.type === PostType.GIVE_AWAY_OLD_ITEM && (
+        {formData!.type !== PostType.OTHER && (
           <>
             <PopupCreateItem
               listOldItems={listOldItems}

@@ -1,6 +1,12 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
-import { createPost, getPost, getPosts, updatePost } from "@/apis/post.api";
+import {
+  createPost,
+  deletePost,
+  getPost,
+  getPosts,
+  updatePost,
+} from "@/apis/post.api";
 import { CreatePostDto } from "@/schemas/posts/create-post.schema";
 import { IFilterExtend } from "@/types/filter-api.type";
 import { UpdatePostDto } from "@/schemas/posts/update-post.schema";
@@ -11,6 +17,7 @@ export const postKeys = {
     [
       "posts",
       params.searchBy ?? "",
+      params.postOf,
       params.searchValue ?? "",
       params.order ?? "",
       params.sort ?? "",
@@ -90,25 +97,25 @@ export const useUpdatePost = (config?: {
     onSettled: config?.onSettled,
   });
 };
-// export const useDeleteUser = (config?: {
-//   onSuccess?: () => void;
-//   onError?: (err: any) => void;
-//   onSettled?: () => void;
-// }) => {
-//   const queryClient = useQueryClient();
-//   return useMutation({
-//     mutationFn: async (id: string) => {
-//       const res = await deleteUser(id);
-//       return res.data!;
-//     },
-//     onSuccess: () => {
-//       queryClient.invalidateQueries({ queryKey: userKeys.all });
-//       config?.onSuccess?.();
-//     },
-//     onError: config?.onError,
-//     onSettled: config?.onSettled,
-//   });
-// };
+export const useDeletePost = (config?: {
+  onSuccess?: () => void;
+  onError?: (err: any) => void;
+  onSettled?: () => void;
+}) => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: async (id: number) => {
+      const res = await deletePost(id);
+      return res.data!;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: postKeys.all });
+      config?.onSuccess?.();
+    },
+    onError: config?.onError,
+    onSettled: config?.onSettled,
+  });
+};
 
 // export const useUser = (id: string) => {
 //   return useQuery({

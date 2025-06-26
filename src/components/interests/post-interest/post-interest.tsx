@@ -140,9 +140,11 @@ const PostPill = ({
           </div>
 
           {/* Description */}
-          <p className="text-sm text-gray-600 line-clamp-2 mb-4 leading-relaxed bg-gray-100 p-2 rounded-md">
-            {description}
-          </p>
+          {description && (
+            <p className="text-sm text-gray-600 line-clamp-2 mb-4 leading-relaxed bg-gray-100 p-2 rounded-md">
+              {description}
+            </p>
+          )}
 
           {/* Actions */}
         </div>

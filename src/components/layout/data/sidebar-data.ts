@@ -15,6 +15,8 @@ import {
   IconUsers,
 } from "@tabler/icons-react";
 import {
+  AlarmClock,
+  AlignJustify,
   ArrowLeftRightIcon,
   Command,
   HeartIcon,
@@ -37,17 +39,23 @@ export const sidebarData: SidebarData = {
   ],
   navGroups: [
     {
-      title: "General",
+      title: "Tổng quan",
       items: [
         {
           title: "Bảng điều khiển",
           url: "/",
           icon: IconLayoutDashboard,
         },
+
         {
           title: "Quan tâm",
           url: "/interests",
           icon: HeartIcon,
+        },
+        {
+          title: "Cuộc hẹn",
+          url: "/appointments",
+          icon: AlarmClock,
         },
         {
           title: "Người dùng",
@@ -72,6 +80,11 @@ export const sidebarData: SidebarData = {
           title: "Đồ đạc",
           url: "/items",
           icon: IconTag,
+        },
+        {
+          title: "Loại món đồ",
+          url: "/categories",
+          icon: AlignJustify,
         },
         {
           title: "Hàng tồn",
@@ -163,43 +176,38 @@ export const sidebarData: SidebarData = {
     //   ],
     // },
     {
-      title: "Other",
+      title: "Khác",
       items: [
         {
-          title: "Settings",
+          title: "Cài đặt",
           icon: IconSettings,
           items: [
             {
-              title: "Profile",
+              title: "Giao diện người dùng",
               url: "/settings",
               icon: IconUserCog,
             },
-            {
-              title: "Account",
-              url: "/settings/account",
-              icon: IconTool,
-            },
-            {
-              title: "Appearance",
-              url: "/settings/appearance",
-              icon: IconPalette,
-            },
-            {
-              title: "Notifications",
-              url: "/settings/notifications",
-              icon: IconNotification,
-            },
-            {
-              title: "Display",
-              url: "/settings/display",
-              icon: IconBrowserCheck,
-            },
+            // {
+            //   title: "Account",
+            //   url: "/settings/account",
+            //   icon: IconTool,
+            // },
+            // {
+            //   title: "Appearance",
+            //   url: "/settings/appearance",
+            //   icon: IconPalette,
+            // },
+            // {
+            //   title: "Notifications",
+            //   url: "/settings/notifications",
+            //   icon: IconNotification,
+            // },
+            // {
+            //   title: "Display",
+            //   url: "/settings/display",
+            //   icon: IconBrowserCheck,
+            // },
           ],
-        },
-        {
-          title: "Help Center",
-          url: "/help-center",
-          icon: IconHelp,
         },
       ],
     },
