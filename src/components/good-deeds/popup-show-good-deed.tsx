@@ -9,7 +9,10 @@ import {
 import { Form } from "@/components/ui/form";
 import FormInput from "@/components/ui/form-input";
 import { SelectForm } from "@/components/ui/select-form";
-import { useCreateGoodDeed } from "@/hooks/react-query-hooks/use-good-deed";
+import {
+  useCreateGoodDeed,
+  useGoodDeedByUserId,
+} from "@/hooks/react-query-hooks/use-good-deed";
 import {
   CreateGoodDeedDto,
   CreateGoodDeedSchema,
@@ -32,17 +35,20 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
+import LoadingSpinner from "@/components/loading-spinner";
+import GoodDeedDropDown from "@/components/good-deeds/good-deed-drop-down/good-deed-drop-down";
 
 const PopupShowGoodDeed = ({ user }: { user: IUser }) => {
   const [tab, setTab] = useState<"CREATE" | "GET">("GET");
   const [open, setOpen] = useState<boolean>(false);
-
+  console.log("user.id", user.id);
   // State cho AlertDialog xác nhận
   const [alertOpen, setAlertOpen] = useState(false);
   const [pendingData, setPendingData] = useState<CreateGoodDeedDto | null>(
     null
   );
-
+  const getGoodDeedQuery = useGoodDeedByUserId(user.id);
+  console.log();
   const form = useForm<CreateGoodDeedDto>({
     resolver: zodResolver(CreateGoodDeedSchema),
     defaultValues: {
@@ -113,44 +119,57 @@ const PopupShowGoodDeed = ({ user }: { user: IUser }) => {
             )}
           </DialogTitle>
         </DialogHeader>
-        {tab === "GET" ? (
-          <></>
+        {getGoodDeedQuery.isLoading || !getGoodDeedQuery.data ? (
+          <LoadingSpinner />
         ) : (
-          <Form {...form}>
-            <form
-              onSubmit={form.handleSubmit(onSubmit)}
-              className="w-full space-y-8"
-            >
-              <SelectForm
-                control={form.control}
-                placeholder="Chọn loại việc tốt"
-                data={[
-                  {
-                    field: GoodDeedType.GIVE_OLD_ITEM,
-                    value: "Tặng đồ cũ",
-                  },
-                  {
-                    field: GoodDeedType.GIVE_LOSE_ITEM,
-                    value: "Trả đồ thất lạc",
-                  },
-                  {
-                    field: GoodDeedType.CAMPAIGN,
-                    value: "Tham gia chuyến dịch",
-                  },
-                ]}
-                name="goodDeedType"
-                label="Loại việc tốt *"
-              />
-              <FormInput
-                control={form.control}
-                name="transactionID"
-                label="Mã giao dịch"
-                description="Mã giao dịch chỉ điền khi giao dịch của người dùng bị gián đoạn và không được tính điểm đây là biện pháp để bổ sung, Không được lạm dụng."
-              />
-              <Button type="submit">Xác nhận</Button>
-            </form>
-          </Form>
+          <>
+            {tab === "GET" ? (
+              <>
+                {getGoodDeedQuery.data.goodDeeds.length === 0
+                  ? "Không có việc tốt nào"
+                  : getGoodDeedQuery.data.goodDeeds.map((item) => (
+                      <GoodDeedDropDown {...item} />
+                    ))}
+              </>
+            ) : (
+              <Form {...form}>
+                <form
+                  onSubmit={form.handleSubmit(onSubmit)}
+                  className="w-full space-y-8"
+                >
+                  <SelectForm
+                    control={form.control}
+                    placeholder="Chọn loại việc tốt"
+                    data={[
+                      {
+                        field: GoodDeedType.GIVE_OLD_ITEM,
+                        value: "Tặng đồ cũ",
+                      },
+                      {
+                        field: GoodDeedType.GIVE_LOSE_ITEM,
+                        value: "Trả đồ thất lạc",
+                      },
+                      {
+                        field: GoodDeedType.CAMPAIGN,
+                        value: "Tham gia chuyến dịch",
+                      },
+                    ]}
+                    name="goodDeedType"
+                    label="Loại việc tốt *"
+                  />
+                  <FormInput
+                    control={form.control}
+                    name="transactionID"
+                    label="Mã giao dịch"
+                    description="Mã giao dịch chỉ điền khi giao dịch của người dùng bị gián đoạn và không được tính điểm đây là biện pháp để bổ sung, Không được lạm dụng."
+                  />
+                  <Button type="submit">Xác nhận</Button>
+                </form>
+              </Form>
+            )}
+          </>
         )}
+
         {/* AlertDialog confirm ngay trong DialogContent */}
         <AlertDialog open={alertOpen} onOpenChange={setAlertOpen}>
           <AlertDialogContent>

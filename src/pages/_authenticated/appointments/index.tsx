@@ -48,10 +48,10 @@ const ListAppointmentPage = () => {
         <div className="mb-6 flex justify-between items-center">
           <div>
             <h1 className="text-2xl dark:text-white font-bold text-gray-900">
-              Danh sách hàng tồn kho
+              Danh sách các cuộc hẹn
             </h1>
             <p className="text-gray-500 mt-1  dark:text-white">
-              Quản lý tồn kho của hệ thống, có thể xuất hàng tại đây
+              Quản lí các cuộc hẹn để giao dịch đồ trong kho đồ cũ
             </p>
           </div>
           <div>
