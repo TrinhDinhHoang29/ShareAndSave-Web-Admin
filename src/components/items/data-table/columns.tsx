@@ -1,6 +1,5 @@
 import { PopupUpdateItem } from "@/components/items/popup-update-item";
 import { Button } from "@/components/ui/button";
-import { PopupUpdateUser } from "@/components/users/popup-update";
 import { IItem } from "@/types/models/item.type";
 import { ColumnDef, SortingState } from "@tanstack/react-table";
 import { ArrowUpDown, Trash2 } from "lucide-react";
@@ -49,6 +48,14 @@ export const getColumns = (
       );
     },
     enableSorting: true,
+  },
+  {
+    accessorKey: "maxClaim",
+    header: "Số lượng tối đa",
+    cell: ({ row }) => {
+      const item = row.original as IItem;
+      return <span>{item.maxClaim} cái</span>;
+    },
   },
   {
     accessorKey: "categoryName",

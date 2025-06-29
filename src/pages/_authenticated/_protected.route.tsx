@@ -1,5 +1,4 @@
 // import { useAuth } from "@/context/auth-context";
-import ChatBotLostAndUsedItems from "@/components/smart-search";
 import { useAuth } from "@/context/auth-context";
 import { useNotificationSocket } from "@/hooks/sockets/use-notifation-socket";
 import { JSX } from "react";
@@ -13,11 +12,6 @@ export const ProtectedRoute = ({ children }: { children: JSX.Element }) => {
   if (!isAuthenticated) {
     return <Navigate to="/login" state={{ from: location }} replace />;
   }
-  const socketRef = useNotificationSocket();
-  return (
-    <>
-      <ChatBotLostAndUsedItems />
-      {children}
-    </>
-  );
+  useNotificationSocket();
+  return <>{children}</>;
 };

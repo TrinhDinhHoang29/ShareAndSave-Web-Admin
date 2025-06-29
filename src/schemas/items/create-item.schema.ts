@@ -6,6 +6,7 @@ export const CreateItemSchema = z.object({
   categoryID: z.coerce.number().min(1),
   quantity: z.coerce.number().min(1),
   image: z.string().min(1, "Ảnh không được để trống"),
+  maxClaim: z.coerce.number().optional(),
 });
 
 export type CreateItemDto = z.infer<typeof CreateItemSchema>;

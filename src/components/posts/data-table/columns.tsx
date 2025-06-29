@@ -1,14 +1,15 @@
+import DeleteWithConfirm from "@/components/delete-with-confirm";
 import { PopupUpdatePost } from "@/components/posts/popup-update";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { IPost } from "@/types/models/post.type";
 import { PostStatus, PostType } from "@/types/status.type";
 import { ColumnDef, SortingState } from "@tanstack/react-table";
-import { ArrowUpDown, Heart, Trash2 } from "lucide-react";
+import { ArrowUpDown, Heart } from "lucide-react";
 
 export const getColumns = (
   onInterest: (id: number) => void,
-  onDelete: (id: string) => void,
+  onDelete: (id: number) => void,
   sorting: SortingState,
   handleDeleteInterest: (id: number) => void,
   setSorting: React.Dispatch<React.SetStateAction<SortingState>>,
@@ -38,10 +39,24 @@ export const getColumns = (
     },
     cell: ({ row }) => {
       const post = row.original as IPost;
+      const isFeatured = post.isFeatured;
+
       return (
         <Button
           variant="link"
-          className="p-0 text-left font-medium  hover:underline text-black dark:text-white"
+          className={`p-0 text-left font-medium hover:underline ${
+            isFeatured
+              ? "text-red-500 font-bold animate-pulse shadow-red-500/50 drop-shadow-lg"
+              : "text-black dark:text-white"
+          }`}
+          style={
+            isFeatured
+              ? {
+                  textShadow:
+                    "0 0 8px #ef4444, 0 0 15px #dc2626, 0 0 20px #b91c1c",
+                }
+              : {}
+          }
           onClick={() => {
             setSelectedPost(post);
             setOpenSheet(true);
@@ -51,6 +66,7 @@ export const getColumns = (
         </Button>
       );
     },
+
     enableSorting: true,
   },
   {
@@ -163,12 +179,7 @@ export const getColumns = (
           {post.status === PostStatus.PENDING && (
             <PopupUpdatePost post={post} />
           )}
-          <Button
-            variant={"outline"}
-            onClick={() => onDelete(post.id.toString())}
-          >
-            <Trash2 />
-          </Button>
+          <DeleteWithConfirm onDelete={() => onDelete(post.id)} />
         </div>
       );
     },

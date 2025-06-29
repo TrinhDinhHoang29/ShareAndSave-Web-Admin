@@ -17,54 +17,51 @@ import { SelectForm } from "@/components/ui/select-form";
 import { SingleImageUpload } from "@/components/ui/single-image-upload";
 import FormTextarea from "@/components/ui/textarea-form";
 import { useCategories } from "@/hooks/react-query-hooks/use-category";
-import { useUpdateItem } from "@/hooks/react-query-hooks/use-item";
+import { useCreateNewItem } from "@/hooks/react-query-hooks/use-item";
 import {
-  UpdateItemDto,
-  UpdateItemSchema,
-} from "@/schemas/items/update-item.schema";
-import { IItem } from "@/types/models/item.type";
-import { SquarePen } from "lucide-react";
+  CreateNewItemDto,
+  CreateNewItemSchema,
+} from "@/schemas/items/create-new-item.schema";
+import { PlusCircle } from "lucide-react";
 import { toast } from "sonner";
 import { useConfirm } from "use-confirm-hook";
+import { useState } from "react";
 
-export function PopupUpdateItem({ item }: { item: IItem }) {
-  const form = useForm<UpdateItemDto>({
-    resolver: zodResolver(UpdateItemSchema),
-    defaultValues: {
-      name: item.name,
-      description: item.description,
-      categoryID: item.categoryID,
-      image: item.image,
-      maxClaim: item.maxClaim,
-    },
+export function PopupCreateNewItem() {
+  const form = useForm<CreateNewItemDto>({
+    resolver: zodResolver(CreateNewItemSchema),
   });
+  const [open, setOpen] = useState(false);
   const { ask } = useConfirm();
   const { data, isPending } = useCategories();
 
-  const itemUpdateMutation = useUpdateItem({
+  const itemCreateMutation = useCreateNewItem({
     onSuccess: () => {
-      toast.success("Cập nhật thành công");
+      toast.success("Thêm mới món đồ thành công");
+      form.reset();
+
+      setOpen(false);
     },
     onError: (err) => {
-      toast.error(err.message || "Lỗi hệ thống");
+      toast.error(err.message || "Lỗi hệ thống vui lòng thử lại sau");
     },
   });
-  const onSubmit = async (data: UpdateItemDto) => {
-    const res = await ask("Bạn có chắc chắn muốn cập nhật thông tin này?");
+  const onSubmit = async (data: CreateNewItemDto) => {
+    const res = await ask("Bạn có chắc chắn muốn thêm thông tin này?");
     if (res) {
-      itemUpdateMutation.mutate({ id: item.id, data });
+      itemCreateMutation.mutate(data);
     }
   };
   return (
-    <Dialog>
+    <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
         <Button variant={"outline"}>
-          <SquarePen />
+          Thêm món đồ <PlusCircle />
         </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-md max-h-[90vh] overflow-y-auto">
         <DialogHeader>
-          <DialogTitle>Cập nhật thông tin món đồ</DialogTitle>
+          <DialogTitle>Tạo mới thông tin món đồ</DialogTitle>
           <DialogDescription></DialogDescription>
         </DialogHeader>
         {isPending || !data ? (
@@ -88,6 +85,7 @@ export function PopupUpdateItem({ item }: { item: IItem }) {
               />
               <SelectForm
                 label="Danh mục"
+                placeholder="Chọn danh mục"
                 control={form.control}
                 data={data.categories.map((item) => {
                   return {

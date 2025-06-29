@@ -1,10 +1,10 @@
 import { Package2, Plus, Save, Upload, X } from "lucide-react";
-import React, { useState } from "react";
+import { useState } from "react";
 import { toast } from "sonner";
 import { useConfirm } from "use-confirm-hook";
 
-import ImagePreview from "@/components/categories/image-preview";
 import ViewCategory from "@/components/categories/view-category";
+import { Main } from "@/components/layout/main";
 import LoadingSpinner from "@/components/loading-spinner";
 import { Button } from "@/components/ui/button";
 import {
@@ -14,35 +14,34 @@ import {
   useUpdateCategory,
 } from "@/hooks/react-query-hooks/use-category";
 import { ICategory } from "@/types/models/category.type";
-import { Main } from "@/components/layout/main";
 
 const ListCategoriesPage = () => {
   const categoriesQuery = useCategories();
   const categoryMutation = useCreateCategory({
     onSuccess: () => {
-      toast.success("Thêm danh mục thành công");
+      toast.success("Thêm loại món đồ thành công");
     },
     onError: (error) => {
       console.log(error);
-      toast.error("Thêm danh mục thất bại");
+      toast.error("Thêm loại món đồ thất bại");
     },
   });
   const updateCategoryMutation = useUpdateCategory({
     onSuccess: () => {
-      toast.success("Cập nhật danh mục thành công");
+      toast.success("Cập nhật loại món đồ thành công");
     },
     onError: (error) => {
       console.log(error);
-      toast.error("Cập nhật danh mục thất bại");
+      toast.error("Cập nhật loại món đồ thất bại");
     },
   });
   const deleteCategoryMutation = useDeleteCategory({
     onSuccess: () => {
-      toast.success("Xóa danh mục thành công");
+      toast.success("Xóa loại món đồ thành công");
     },
     onError: (error) => {
       console.log(error);
-      toast.error("Xóa danh mục thất bại");
+      toast.error("Xóa loại món đồ thất bại");
     },
   });
   const { ask } = useConfirm();
@@ -124,7 +123,7 @@ const ListCategoriesPage = () => {
               className="bg-primary text-primary-foreground hover:bg-primary/90 flex transform items-center gap-2 rounded-full px-6 py-3 shadow-lg transition-all duration-200 hover:-translate-y-0.5 hover:shadow-xl"
             >
               <Plus size={20} />
-              Thêm Category
+              Thêm loại món đồ
             </button>
           </div>
 

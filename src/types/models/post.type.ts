@@ -11,6 +11,7 @@ export interface IPost {
   createdAt: string;
   description: string;
   images: string[];
+  isFeatured: boolean;
   tags: string[];
   info: string;
   content: string;

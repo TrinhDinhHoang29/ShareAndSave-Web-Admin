@@ -1,5 +1,13 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Check, Gift, Package, RotateCcw, Search } from "lucide-react";
+import {
+  Check,
+  Gift,
+  Heart,
+  Megaphone,
+  Package,
+  RotateCcw,
+  Search,
+} from "lucide-react";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 
 import {
@@ -47,6 +55,30 @@ const categories = [
     iconColor: "text-orange-600",
     selectedBg: "bg-orange-100",
     selectedBorder: "border-orange-500",
+  },
+  {
+    id: PostType.WANT_OLD_ITEM,
+    title: "Cần đồ cũ",
+    description: "Tìm kiếm đồ cũ mà bạn muốn nhận",
+    icon: Heart,
+    color: "pink",
+    bgColor: "bg-pink-50",
+    borderColor: "border-pink-200",
+    iconColor: "text-pink-600",
+    selectedBg: "bg-pink-100",
+    selectedBorder: "border-pink-500",
+  },
+  {
+    id: PostType.CAMPAIGN,
+    title: "Chiến dịch",
+    description: "Tổ chức hoặc tham gia các chiến dịch chia sẻ",
+    icon: Megaphone,
+    color: "indigo",
+    bgColor: "bg-indigo-50",
+    borderColor: "border-indigo-200",
+    iconColor: "text-indigo-600",
+    selectedBg: "bg-indigo-100",
+    selectedBorder: "border-indigo-500",
   },
   {
     id: PostType.OTHER,

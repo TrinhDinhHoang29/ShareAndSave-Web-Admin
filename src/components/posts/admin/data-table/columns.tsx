@@ -1,3 +1,4 @@
+import DeleteWithConfirm from "@/components/delete-with-confirm";
 import { PopupUpdatePost } from "@/components/posts/popup-update";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -5,7 +6,7 @@ import { useUpdatePost } from "@/hooks/react-query-hooks/use-post";
 import { IPost } from "@/types/models/post.type";
 import { PostStatus, PostType } from "@/types/status.type";
 import { ColumnDef, SortingState } from "@tanstack/react-table";
-import { ArrowUpDown, Trash2 } from "lucide-react";
+import { ArrowUpDown } from "lucide-react";
 import { toast } from "sonner";
 import { useConfirm } from "use-confirm-hook";
 
@@ -150,7 +151,7 @@ export const getColumns = (
     header: "Hành động",
     cell: ({ row }: any) => {
       const post = row.original as IPost;
-      const { description, title, images } = post;
+      const { description, title, images, isFeatured } = post;
       const { ask } = useConfirm();
       const postMutation = useUpdatePost({
         onSuccess: () => {
@@ -165,7 +166,13 @@ export const getColumns = (
         if (res) {
           postMutation.mutate({
             id: post.id,
-            data: { description, title, images, status: PostStatus.CANCEL },
+            data: {
+              description,
+              title,
+              images,
+              status: PostStatus.CANCEL,
+              isFeatured: isFeatured ? 1 : 0,
+            },
           });
         }
       };
@@ -180,9 +187,7 @@ export const getColumns = (
               Đóng
             </Button>
           )}
-          <Button variant={"outline"} onClick={() => onDelete(post.id)}>
-            <Trash2 />
-          </Button>
+          <DeleteWithConfirm onDelete={() => onDelete(post.id)} />
         </div>
       );
     },

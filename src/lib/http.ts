@@ -89,6 +89,8 @@ export const http = (version: number = 1): AxiosInstance => {
         });
       }
       // Trả lỗi khác
+      console.log(error.response);
+
       return Promise.reject({
         message: error.response?.data?.message.split(":")[0],
         status: error.response?.status,

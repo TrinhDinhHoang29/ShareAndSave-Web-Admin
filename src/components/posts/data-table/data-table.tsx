@@ -49,7 +49,7 @@ interface DataTablePropsWithPage<TData> {
   isPending: boolean;
   sorting: SortingState;
   setSorting: React.Dispatch<React.SetStateAction<SortingState>>;
-  handleDelete: (id: string) => Promise<void>;
+  handleDelete: (id: number) => Promise<void>;
   handleInterest: (id: number) => Promise<void>;
   handleDeleteInterest: (id: number) => Promise<void>;
   pagination: { pageIndex: number; pageSize: number };

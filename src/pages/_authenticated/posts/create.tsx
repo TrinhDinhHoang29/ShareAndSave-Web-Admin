@@ -29,7 +29,7 @@ const CreatePostPage = () => {
   const createPostMutation = useCreatePost({
     onSuccess: () => {
       toast.success("Tạo bài viết thành công");
-      navigate("/posts");
+      navigate("/posts/admin");
     },
     onError: (err) => {
       toast.error(err.message || "Lỗi hệ thống");
@@ -47,6 +47,10 @@ const CreatePostPage = () => {
         reward: finalData.reward,
         foundLocation: finalData.foundLocation,
         foundDate: finalData.foundDate,
+        startDate: finalData.startDate,
+        endDate: finalData.endDate,
+        location: finalData.location,
+        organizer: finalData.organizer,
       });
       const postData: CreatePostDto = {
         type: finalData.type,
@@ -56,7 +60,9 @@ const CreatePostPage = () => {
         oldItems: finalData.oldItems,
         newItems: finalData.newItems,
         info: info,
+        isFeatured: finalData.isFeatured,
       };
+      console.log("postData", postData);
       createPostMutation.mutate(postData);
     }
   };

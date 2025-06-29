@@ -5,7 +5,7 @@ import {
   useCreateInterest,
   useDeleteInterest,
 } from "@/hooks/react-query-hooks/use-interest";
-import { usePosts } from "@/hooks/react-query-hooks/use-post";
+import { useDeletePost, usePosts } from "@/hooks/react-query-hooks/use-post";
 import { useDeleteUser } from "@/hooks/react-query-hooks/use-users";
 import { Order } from "@/types/filter-api.type";
 import { PostOf, PostStatus, PostType } from "@/types/status.type";
@@ -58,7 +58,7 @@ const ListPostPage = () => {
   if (error) {
     toast.error(error?.message || "Lỗi");
   }
-  const deleteUserMutation = useDeleteUser({
+  const deleteUserMutation = useDeletePost({
     onSuccess: () => {
       toast.success("Xóa bài viết thành công");
     },
@@ -78,11 +78,8 @@ const ListPostPage = () => {
       deleteInterestMutation.mutate(id);
     }
   };
-  const handleDelete = async (id: string) => {
-    const res = await ask("Bạn có chất xóa bài viết này không?");
-    if (res) {
-      deleteUserMutation.mutate(id);
-    }
+  const handleDelete = async (id: number) => {
+    deleteUserMutation.mutate(id);
   };
   return (
     <Main>

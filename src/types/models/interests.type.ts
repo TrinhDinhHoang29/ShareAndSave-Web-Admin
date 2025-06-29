@@ -1,4 +1,4 @@
-import { InterestType, PostType } from "@/types/status.type";
+import { PostType } from "@/types/status.type";
 
 export interface IInterest {
   authorAvatar: string;

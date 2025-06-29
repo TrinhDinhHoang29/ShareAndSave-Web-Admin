@@ -1,5 +1,7 @@
 import { createItems, getItems, updateItem } from "@/apis/item.api";
+import { createNewItems } from "@/apis/post.api";
 import { CreateItemDto } from "@/schemas/items/create-item.schema";
+import { CreateNewItemDto } from "@/schemas/items/create-new-item.schema";
 import { UpdateItemDto } from "@/schemas/items/update-item.schema";
 import { IFilterApi } from "@/types/filter-api.type";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
@@ -51,6 +53,28 @@ export const useCreateItem = (config?: {
     onSettled: config?.onSettled,
   });
 };
+
+export const useCreateNewItem = (config?: {
+  onSuccess?: () => void;
+  onError?: (err: any) => void;
+  onSettled?: () => void;
+}) => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async (data: CreateNewItemDto) => {
+      const res = await createNewItems(data);
+      return res.data!;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: itemKeys.all });
+      config?.onSuccess?.();
+    },
+    onError: config?.onError,
+    onSettled: config?.onSettled,
+  });
+};
+
 export const useUpdateItem = (config?: {
   onSuccess?: () => void;
   onError?: (err: any) => void;

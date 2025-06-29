@@ -36,6 +36,7 @@ export function PopupUpdatePost({ post }: { post: IPost }) {
     form.setValue("description", postDetailQuery.data.post.description);
     form.setValue("status", postDetailQuery.data.post.status);
     form.setValue("images", postDetailQuery.data.post.images);
+    form.setValue("isFeatured", postDetailQuery.data.post.isFeatured ? 1 : 0);
   }
   const postUpdateMutation = useUpdatePost({
     onSuccess: () => {
@@ -76,12 +77,27 @@ export function PopupUpdatePost({ post }: { post: IPost }) {
                 name="title"
                 label="Tiêu đề bài viết"
               />
+
               <FormTextarea
                 control={form.control}
                 name="description"
                 label="Mô tả bài viết"
               />
-
+              <RadioGroupForm
+                control={form.control}
+                name="isFeatured"
+                label="Nổi bật"
+                data={[
+                  {
+                    value: 1,
+                    display: "Có",
+                  },
+                  {
+                    value: 0,
+                    display: "Không",
+                  },
+                ]}
+              />
               <RadioGroupForm
                 control={form.control}
                 name="status"

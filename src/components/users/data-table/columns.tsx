@@ -1,10 +1,11 @@
-import { ColumnDef, SortingState } from "@tanstack/react-table";
+import PopupShowGoodDeed from "@/components/good-deeds/popup-show-good-deed";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { IUser } from "@/types/models/user.type";
-import { ArrowUpDown, IdCard, Trash2 } from "lucide-react";
 import { PopupUpdateUser } from "@/components/users/popup-update";
+import { IUser } from "@/types/models/user.type";
 import { formatDate } from "@/utils/format-date";
+import { ColumnDef, SortingState } from "@tanstack/react-table";
+import { ArrowUpDown, Trash2 } from "lucide-react";
 
 export const getColumns = (
   onDelete: (id: string) => void,
@@ -63,7 +64,10 @@ export const getColumns = (
         </Button>
       );
     },
-    cell: ({ row }) => `${row.getValue("goodPoint")} điểm`,
+    cell: ({ row }) => {
+      const user = row.original as IUser;
+      return <PopupShowGoodDeed user={user} />;
+    },
   },
   {
     accessorKey: "phoneNumber",

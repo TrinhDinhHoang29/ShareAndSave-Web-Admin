@@ -8,7 +8,9 @@ export enum PostType {
   GIVE_AWAY_OLD_ITEM = 1,
   FOUND_ITEM = 2,
   SEEK_LOST_ITEM = 3,
-  OTHER = 4,
+  WANT_OLD_ITEM = 4,
+  CAMPAIGN = 5,
+  OTHER = 6,
 }
 export enum ClassifyImportInvoice {
   ALL = 0,
@@ -51,4 +53,9 @@ export enum AppointmentStatus {
 export enum PostOf {
   CLIENT = 1,
   ADMIN = 2,
+}
+export enum GoodDeedType {
+  GIVE_OLD_ITEM = 1,
+  GIVE_LOSE_ITEM = 2,
+  CAMPAIGN = 3,
 }

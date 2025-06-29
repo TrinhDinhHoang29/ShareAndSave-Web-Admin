@@ -35,7 +35,7 @@ const RadioGroupForm: FC<RadioGroupFormProps> = ({
           <FormControl>
             <RadioGroup
               onValueChange={field.onChange}
-              defaultValue={field.value.toString() ?? ""} // ✅ đảm bảo luôn có string
+              value={field.value !== undefined ? field.value.toString() : ""}
               className="flex items-center gap-16 space-y-1"
             >
               {data.map((item) => (

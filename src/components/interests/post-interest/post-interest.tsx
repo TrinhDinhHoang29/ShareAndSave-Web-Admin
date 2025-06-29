@@ -2,7 +2,7 @@ import { useDeleteInterest } from "@/hooks/react-query-hooks/use-interest";
 import { IInterest } from "@/types/models/interests.type";
 import { PostType } from "@/types/status.type";
 import { Clock, Heart, MessageCircle, Tag, User } from "lucide-react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 import { useConfirm } from "use-confirm-hook";
 

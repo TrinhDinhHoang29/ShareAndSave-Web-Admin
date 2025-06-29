@@ -4,6 +4,7 @@ import { Form } from "@/components/ui/form";
 import { FormDate } from "@/components/ui/form-date";
 import FormInput from "@/components/ui/form-input";
 import { MultiImageUpload } from "@/components/ui/multi-Image-upload";
+import { RadioGroupForm } from "@/components/ui/radio-group-form";
 import FormTextarea from "@/components/ui/textarea-form";
 import { FormData } from "@/pages/_authenticated/posts/create";
 import { CreateItemDto } from "@/schemas/items/create-item.schema";
@@ -101,7 +102,8 @@ const CreatePostStep3 = ({ onNext, onBack, formData }: Props) => {
                 label="Nhặt ở"
               />
             </>
-          ) : formData!.type === PostType.GIVE_AWAY_OLD_ITEM ? (
+          ) : formData!.type === PostType.GIVE_AWAY_OLD_ITEM ||
+            formData!.type === PostType.WANT_OLD_ITEM ? (
             <>
               <FormInput
                 control={form.control}
@@ -114,6 +116,30 @@ const CreatePostStep3 = ({ onNext, onBack, formData }: Props) => {
                 label="Tình trạng"
               />
             </>
+          ) : formData!.type === PostType.CAMPAIGN ? (
+            <>
+              {" "}
+              <FormDate
+                control={form.control}
+                name="startDate"
+                label="Ngày bắt đầu"
+              />
+              <FormDate
+                control={form.control}
+                name="endDate"
+                label="Ngày kết thúc"
+              />
+              <FormInput
+                control={form.control}
+                name="location"
+                label="Địa điểm"
+              />
+              <FormInput
+                control={form.control}
+                name="organizer"
+                label="Đơn vị tổ chức"
+              />
+            </>
           ) : (
             <></>
           )}
@@ -122,6 +148,21 @@ const CreatePostStep3 = ({ onNext, onBack, formData }: Props) => {
             control={form.control}
             name="description"
             label="Mô tả"
+          />
+          <RadioGroupForm
+            control={form.control}
+            name="isFeatured"
+            label="Nổi bật"
+            data={[
+              {
+                value: 1,
+                display: "Có",
+              },
+              {
+                value: 0,
+                display: "Không",
+              },
+            ]}
           />
           <MultiImageUpload
             control={form.control}

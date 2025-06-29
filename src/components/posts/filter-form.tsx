@@ -82,6 +82,12 @@ export function FilterForm({ onFilter }: any) {
                 <SelectItem value={PostType.SEEK_LOST_ITEM.toString()}>
                   Tìm kiếm đồ
                 </SelectItem>
+                <SelectItem value={PostType.WANT_OLD_ITEM.toString()}>
+                  Cần đồ cũ
+                </SelectItem>
+                <SelectItem value={PostType.CAMPAIGN.toString()}>
+                  Chuyến dịch
+                </SelectItem>
                 <SelectItem value={PostType.OTHER.toString()}>Khác</SelectItem>
               </SelectGroup>
             </SelectContent>

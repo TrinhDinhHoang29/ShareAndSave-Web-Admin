@@ -4,6 +4,7 @@ export interface IItem {
   name: string;
   description: string;
   image: string;
+  maxClaim: number;
   quantity: number;
   categoryName: string;
   createdAt: string;

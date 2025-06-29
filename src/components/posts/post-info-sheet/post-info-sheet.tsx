@@ -40,6 +40,10 @@ const getTypeText = (type: PostType) => {
       return "Tìm thấy đồ";
     case PostType.SEEK_LOST_ITEM:
       return "Tìm đồ thất lạc";
+    case PostType.WANT_OLD_ITEM:
+      return "Muốn nhận lại đồ cũ";
+    case PostType.CAMPAIGN:
+      return "Chiến dịch";
     case PostType.OTHER:
       return "Khác";
     default:
@@ -233,30 +237,18 @@ export default function PostInfoSheet({ post }: { post: IPost }) {
                     <div key={interest.id} className="flex items-center gap-3">
                       <Avatar className="h-8 w-8">
                         <AvatarImage
-                          src={interest.userAvatar}
-                          alt={interest.userName}
+                          src={interest["authorAvatar"]}
+                          alt={interest?.userName}
                         />
                         <AvatarFallback>
-                          {interest.userName.charAt(0)}
+                          {interest?.userName.charAt(0)}
                         </AvatarFallback>
                       </Avatar>
                       <div className="flex-1">
                         <p className="font-medium text-sm">
-                          {interest.userName}
+                          {interest?.userName}
                         </p>
                       </div>
-                      <Badge
-                        variant="outline"
-                        className={
-                          interest.status === "approved"
-                            ? "text-green-600"
-                            : "text-yellow-600"
-                        }
-                      >
-                        {interest.status === "approved"
-                          ? "Đã duyệt"
-                          : "Chờ duyệt"}
-                      </Badge>
                     </div>
                   ))}
                 </div>
