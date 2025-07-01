@@ -30,12 +30,14 @@ const PostFollowed = ({ title, interests, type }: IInterest) => {
     id,
     name,
     avatar,
+    interestId,
   }: {
     id: number;
     name: string;
     avatar: string;
+    interestId: number;
   }) => {
-    navigate(`/chats/${interests[0].id}`, {
+    navigate(`/chats/${interestId}`, {
       state: {
         user: {
           id,
@@ -126,6 +128,7 @@ const PostFollowed = ({ title, interests, type }: IInterest) => {
                       id: interest.userID,
                       name: interest.userName,
                       avatar: interest.userAvatar,
+                      interestId: interest.id,
                     })
                   }
                   className="flex items-center relative gap-2 px-4 py-2 rounded-full text-gray-500 bg-gray-50 border border-gray-200 hover:text-blue-600 hover:bg-blue-50 hover:border-blue-200 transition-all duration-300 transform hover:scale-105 shadow-sm hover:shadow-md"

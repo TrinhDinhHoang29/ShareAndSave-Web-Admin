@@ -63,6 +63,7 @@ export default function Chats() {
 
   const [currentMessage, setCurrentMessage] = useState<IMessage[]>([]);
   const [limit, setLimit] = useState(10);
+  console.log("params.interestId", params.interestId);
   const { data, isPending } = useMessages({
     interestID: Number(params.interestId),
     limit: limit,

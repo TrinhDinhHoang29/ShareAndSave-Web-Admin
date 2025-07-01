@@ -57,6 +57,7 @@ const TransactionDropDown = ({
         status,
       });
   };
+
   const toggleDropdown = () => {
     setIsOpen(!isOpen);
   };
@@ -118,8 +119,8 @@ const TransactionDropDown = ({
             </div>
           </div>
           <div className="flex items-center space-x-2">
-            {user.user?.id === receiverID ||
-              (status === TransactionStatus.PENDING ? (
+            {user.user?.id === receiverID &&
+              status === TransactionStatus.PENDING && (
                 <div className="flex gap-x-4">
                   <Button
                     onClick={() =>
@@ -138,20 +139,21 @@ const TransactionDropDown = ({
                     <CircleCheck /> Đồng ý
                   </Button>
                 </div>
-              ) : (
-                status === TransactionStatus.SUCCESS && (
-                  <div className="flex gap-x-4">
-                    <Button
-                      onClick={() =>
-                        handleUpdateTransaction(TransactionStatus.CANCELLED)
-                      }
-                      className="bg-red-600 text-white "
-                    >
-                      Hủy
-                    </Button>
-                  </div>
-                )
-              ))}
+              )}
+
+            {user.user?.id === receiverID &&
+              status === TransactionStatus.SUCCESS && (
+                <div className="flex gap-x-4">
+                  <Button
+                    onClick={() =>
+                      handleUpdateTransaction(TransactionStatus.CANCELLED)
+                    }
+                    className="bg-red-600 text-white "
+                  >
+                    Hủy
+                  </Button>
+                </div>
+              )}
 
             <button
               onClick={toggleDropdown}
