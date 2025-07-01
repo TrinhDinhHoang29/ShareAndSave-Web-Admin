@@ -7,12 +7,10 @@ import {
   useReactTable,
   VisibilityState,
 } from "@tanstack/react-table";
-import { Search, Settings, X } from "lucide-react";
+import { PlusCircle, Search, Settings, X } from "lucide-react";
 import React, { useState } from "react";
 
 import { getColumns } from "@/components/items/data-table/columns";
-import { PopupCreateNewItem } from "@/components/items/popup-create-new-item";
-import SheetDetailItem from "@/components/items/sheet-item-post";
 import LoadingSpinner from "@/components/loading-spinner";
 import { Button } from "@/components/ui/button";
 import {
@@ -40,6 +38,8 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { IItem } from "@/types/models/item.type";
+import SheetDetailItem from "@/components/items/sheet-item-post";
+import { PopupCreateNewItem } from "@/components/items/popup-create-new-item";
 
 interface DataTablePropsWithPage<TData> {
   data: TData[];

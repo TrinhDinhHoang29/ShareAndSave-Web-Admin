@@ -1,3 +1,12 @@
+import { Link } from "react-router-dom";
+import {
+  BadgeCheck,
+  Bell,
+  ChevronsUpDown,
+  CreditCard,
+  LogOut,
+  Sparkles,
+} from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
   DropdownMenu,
@@ -15,8 +24,6 @@ import {
   useSidebar,
 } from "@/components/ui/sidebar";
 import { useAuth } from "@/context/auth-context";
-import { BadgeCheck, ChevronsUpDown, LogOut } from "lucide-react";
-import { Link } from "react-router-dom";
 
 export function NavUser() {
   const { isMobile } = useSidebar();

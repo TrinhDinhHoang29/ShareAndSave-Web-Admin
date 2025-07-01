@@ -22,12 +22,12 @@ import { useState } from "react";
 
 const SettingsPage = () => {
   const [activeTab, setActiveTab] = useState("profile");
-  const [darkMode, _] = useState(false);
-  // const [notifications, setNotifications] = useState({
-  //   email: true,
-  //   push: false,
-  //   sms: true,
-  // });
+  const [darkMode, setDarkMode] = useState(false);
+  const [notifications, setNotifications] = useState({
+    email: true,
+    push: false,
+    sms: true,
+  });
   const [showPassword, setShowPassword] = useState(false);
   const [formData, setFormData] = useState({
     name: "John Doe",
@@ -43,21 +43,21 @@ const SettingsPage = () => {
     { id: 2, label: "Contact", url: "https://example.com/contact" },
   ]);
 
-  const handleInputChange = (field: any, value: any) => {
+  const handleInputChange = (field, value) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
   };
 
   const handleBannerUpload = (event: any) => {
     const file = event.target.files[0];
     if (file) {
-      setFormData((prev: any) => ({
+      setFormData((prev) => ({
         ...prev,
         bannerLogo: URL.createObjectURL(file),
       }));
     }
   };
 
-  const handleFooterLinkChange = (id: any, field: any, value: any) => {
+  const handleFooterLinkChange = (id, field, value) => {
     setFooterLinks((prev) =>
       prev.map((link) => (link.id === id ? { ...link, [field]: value } : link))
     );
@@ -70,7 +70,7 @@ const SettingsPage = () => {
     ]);
   };
 
-  const removeFooterLink = (id: any) => {
+  const removeFooterLink = (id) => {
     setFooterLinks((prev) => prev.filter((link) => link.id !== id));
   };
 

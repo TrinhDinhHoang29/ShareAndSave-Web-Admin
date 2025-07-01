@@ -76,9 +76,9 @@ export function DataTable<TData, TValue>({
   const [columnVisibility, setColumnVisibility] =
     React.useState<VisibilityState>({});
 
-  const [_selectedImportInvoice, setSelectedImportInvoice] =
+  const [selectedImportInvoice, setSelectedImportInvoice] =
     useState<IImportInvoice | null>(null);
-  const [_openSheet, setOpenSheet] = useState(false);
+  const [openSheet, setOpenSheet] = useState(false);
   // const postQuery = usePost(selectedUser?.id || 0);
 
   const columns = getColumns(

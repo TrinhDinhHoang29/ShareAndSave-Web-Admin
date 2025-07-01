@@ -37,6 +37,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { getColumns } from "@/components/warehouses/data-table/columns";
+import PopupWarehouseDetail from "@/components/warehouses/detail/popup-warehouse-detail";
 import { useWarehouse } from "@/hooks/react-query-hooks/use-warehouse";
 import { IWarehouse } from "@/types/models/warehouse.type";
 import { PostStatus, PostType } from "@/types/status.type";
@@ -79,8 +80,8 @@ export function DataTable<TData, TValue>({
   const [selectedWarehouse, setSelectedWarehouse] = useState<IWarehouse | null>(
     null
   );
+  const [open, setOpen] = useState(false);
   const warehouseQuery = useWarehouse(selectedWarehouse?.id || 0);
-  console.log(warehouseQuery);
   const columns = getColumns(
     handleDelete,
     sorting,

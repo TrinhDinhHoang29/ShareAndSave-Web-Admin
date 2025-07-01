@@ -7,7 +7,7 @@ import {
   useReactTable,
   VisibilityState,
 } from "@tanstack/react-table";
-import { Settings } from "lucide-react";
+import { PlusCircle, Settings } from "lucide-react";
 import React from "react";
 
 import { FilterForm } from "@/components/import-invoices/filter-form";
@@ -38,6 +38,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { IFilterTransaction } from "@/types/filter-api.type";
+import { Link } from "react-router-dom";
 
 interface DataTablePropsWithPage<TData> {
   data: TData[];

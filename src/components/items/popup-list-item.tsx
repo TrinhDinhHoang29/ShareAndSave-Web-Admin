@@ -1,6 +1,8 @@
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+
 import ItemCardList from "@/components/items/item-list";
 import LoadingSpinner from "@/components/loading-spinner";
-import { IOldItem } from "@/components/posts/multi-form/step-3";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -13,15 +15,24 @@ import {
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useCategories } from "@/hooks/react-query-hooks/use-category";
 import { useItems } from "@/hooks/react-query-hooks/use-item";
+import {
+  CreateItemDto,
+  CreateItemSchema,
+} from "@/schemas/items/create-item.schema";
 import { PlusCircle } from "lucide-react";
 import { useEffect, useState } from "react";
+import { IOldItem } from "@/components/posts/multi-form/step-3";
 
 export function PopupDisplayItem({
+  selectedItem,
   setSelectedItem,
 }: {
   selectedItem: IOldItem | null;
   setSelectedItem: React.Dispatch<React.SetStateAction<IOldItem | null>>;
 }) {
+  const form = useForm<CreateItemDto>({
+    resolver: zodResolver(CreateItemSchema),
+  });
   const [open, setOpen] = useState(false);
 
   const getCategoryQuery = useCategories();

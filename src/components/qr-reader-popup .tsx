@@ -3,7 +3,7 @@ import { useItemWarehouse } from "@/hooks/react-query-hooks/use-item-warehouses"
 import { IItemWarehouse } from "@/types/models/item-warehouse.type";
 import { WarehouseItemStatus } from "@/types/status.type";
 import { AlertCircle, Camera, ScanQrCodeIcon, X } from "lucide-react";
-import React, { useEffect, useState } from "react";
+import React, { use, useEffect, useState } from "react";
 import QrReader from "react-qr-reader";
 
 export interface QRReaderPopupProps {

@@ -29,7 +29,7 @@ export const FormDateHaveTime: FC<FormInputProps> = ({
   name,
   label,
 }) => {
-  const [_, setSelectedDate] = useState<Date | null>(null);
+  const [selectedDate, setSelectedDate] = useState<Date | null>(null);
   const [selectedTime, setSelectedTime] = useState<string>("");
 
   return (

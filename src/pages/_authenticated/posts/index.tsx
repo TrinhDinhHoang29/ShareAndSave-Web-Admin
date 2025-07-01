@@ -6,6 +6,7 @@ import {
   useDeleteInterest,
 } from "@/hooks/react-query-hooks/use-interest";
 import { useDeletePost, usePosts } from "@/hooks/react-query-hooks/use-post";
+import { useDeleteUser } from "@/hooks/react-query-hooks/use-users";
 import { Order } from "@/types/filter-api.type";
 import { PostOf, PostStatus, PostType } from "@/types/status.type";
 import { SortingState } from "@tanstack/react-table";
