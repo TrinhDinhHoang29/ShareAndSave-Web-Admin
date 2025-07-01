@@ -4,9 +4,8 @@ import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import PopDisplayQR from "@/components/warehouses/popup-display-qr";
 import { IItemWarehouse } from "@/types/models/item-warehouse.type";
-import { ITransaction } from "@/types/models/transaction.type";
 import { ColumnDef, SortingState } from "@tanstack/react-table";
-import { ArrowUpDown, Eye } from "lucide-react";
+import { ArrowUpDown } from "lucide-react";
 
 export const getColumns = (
   sorting: SortingState,

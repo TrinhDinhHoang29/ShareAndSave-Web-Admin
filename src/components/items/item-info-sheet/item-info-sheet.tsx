@@ -1,7 +1,7 @@
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { IItem } from "@/types/models/item.type";
-import { CalendarDays, Package, Tag, Hash, Clock, Grid3X3 } from "lucide-react";
+import { CalendarDays, Clock, Hash, Package, Tag } from "lucide-react";
 
 export default function ItemInfoSheet({ item }: { item: IItem }) {
   const formatDate = (dateString: string) => {

@@ -10,6 +10,8 @@ import {
 import { PlusCircle, Settings } from "lucide-react";
 import React, { useState } from "react";
 
+import { getColumns } from "@/components/export-invoices/data-table/columns";
+import { FilterForm } from "@/components/import-invoices/filter-form";
 import LoadingSpinner from "@/components/loading-spinner";
 import { Button } from "@/components/ui/button";
 import {
@@ -35,12 +37,8 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { IImportInvoice } from "@/types/models/import-invoice.type";
-import { PostStatus, PostType } from "@/types/status.type";
-import { Link } from "react-router-dom";
-import { FilterForm } from "@/components/import-invoices/filter-form";
-import { getColumns } from "@/components/export-invoices/data-table/columns";
 import { IExportInvoice } from "@/types/models/export-invoice.type";
+import { Link } from "react-router-dom";
 
 interface DataTablePropsWithPage<TData> {
   data: TData[];
@@ -73,9 +71,9 @@ export function DataTable<TData, TValue>({
   const [columnVisibility, setColumnVisibility] =
     React.useState<VisibilityState>({});
 
-  const [selectedImportInvoice, setSelectedImportInvoice] =
+  const [_selectedImportInvoice, setSelectedImportInvoice] =
     useState<IExportInvoice | null>(null);
-  const [openSheet, setOpenSheet] = useState(false);
+  const [_openSheet, setOpenSheet] = useState(false);
   // const postQuery = usePost(selectedUser?.id || 0);
 
   const columns = getColumns(

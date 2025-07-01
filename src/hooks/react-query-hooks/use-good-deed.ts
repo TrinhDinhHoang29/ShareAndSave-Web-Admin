@@ -1,11 +1,11 @@
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import {
   createGoodDeed,
   deleteGoodDeed,
   getGoodDeeds,
 } from "@/apis/good-deed.api";
-import { CreateGoodDeedDto } from "@/schemas/good-deeds/create-good-deed.schema";
 import { userKeys } from "@/hooks/react-query-hooks/use-users";
+import { CreateGoodDeedDto } from "@/schemas/good-deeds/create-good-deed.schema";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 // Chuẩn hóa keys: phân biệt từng user
 export const goodDeedKeys = {
@@ -59,7 +59,7 @@ export const useDeleteGoodDeed = (config?: {
       const res = await deleteGoodDeed(id);
       return res.data!;
     },
-    onSuccess: (_, id) => {
+    onSuccess: () => {
       // Không rõ API deleteGoodDeed trả về userId? Nếu có thì nên invalidate key của user đó.
       queryClient.invalidateQueries({ queryKey: goodDeedKeys.all });
       queryClient.invalidateQueries({ queryKey: userKeys.all });

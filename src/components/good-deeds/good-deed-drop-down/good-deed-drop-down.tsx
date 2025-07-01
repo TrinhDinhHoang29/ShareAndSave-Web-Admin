@@ -1,5 +1,4 @@
 import { Button } from "@/components/ui/button";
-import { useAuth } from "@/context/auth-context";
 import { useDeleteGoodDeed } from "@/hooks/react-query-hooks/use-good-deed";
 import { IGoodDeed } from "@/types/models/good-deed.type";
 import { GoodDeedType } from "@/types/status.type";
@@ -26,7 +25,6 @@ const GoodDeedDropDown = ({
   userName,
 }: IGoodDeed) => {
   const [isOpen, setIsOpen] = useState(false);
-  const user = useAuth();
   const deleteGoodDeedMutation = useDeleteGoodDeed({
     onSuccess() {
       toast.success(`Xóa việc tốt của ${userName} thành công`);
@@ -41,9 +39,7 @@ const GoodDeedDropDown = ({
     const res = await ask("Bạn có chắc chắn muốn cập nhật trạng thái này?");
     if (res) deleteGoodDeedMutation.mutate(id);
   };
-  const toggleDropdown = () => {
-    setIsOpen(!isOpen);
-  };
+
   return (
     <div className="border rounded-lg shadow-sm">
       {/* Header */}

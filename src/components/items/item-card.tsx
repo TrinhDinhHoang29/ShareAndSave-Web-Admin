@@ -1,5 +1,3 @@
-import { Check } from "lucide-react";
-
 const ItemCard = ({ item, onToggle }: any) => {
   return (
     <div

@@ -1,10 +1,8 @@
 import { IInterest } from "@/types/models/interests.type";
 import { PostType } from "@/types/status.type";
-import { IconNotification } from "@tabler/icons-react";
 import {
   ChevronDown,
   Clock,
-  MailWarning,
   MessageCircle,
   NewspaperIcon,
   User,
