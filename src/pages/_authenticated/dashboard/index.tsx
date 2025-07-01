@@ -11,10 +11,8 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { useAuth } from "@/context/auth-context";
 
 export default function Dashboard() {
-  const auth = useAuth();
   return (
     <>
       <Main>
