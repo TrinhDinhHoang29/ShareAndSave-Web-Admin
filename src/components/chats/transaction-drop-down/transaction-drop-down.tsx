@@ -3,7 +3,7 @@ import { useAuth } from "@/context/auth-context";
 import { useUpdateTransaction } from "@/hooks/react-query-hooks/use-transaction";
 import { ITransaction } from "@/types/models/transaction.type";
 import { DeliveryMethod, TransactionStatus } from "@/types/status.type";
-import { IconReload } from "@tabler/icons-react";
+import { IconCancel, IconReload } from "@tabler/icons-react";
 import {
   Ban,
   CheckCircle2,
@@ -29,18 +29,19 @@ const formatDate = (dateString: string) => {
   return date.toLocaleDateString("vi-VN");
 };
 const TransactionDropDown = ({
-  createdAt,
-  items,
-  status,
-  method,
-  receiverID,
-  id,
-}: ITransaction) => {
+  transaction,
+  handleSendTransaction,
+}: {
+  handleSendTransaction: () => void;
+  transaction: ITransaction;
+}) => {
+  const { createdAt, items, status, method, receiverID, id } = transaction;
   const [isOpen, setIsOpen] = useState(false);
   const user = useAuth();
   const updateTransactionMutation = useUpdateTransaction({
     onSuccess() {
       toast.success("Cập nhật thành công");
+      handleSendTransaction();
       setIsOpen(false);
     },
     onError(error) {
@@ -82,11 +83,11 @@ const TransactionDropDown = ({
                 <span className="text-gray-600"> {method}</span>
               </div>
               <div className="flex items-center gap-1 flex-shrink-0">
-                {status === TransactionStatus.CANCELLED ? (
+                {status === TransactionStatus.REJECTED ? (
                   <>
                     <span className="text-xs flex gap-2 items-center text-red-500 font-semibold px-3 py-1 bg-gradient-to-r from-red-50 to-red-100 rounded-full border border-red-100">
                       <Ban className="w-4 h-4  text-red-500 " />
-                      Đã hủy
+                      Từ chối
                     </span>
                   </>
                 ) : status === TransactionStatus.PENDING ? (
@@ -96,10 +97,15 @@ const TransactionDropDown = ({
                       Đang chờ
                     </span>
                   </>
-                ) : (
+                ) : status === TransactionStatus.SUCCESS ? (
                   <span className="text-xs text-green-500 flex gap-2 items-center font-semibold px-3 py-1 bg-gradient-to-r from-green-50 to-green-100 rounded-full border border-green-100">
                     <CheckCircle2 className="w-4 h-4  text-green-500 " />
                     Đã hoàn thành
+                  </span>
+                ) : (
+                  <span className="text-xs text-gray-500 flex gap-2 items-center font-semibold px-3 py-1 bg-gradient-to-r from-green-50 to-green-100 rounded-full border border-green-100">
+                    <IconCancel className="w-4 h-4  text-gray-500 " />
+                    Đã hủy
                   </span>
                 )}
               </div>
@@ -113,11 +119,11 @@ const TransactionDropDown = ({
           </div>
           <div className="flex items-center space-x-2">
             {user.user?.id === receiverID ||
-              (status === TransactionStatus.PENDING && (
+              (status === TransactionStatus.PENDING ? (
                 <div className="flex gap-x-4">
                   <Button
                     onClick={() =>
-                      handleUpdateTransaction(TransactionStatus.CANCELLED)
+                      handleUpdateTransaction(TransactionStatus.REJECTED)
                     }
                     className="bg-red-600 text-white "
                   >
@@ -132,7 +138,21 @@ const TransactionDropDown = ({
                     <CircleCheck /> Đồng ý
                   </Button>
                 </div>
+              ) : (
+                status === TransactionStatus.SUCCESS && (
+                  <div className="flex gap-x-4">
+                    <Button
+                      onClick={() =>
+                        handleUpdateTransaction(TransactionStatus.CANCELLED)
+                      }
+                      className="bg-red-600 text-white "
+                    >
+                      Hủy
+                    </Button>
+                  </div>
+                )
               ))}
+
             <button
               onClick={toggleDropdown}
               className="p-2 hover:bg-gray-100 rounded-lg"

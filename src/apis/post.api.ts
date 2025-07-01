@@ -50,7 +50,7 @@ const updatePost = async (
   const { isFeatured, ...dto } = updatePostDto;
   const response = await api.patch(`/posts/${id}`, {
     ...dto,
-    isFeatured: isFeatured,
+    isFeatured: isFeatured === 1 ? true : false,
   });
   return response.data;
 };

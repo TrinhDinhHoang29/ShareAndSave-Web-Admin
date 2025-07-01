@@ -87,7 +87,9 @@ export default function Chats() {
     accessToken,
     params.interestId,
     userAuth.user?.id as number,
-    setCurrentMessage
+    setCurrentMessage,
+    getTransactionsQuery.refetch,
+    interestQuery.refetch
   );
 
   const createTransactionMutation = useCreateTransaction({
@@ -95,6 +97,7 @@ export default function Chats() {
       setSelectedItem([]);
       setIsOpen(false);
       toast.success("Bạn hoàn tất tạo phiếu xác nhận");
+      handleSendTransaction();
     },
     onError: (error) => {
       toast.error(error.message || "Lỗi hệ thống vui lòng thử lại sau");
@@ -163,7 +166,19 @@ export default function Chats() {
       setInputMessage("");
     }
   };
-
+  const handleSendTransaction = () => {
+    if (socketRef.current?.readyState === WebSocket.OPEN) {
+      const msg = {
+        event: "send_transaction",
+        data: {
+          interestID: Number(params.interestId),
+          receiverID: user.id,
+        },
+      };
+      console.log("đã send");
+      socketRef.current.send(JSON.stringify(msg));
+    }
+  };
   return (
     <>
       <Main fixed>
@@ -250,6 +265,7 @@ export default function Chats() {
                     )}
                     {getTransactionsQuery.isSuccess && (
                       <PopupUpdateTransaction
+                        handleSendTransaction={handleSendTransaction}
                         transactions={getTransactionsQuery.data.transactions}
                       />
                     )}

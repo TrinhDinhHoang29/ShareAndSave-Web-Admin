@@ -7,7 +7,9 @@ export function useChatSocket(
   token: string | null,
   interestID: string | number | undefined,
   senderID: number,
-  setCurrentMessage: React.Dispatch<React.SetStateAction<IMessage[]>>
+  setCurrentMessage: React.Dispatch<React.SetStateAction<IMessage[]>>,
+  refetch: any,
+  interestQueryRefetch: any
 ) {
   const socketRef = useRef<WebSocket | null>(null);
   const updateReadMessageMutation = useUpdateReadMessages();
@@ -33,6 +35,8 @@ export function useChatSocket(
       const parsed =
         typeof event.data === "string" ? JSON.parse(event.data) : event.data;
       console.log(event);
+      console.log("parsed.event", parsed.event);
+
       if (
         parsed.event === "send_message_response" &&
         parsed.data.senderID !== senderID
@@ -45,9 +49,12 @@ export function useChatSocket(
           },
           ...prev,
         ]);
+      } else if (parsed.event == "send_transaction_response") {
+        console.log("vào đây");
+        refetch();
+        interestQueryRefetch();
       }
       updateReadMessageMutation.mutate({ interestId: Number(interestID) });
-      console.log(updateReadMessageMutation.data);
     };
 
     socket.onclose = () => console.log("[❌] Socket closed");

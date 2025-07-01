@@ -11,16 +11,9 @@ import {
 import { IFilterTransaction } from "@/types/filter-api.type";
 import { ITransaction } from "@/types/models/transaction.type";
 import { DeliveryMethod, TransactionStatus } from "@/types/status.type";
-import { IconReload } from "@tabler/icons-react";
+import { IconCancel, IconReload } from "@tabler/icons-react";
 import { ColumnDef, SortingState } from "@tanstack/react-table";
-import {
-  ArrowUpDown,
-  Ban,
-  CheckCircle2,
-  Eye,
-  Truck,
-  Users,
-} from "lucide-react";
+import { ArrowUpDown, Ban, CheckCircle2, Truck, Users } from "lucide-react";
 
 export const getColumns = (
   globalFilter: IFilterTransaction,
@@ -125,10 +118,15 @@ export const getColumns = (
                 Đang chờ
               </span>
             </>
-          ) : (
+          ) : status === TransactionStatus.SUCCESS ? (
             <span className="text-xs text-green-500 flex gap-2 items-center font-semibold px-3 py-1 bg-gradient-to-r from-green-50 to-green-100 rounded-full border border-green-100">
               <CheckCircle2 className="w-4 h-4  text-green-500 " />
               Đã hoàn thành
+            </span>
+          ) : (
+            <span className="text-xs text-gray-500 flex gap-2 items-center font-semibold px-3 py-1 bg-gradient-to-r from-green-50 to-green-100 rounded-full border border-green-100">
+              <IconCancel className="w-4 h-4  text-gray-500 " />
+              Đã hủy
             </span>
           )}
         </div>

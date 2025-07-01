@@ -60,7 +60,7 @@ export function PopupUpdatePost({ post }: { post: IPost }) {
       </DialogTrigger>
       <DialogContent className="sm:max-w-md max-h-[90vh] w-[800px] overflow-y-auto">
         <DialogHeader>
-          <DialogTitle>Cập nhật thông tin người dùng</DialogTitle>
+          <DialogTitle>Cập nhật thông tin bài viết</DialogTitle>
           <DialogDescription></DialogDescription>
         </DialogHeader>
         {/* userQuery.isPending || !userQuery.data */}

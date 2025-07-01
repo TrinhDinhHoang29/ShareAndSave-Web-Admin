@@ -38,7 +38,8 @@ export enum InterestType {
 export enum TransactionStatus {
   PENDING = 1,
   SUCCESS = 2,
-  CANCELLED = 3,
+  REJECTED = 3,
+  CANCELLED = 4,
 }
 export enum InterestStatus {}
 

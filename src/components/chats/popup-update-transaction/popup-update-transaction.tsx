@@ -9,26 +9,32 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { ITransaction } from "@/types/models/transaction.type";
+import { TransactionStatus } from "@/types/status.type";
 import { ArrowLeftRight } from "lucide-react";
 
 const PopupUpdateTransaction = ({
   transactions,
+  handleSendTransaction,
 }: {
   transactions: ITransaction[];
+  handleSendTransaction: () => void;
 }) => {
-  console.log("transactions", transactions);
+  const sumTransactionPending = transactions.reduce((pre, curr) => {
+    if (curr.status === TransactionStatus.PENDING) return pre + 1;
+    return pre;
+  }, 0);
   return (
     <Dialog>
       <DialogTrigger asChild>
         <Button variant="outline" size={"icon"} className="relative">
           <ArrowLeftRight />
-          {transactions.length > 0 && (
+          {sumTransactionPending > 0 && (
             <div className="flex justify-center absolute top-[-10px] right-[-10px]">
               <span className="relative flex h-4 w-4 items-center justify-center">
                 <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-red-400 opacity-75"></span>
                 <span className="absolute inline-flex h-full w-full rounded-full bg-red-500"></span>
                 <span className="absolute text-white text-xs font-bold">
-                  {transactions.length}
+                  {sumTransactionPending}
                 </span>
               </span>
             </div>
@@ -43,7 +49,10 @@ const PopupUpdateTransaction = ({
           </DialogDescription>
         </DialogHeader>
         {transactions.map((transaction) => (
-          <TransactionDropDown {...transaction} />
+          <TransactionDropDown
+            handleSendTransaction={handleSendTransaction}
+            transaction={transaction}
+          />
         ))}
       </DialogContent>
     </Dialog>
