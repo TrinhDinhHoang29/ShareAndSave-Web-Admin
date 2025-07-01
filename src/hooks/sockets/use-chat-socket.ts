@@ -1,7 +1,7 @@
 // hooks/use-chat-socket.ts
-import { useUpdateReadMessages } from "@/hooks/react-query-hooks/use-message";
-import { IMessage } from "@/types/models/message.type";
-import { useEffect, useRef } from "react";
+import { useUpdateReadMessages } from '@/hooks/react-query-hooks/use-message';
+import { IMessage } from '@/types/models/message.type';
+import { useEffect, useRef } from 'react';
 
 export function useChatSocket(
   token: string | null,
@@ -16,13 +16,13 @@ export function useChatSocket(
   useEffect(() => {
     if (!token || !interestID) return;
 
-    const socket = new WebSocket(`ws://34.142.168.171:8001/chat`, token);
+    const socket = new WebSocket(`wss://shareandsave.io.vn/socketblablablablobloblo12345678/chat`, token);
     socketRef.current = socket;
 
     socket.onopen = () => {
-      console.log("[✅] Connected to server chat");
+      console.log('[✅] Connected to server chat');
       const joinMsg = {
-        event: "join_room",
+        event: 'join_room',
         data: {
           interestID: Number(interestID),
         },
@@ -32,15 +32,11 @@ export function useChatSocket(
     };
 
     socket.onmessage = (event) => {
-      const parsed =
-        typeof event.data === "string" ? JSON.parse(event.data) : event.data;
+      const parsed = typeof event.data === 'string' ? JSON.parse(event.data) : event.data;
       console.log(event);
-      console.log("parsed.event", parsed.event);
+      console.log('parsed.event', parsed.event);
 
-      if (
-        parsed.event === "send_message_response" &&
-        parsed.data.senderID !== senderID
-      ) {
+      if (parsed.event === 'send_message_response' && parsed.data.senderID !== senderID) {
         setCurrentMessage((prev) => [
           {
             message: parsed.data.message,
@@ -49,22 +45,22 @@ export function useChatSocket(
           },
           ...prev,
         ]);
-      } else if (parsed.event == "send_transaction_response") {
-        console.log("vào đây");
+      } else if (parsed.event == 'send_transaction_response') {
+        console.log('vào đây');
         refetch();
         interestQueryRefetch();
       }
       updateReadMessageMutation.mutate({ interestId: Number(interestID) });
     };
 
-    socket.onclose = () => console.log("[❌] Socket closed");
-    socket.onerror = (err) => console.error("[⚠️] Socket error", err);
+    socket.onclose = () => console.log('[❌] Socket closed');
+    socket.onerror = (err) => console.error('[⚠️] Socket error', err);
 
     return () => {
       if (socketRef.current?.readyState === WebSocket.OPEN) {
         // <-- This is important
         const msg = {
-          event: "left_room",
+          event: 'left_room',
           data: {
             interestID: Number(interestID),
           },
