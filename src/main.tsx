@@ -24,7 +24,7 @@ const queryClient = new QueryClient({
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <QueryClientProvider client={queryClient}>
-      <BrowserRouter basename="/apiblablablablobloblo12345678/api/v1/">
+      <BrowserRouter basename="/apiblablablablobloblo12345678">
         <AuthProvider>
           <ThemeProvider defaultTheme="light" storageKey="vite-ui-theme">
             <FontProvider>
