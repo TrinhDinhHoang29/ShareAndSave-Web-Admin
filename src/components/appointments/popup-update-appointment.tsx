@@ -7,7 +7,6 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Form } from "@/components/ui/form";
-import { FormDate } from "@/components/ui/form-date";
 import { FormDateHaveTime } from "@/components/ui/form-date-have-time";
 import { useUpdateAppointment } from "@/hooks/react-query-hooks/use-appointment";
 import {

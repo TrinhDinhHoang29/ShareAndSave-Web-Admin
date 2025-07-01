@@ -1,6 +1,5 @@
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import PopDisplayQR from "@/components/warehouses/popup-display-qr";
 import { IWarehouse } from "@/types/models/warehouse.type";
 import { ClassifyImportInvoice } from "@/types/status.type";
 import { ColumnDef, SortingState } from "@tanstack/react-table";
@@ -11,7 +10,7 @@ export const getColumns = (
   onDelete: (id: string) => void,
   sorting: SortingState,
   setSorting: React.Dispatch<React.SetStateAction<SortingState>>,
-  setSelectedWarehouse: (warehouse: IWarehouse) => void
+  _: (warehouse: IWarehouse) => void
 ): ColumnDef<IWarehouse>[] => [
   {
     accessorKey: "SKU",

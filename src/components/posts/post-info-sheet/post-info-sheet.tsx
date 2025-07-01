@@ -238,15 +238,15 @@ export default function PostInfoSheet({ post }: { post: IPost }) {
                       <Avatar className="h-8 w-8">
                         <AvatarImage
                           src={interest["authorAvatar"]}
-                          alt={interest?.userName}
+                          alt={(interest as any).userName}
                         />
                         <AvatarFallback>
-                          {interest?.userName.charAt(0)}
+                          {(interest as any).userName.charAt(0)}
                         </AvatarFallback>
                       </Avatar>
                       <div className="flex-1">
                         <p className="font-medium text-sm">
-                          {interest?.userName}
+                          {(interest as any).userName}
                         </p>
                       </div>
                     </div>
