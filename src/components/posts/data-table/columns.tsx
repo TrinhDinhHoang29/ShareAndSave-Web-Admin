@@ -175,6 +175,10 @@ export const getColumns = (
         <Badge className="bg-amber-600/10 dark:bg-amber-600/20 hover:bg-amber-600/10 text-amber-500 border-amber-600/60 shadow-none rounded-full">
           Chờ duyệt
         </Badge>
+      ) : value === PostStatus.CANCEL ? (
+        <Badge className="bg-red-600/10 dark:bg-red-600/20 hover:bg-red-600/10 text-red-500 border-red-600/60 shadow-none rounded-full">
+          Đã đóng
+        </Badge>
       ) : (
         <Badge className="bg-red-600/10 dark:bg-red-600/20 hover:bg-red-600/10 text-red-500 border-red-600/60 shadow-none rounded-full">
           Từ chối
