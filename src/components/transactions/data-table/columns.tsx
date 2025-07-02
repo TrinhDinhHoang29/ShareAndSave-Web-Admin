@@ -93,6 +93,9 @@ export const getColumns = (
             <SelectItem value={TransactionStatus.PENDING.toString()}>
               Đang xử lý
             </SelectItem>
+            <SelectItem value={TransactionStatus.REJECTED.toString()}>
+              Từ chối
+            </SelectItem>
             <SelectItem value={TransactionStatus.CANCELLED.toString()}>
               Đã hủy
             </SelectItem>
@@ -102,13 +105,14 @@ export const getColumns = (
     ),
     cell: ({ row }) => {
       const status = row.getValue("status") as TransactionStatus;
+      console.log(status);
       return (
         <div className="flex items-center gap-1 flex-shrink-0">
-          {status === TransactionStatus.CANCELLED ? (
+          {status === TransactionStatus.REJECTED ? (
             <>
               <span className="text-xs flex gap-2 items-center text-red-500 font-semibold px-3 py-1 bg-gradient-to-r from-red-50 to-red-100 rounded-full border border-red-100">
                 <Ban className="w-4 h-4  text-red-500 " />
-                Đã hủy
+                Từ chối
               </span>
             </>
           ) : status === TransactionStatus.PENDING ? (

@@ -13,7 +13,7 @@ export function useNotificationSocket() {
 
   useEffect(() => {
     if (!token) return;
-    const socket = new WebSocket(`ws://34.142.168.171:8001/chat-noti`, token);
+    const socket = new WebSocket(`wss://shareandsave.io.vn/socketblablablablobloblo12345678/chat-noti`, token);
     socketRef.current = socket;
 
     socket.onopen = () => {

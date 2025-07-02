@@ -15,9 +15,11 @@ import { ArrowLeftRight } from "lucide-react";
 const PopupUpdateTransaction = ({
   transactions,
   handleSendTransaction,
+  authorID,
 }: {
   transactions: ITransaction[];
   handleSendTransaction: () => void;
+  authorID: number;
 }) => {
   const sumTransactionPending = transactions.reduce((pre, curr) => {
     if (curr.status === TransactionStatus.PENDING) return pre + 1;
@@ -52,6 +54,7 @@ const PopupUpdateTransaction = ({
           <TransactionDropDown
             handleSendTransaction={handleSendTransaction}
             transaction={transaction}
+            authorID={authorID}
           />
         ))}
       </DialogContent>

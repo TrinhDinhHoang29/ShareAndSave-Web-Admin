@@ -90,6 +90,10 @@ export const getColumns = (
         ? "Gửi lại đồ cũ"
         : typePost === PostType.SEEK_LOST_ITEM
         ? "Tìm kiếm đồ"
+        : typePost === PostType.CAMPAIGN
+        ? "Chuyến dịch"
+        : typePost === PostType.WANT_OLD_ITEM
+        ? "Muốn nhận đồ cũ"
         : "Khác";
     },
   },

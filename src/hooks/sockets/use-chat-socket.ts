@@ -16,7 +16,10 @@ export function useChatSocket(
   useEffect(() => {
     if (!token || !interestID) return;
 
-    const socket = new WebSocket(`ws://34.142.168.171:8001/chat`, token);
+    const socket = new WebSocket(
+      `wss://shareandsave.io.vn/socketblablablablobloblo12345678/chat`,
+      token
+    );
     socketRef.current = socket;
 
     socket.onopen = () => {

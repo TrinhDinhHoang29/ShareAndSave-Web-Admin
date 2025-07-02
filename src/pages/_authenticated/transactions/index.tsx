@@ -31,10 +31,11 @@ const ListTransactionsPage = () => {
       <div className="">
         <div className="mb-6">
           <h1 className="text-2xl dark:text-white font-bold text-gray-900">
-            Danh sách phiếu nhập
+            Danh sách giao dịch
           </h1>
           <p className="text-gray-500 mt-1  dark:text-white">
-            Quản lý tất cả phiếu nhập của hệ thống
+            Quản lý tất cả phiếu giao dịch của hệ thống, phòng tránh các trường
+            hợp giả mạo và lạm dụng nhầm chuộc lợi
           </p>
         </div>
         {/* <StatusSummary /> */}

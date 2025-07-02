@@ -265,6 +265,7 @@ export default function Chats() {
                     )}
                     {getTransactionsQuery.isSuccess && (
                       <PopupUpdateTransaction
+                        authorID={interestQuery.data.interest.authorID}
                         handleSendTransaction={handleSendTransaction}
                         transactions={getTransactionsQuery.data.transactions}
                       />

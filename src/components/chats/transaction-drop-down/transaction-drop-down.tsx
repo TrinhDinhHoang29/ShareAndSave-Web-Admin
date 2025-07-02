@@ -31,13 +31,17 @@ const formatDate = (dateString: string) => {
 const TransactionDropDown = ({
   transaction,
   handleSendTransaction,
+  authorID,
 }: {
   handleSendTransaction: () => void;
   transaction: ITransaction;
+  authorID: number;
 }) => {
+  console.log("transaction---", transaction);
   const { createdAt, items, status, method, receiverID, id } = transaction;
   const [isOpen, setIsOpen] = useState(false);
   const user = useAuth();
+  console.log("user?.user?.id", user?.user?.id);
   const updateTransactionMutation = useUpdateTransaction({
     onSuccess() {
       toast.success("Cập nhật thành công");
@@ -119,7 +123,7 @@ const TransactionDropDown = ({
             </div>
           </div>
           <div className="flex items-center space-x-2">
-            {user.user?.id === receiverID &&
+            {user.user?.id === authorID &&
               status === TransactionStatus.PENDING && (
                 <div className="flex gap-x-4">
                   <Button
@@ -141,7 +145,7 @@ const TransactionDropDown = ({
                 </div>
               )}
 
-            {user.user?.id === receiverID &&
+            {user.user?.id === authorID &&
               status === TransactionStatus.SUCCESS && (
                 <div className="flex gap-x-4">
                   <Button
