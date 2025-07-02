@@ -1,9 +1,14 @@
-import { getMessages, updateReadMessage } from "@/apis/chat.api";
+import {
+  countUnReadMessage,
+  getMessages,
+  updateReadMessage,
+} from "@/apis/chat.api";
 import { IFilterChat } from "@/types/filter-api.type";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 export const messageKeys = {
   all: ["messages"] as const,
+
   list: (params: IFilterChat) =>
     [
       "messages",
@@ -12,7 +17,7 @@ export const messageKeys = {
       params.search ?? "",
       params.limit ?? 20,
     ] as const,
-  detail: (id: string) => ["messages", "detail", id] as const,
+  unread: () => ["messages", "unread"] as const,
 };
 
 export const useMessages = (params: IFilterChat) => {
@@ -46,6 +51,17 @@ export const useUpdateReadMessages = (config?: {
     },
     onError: config?.onError,
     onSettled: config?.onSettled,
+  });
+};
+
+export const useCountUnReadMessages = () => {
+  return useQuery({
+    queryKey: messageKeys.unread(),
+    queryFn: async () => {
+      const res = await countUnReadMessage();
+      return res.data!;
+    },
+    staleTime: 6 * 1000, // 5 phút,
   });
 };
 // export const useUpdateItem = (config?: {

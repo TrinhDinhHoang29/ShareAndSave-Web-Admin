@@ -27,4 +27,11 @@ const updateReadMessage = async ({
   const response = await api.patch(`/messages/${interestId}`);
   return response.data;
 };
-export { getMessages, updateReadMessage };
+
+const countUnReadMessage = async (): Promise<
+  IResponseApi<{ unreadMessageCount: number }>
+> => {
+  const response = await api.get(`/interests/unread-count`);
+  return response.data;
+};
+export { getMessages, updateReadMessage, countUnReadMessage };

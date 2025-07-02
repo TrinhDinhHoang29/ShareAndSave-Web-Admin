@@ -6,7 +6,7 @@ import { getAccessToken } from "@/lib/token";
 import { useQueryClient } from "@tanstack/react-query";
 import { useEffect, useRef } from "react";
 
-export function useNotificationSocket() {
+export function useChatNotificationSocket() {
   const socketRef = useRef<WebSocket | null>(null);
   const token = getAccessToken();
   const auth = useAuth();

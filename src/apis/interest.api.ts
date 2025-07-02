@@ -32,8 +32,7 @@ const getInterests = async ({
       type,
     },
   });
-  console.log("type of interests", type);
-  console.log("getInterests response", response.data);
+
   return response.data;
 };
 const getInterest = async (

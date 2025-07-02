@@ -9,15 +9,18 @@ import {
   SidebarRail,
 } from "@/components/ui/sidebar";
 import { sidebarData } from "./data/sidebar-data";
+import { useCountUnReadMessages } from "@/hooks/react-query-hooks/use-message";
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+  const { data } = useCountUnReadMessages();
+  const dataSide = sidebarData(data?.unreadMessageCount || 0);
   return (
     <Sidebar collapsible="icon" variant="floating" {...props}>
       <SidebarHeader>
-        <TeamSwitcher teams={sidebarData.teams} />
+        <TeamSwitcher teams={dataSide.teams} />
       </SidebarHeader>
       <SidebarContent>
-        {sidebarData.navGroups.map((props) => (
+        {dataSide.navGroups.map((props) => (
           <NavGroup key={props.title} {...props} />
         ))}
       </SidebarContent>

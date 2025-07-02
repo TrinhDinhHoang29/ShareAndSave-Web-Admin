@@ -37,7 +37,6 @@ export function useChatSocket(
     socket.onmessage = (event) => {
       const parsed =
         typeof event.data === "string" ? JSON.parse(event.data) : event.data;
-      console.log("parsed.event", event.data);
 
       if (
         parsed.event === "send_message_response" &&
