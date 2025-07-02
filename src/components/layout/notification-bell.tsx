@@ -190,7 +190,7 @@ const NotificationBell = () => {
 
   const toggleDropdown = () => setIsOpen(!isOpen);
 
-  const markAsRead = (id: number) => {
+  const markAsRead = (_id: number) => {
     refetch();
   };
 
@@ -198,7 +198,7 @@ const NotificationBell = () => {
     refetch();
   };
 
-  const deleteNotification = (id: number) => {
+  const deleteNotification = (_id: number) => {
     refetch();
   };
 
