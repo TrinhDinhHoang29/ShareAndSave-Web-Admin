@@ -38,10 +38,13 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { usePost } from "@/hooks/react-query-hooks/use-post";
+import { usePost, useUpdatePost } from "@/hooks/react-query-hooks/use-post";
 import { IPost } from "@/types/models/post.type";
 import { PostStatus, PostType } from "@/types/status.type";
 import { Link } from "react-router-dom";
+import { useConfirm } from "use-confirm-hook";
+import { UpdatePostDto } from "@/schemas/posts/update-post.schema";
+import { toast } from "sonner";
 
 interface DataTablePropsWithPage<TData> {
   data: TData[];
@@ -86,7 +89,29 @@ export function DataTable<TData, TValue>({
   const [openSheet, setOpenSheet] = useState(false);
 
   const postQuery = usePost(selectedPost?.id || 0);
+  const { ask } = useConfirm();
+  const postUpdateMutation = useUpdatePost({
+    onSuccess: () => {
+      toast.success("Chỉnh sửa bài viết thành công");
+    },
+    onError: (error) => {
+      toast.error(error.message || "Lỗi hệ thống vui lòng thử lại sau");
+    },
+  });
+  const onUpdateFeature = async ({
+    id,
+    updatePostDto,
+  }: {
+    id: number;
+    updatePostDto: UpdatePostDto;
+  }) => {
+    const res = await ask("Bạn có chắc sẽ lưu lại thay đổi này");
+    if (res) {
+      postUpdateMutation.mutate({ id, data: updatePostDto });
+    }
+  };
   const columns = getColumns(
+    onUpdateFeature,
     handleInterest,
     handleDelete,
     sorting,
@@ -253,7 +278,7 @@ export function DataTable<TData, TValue>({
                 }
                 disabled={pagination.pageIndex === 0}
               >
-                Previous
+                Trang trước
               </Button>
 
               <Button
@@ -267,7 +292,7 @@ export function DataTable<TData, TValue>({
                 }
                 disabled={pagination.pageIndex + 1 >= totalPage}
               >
-                Next
+                Trang sau
               </Button>
             </div>
           </div>

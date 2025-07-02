@@ -3,6 +3,7 @@ import { PopupUpdatePost } from "@/components/posts/popup-update";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { useUpdatePost } from "@/hooks/react-query-hooks/use-post";
+import { UpdatePostDto } from "@/schemas/posts/update-post.schema";
 import { IPost } from "@/types/models/post.type";
 import { PostStatus, PostType } from "@/types/status.type";
 import { ColumnDef, SortingState } from "@tanstack/react-table";
@@ -11,6 +12,13 @@ import { toast } from "sonner";
 import { useConfirm } from "use-confirm-hook";
 
 export const getColumns = (
+  onUpdateFeature: ({
+    updatePostDto,
+    id,
+  }: {
+    updatePostDto: UpdatePostDto;
+    id: number;
+  }) => void,
   onDelete: (id: number) => void,
   sorting: SortingState,
   setSorting: React.Dispatch<React.SetStateAction<SortingState>>,
@@ -77,7 +85,44 @@ export const getColumns = (
         </Button>
       );
     },
+    cell: ({ row }) => {
+      const post = row.original as IPost;
+
+      return (
+        <div className="w-40 overflow-hidden whitespace-nowrap text-ellipsis">
+          <span>{post.title}</span>
+        </div>
+      );
+    },
     enableSorting: true,
+  },
+  {
+    accessorKey: "isFeatured",
+    header: "Nổi bật",
+    cell: ({ row }) => {
+      const { description, images, isFeatured, status, title, id } =
+        row.original as IPost;
+      const convertIsFeatured = isFeatured ? 0 : 1;
+      return (
+        <Button
+          variant="outline"
+          onClick={() =>
+            onUpdateFeature({
+              id,
+              updatePostDto: {
+                description,
+                images,
+                status,
+                title,
+                isFeatured: convertIsFeatured,
+              },
+            })
+          }
+        >
+          {isFeatured ? `Có` : `Không`}
+        </Button>
+      );
+    },
   },
   {
     accessorKey: "type",

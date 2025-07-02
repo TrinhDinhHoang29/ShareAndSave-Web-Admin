@@ -57,13 +57,13 @@ const PostFollowed = ({ title, interests, type }: IInterest) => {
     >
       {/* Header */}
       <div className="bg-gray-100 p-4 border-b">
-        <div className="flex items-center justify-between">
+        <div className="flex items-center justify-between gap-x-6">
           <div className="flex items-center space-x-3">
             {/* Orange icon */}
             <div className="p-4 border rounded-full shadow-md ">
               <NewspaperIcon />
             </div>
-            <div className="flex gap-x-2">
+            <div className="flex gap-x-2 items-center">
               <div className="text-lg font-semibold text-gray-900">{title}</div>
 
               <div className="flex items-center gap-1 flex-shrink-0">

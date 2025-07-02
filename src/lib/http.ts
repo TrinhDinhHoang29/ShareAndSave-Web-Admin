@@ -74,7 +74,7 @@ export const http = (version: number = 1): AxiosInstance => {
         } catch (refreshError) {
           processQueue(refreshError, null);
           localStorage.clear();
-          window.location.href = "/login";
+          window.location.href = "/adminblablablablobloblo12345678/login";
           return Promise.reject(refreshError);
         } finally {
           isRefreshing = false;

@@ -37,8 +37,7 @@ const TransactionDropDown = ({
   transaction: ITransaction;
   authorID: number;
 }) => {
-  console.log("transaction---", transaction);
-  const { createdAt, items, status, method, receiverID, id } = transaction;
+  const { createdAt, items, status, method, id } = transaction;
   const [isOpen, setIsOpen] = useState(false);
   const user = useAuth();
   console.log("user?.user?.id", user?.user?.id);

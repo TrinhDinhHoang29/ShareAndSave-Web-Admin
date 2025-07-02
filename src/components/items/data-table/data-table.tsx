@@ -288,7 +288,7 @@ export function DataTable<TData, TValue>({
                 }
                 disabled={pagination.pageIndex === 0}
               >
-                Previous
+                Trang trước
               </Button>
 
               <Button
@@ -302,7 +302,7 @@ export function DataTable<TData, TValue>({
                 }
                 disabled={pagination.pageIndex + 1 >= totalPage}
               >
-                Next
+                Trang sau
               </Button>
             </div>
           </div>

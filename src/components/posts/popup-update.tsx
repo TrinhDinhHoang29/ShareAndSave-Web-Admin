@@ -40,7 +40,7 @@ export function PopupUpdatePost({ post }: { post: IPost }) {
   }
   const postUpdateMutation = useUpdatePost({
     onSuccess: () => {
-      toast.success("Chỉnh sửa thông bài viết dùng thành công");
+      toast.success("Chỉnh sửa thông tin bài viết thành công");
       form.reset();
     },
     onError: (error) => {

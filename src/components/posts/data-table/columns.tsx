@@ -2,12 +2,20 @@ import DeleteWithConfirm from "@/components/delete-with-confirm";
 import { PopupUpdatePost } from "@/components/posts/popup-update";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { UpdatePostDto } from "@/schemas/posts/update-post.schema";
 import { IPost } from "@/types/models/post.type";
 import { PostStatus, PostType } from "@/types/status.type";
 import { ColumnDef, SortingState } from "@tanstack/react-table";
 import { ArrowUpDown, Heart } from "lucide-react";
 
 export const getColumns = (
+  onUpdateFeature: ({
+    updatePostDto,
+    id,
+  }: {
+    updatePostDto: UpdatePostDto;
+    id: number;
+  }) => void,
   onInterest: (id: number) => void,
   onDelete: (id: number) => void,
   sorting: SortingState,
@@ -39,24 +47,10 @@ export const getColumns = (
     },
     cell: ({ row }) => {
       const post = row.original as IPost;
-      const isFeatured = post.isFeatured;
-
       return (
         <Button
           variant="link"
-          className={`p-0 text-left font-medium hover:underline ${
-            isFeatured
-              ? "text-red-500 font-bold animate-pulse shadow-red-500/50 drop-shadow-lg"
-              : "text-black dark:text-white"
-          }`}
-          style={
-            isFeatured
-              ? {
-                  textShadow:
-                    "0 0 8px #ef4444, 0 0 15px #dc2626, 0 0 20px #b91c1c",
-                }
-              : {}
-          }
+          className={`p-0 text-left font-medium hover:underline`}
           onClick={() => {
             setSelectedPost(post);
             setOpenSheet(true);
@@ -92,6 +86,34 @@ export const getColumns = (
       );
     },
     enableSorting: true,
+  },
+  {
+    accessorKey: "isFeatured",
+    header: "Nổi bật",
+    cell: ({ row }) => {
+      const { description, images, isFeatured, status, title, id } =
+        row.original as IPost;
+      const convertIsFeatured = isFeatured ? 0 : 1;
+      return (
+        <Button
+          variant="outline"
+          onClick={() =>
+            onUpdateFeature({
+              id,
+              updatePostDto: {
+                description,
+                images,
+                status,
+                title,
+                isFeatured: convertIsFeatured,
+              },
+            })
+          }
+        >
+          {isFeatured ? `Có` : `Không`}
+        </Button>
+      );
+    },
   },
   {
     accessorKey: "type",

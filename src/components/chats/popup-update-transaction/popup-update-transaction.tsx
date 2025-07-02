@@ -50,13 +50,19 @@ const PopupUpdateTransaction = ({
             Bạn có thể xem và cập nhật giao dịch của mình
           </DialogDescription>
         </DialogHeader>
-        {transactions.map((transaction) => (
-          <TransactionDropDown
-            handleSendTransaction={handleSendTransaction}
-            transaction={transaction}
-            authorID={authorID}
-          />
-        ))}
+        {transactions.length <= 0 ? (
+          <div className=" py-20 text-center border-dashed border-2 rounded-2xl text-lg text-gray-400">
+            Không có giao dịch nào
+          </div>
+        ) : (
+          transactions.map((transaction) => (
+            <TransactionDropDown
+              handleSendTransaction={handleSendTransaction}
+              transaction={transaction}
+              authorID={authorID}
+            />
+          ))
+        )}
       </DialogContent>
     </Dialog>
   );

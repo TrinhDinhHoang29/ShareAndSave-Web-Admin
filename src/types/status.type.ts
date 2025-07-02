@@ -60,3 +60,11 @@ export enum GoodDeedType {
   GIVE_LOSE_ITEM = 2,
   CAMPAIGN = 3,
 }
+export enum TargetTypeNotification {
+  TRANSACTION = "transaction",
+  APPOINTMENT = "appointment",
+}
+export enum TypeNotification {
+  NORMAL = "normal",
+  SYSTEM = "system",
+}
