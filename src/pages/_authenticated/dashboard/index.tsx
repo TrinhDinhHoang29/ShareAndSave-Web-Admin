@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Overview } from "@/components/dashboard/overview";
 import { RecentSales } from "@/components/dashboard/recent-sales";
 import { Main } from "@/components/layout/main";
+import LoadingSpinner from "@/components/loading-spinner";
 import {
   Card,
   CardContent,
@@ -18,16 +19,15 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Select } from "@radix-ui/react-select";
-import { useState } from "react";
 import { useAllStatistics } from "@/hooks/react-query-hooks/use-statisitc";
-import LoadingSpinner from "@/components/loading-spinner";
+import { Select } from "@radix-ui/react-select";
 import {
   IconArrowsLeftRight,
   IconBuildingWarehouse,
   IconPencil,
   IconUser,
 } from "@tabler/icons-react";
+import { useState } from "react";
 
 export default function Dashboard() {
   const currentYear = new Date().getFullYear();
@@ -39,8 +39,6 @@ export default function Dashboard() {
 
   const statistics = useAllStatistics();
 
-  const [transactionStats, userStats, postStats, itemWarehouseStats] =
-    statistics.map((q) => q.data);
   return (
     <>
       <Main>
