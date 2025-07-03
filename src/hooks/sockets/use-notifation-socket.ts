@@ -10,7 +10,6 @@ import { useEffect, useRef } from "react";
 export function useNotificationSocket() {
   const socketRef = useRef<WebSocket | null>(null);
   const token = getAccessToken();
-  const auth = useAuth();
   const queryClient = useQueryClient();
 
   useEffect(() => {
