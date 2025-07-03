@@ -1,11 +1,13 @@
 import { Button } from "@/components/ui/button";
-import { useNotification } from "@/hooks/react-query-hooks/use-notification";
+import {
+  useNotification,
+  useUpdateReadNotitication,
+} from "@/hooks/react-query-hooks/use-notification";
 import { INotification } from "@/types/models/notification.type";
 import { TargetTypeNotification, TypeNotification } from "@/types/status.type";
 import {
   AlertCircle,
   Bell,
-  Check,
   CheckCircle2,
   Info,
   Loader2,
@@ -17,138 +19,7 @@ import { useEffect, useRef, useState } from "react";
 
 const NotificationBell = () => {
   const [isOpen, setIsOpen] = useState(false);
-  // const [notifications, setNotifications] = useState<Notification[]>([
-  //   {
-  //     id: 1,
-  //     sender_id: "admin",
-  //     receiver_id: "user123",
-  //     title: "Người dùng mới đăng ký",
-  //     content: "Có 3 người dùng mới đăng ký hệ thống trong ngày hôm nay",
-  //     type: "user_registration",
-  //     target_type: "users",
-  //     target_id: "new_users",
-  //     is_read: false,
-  //     created_at: new Date(Date.now() - 2 * 60 * 1000),
-  //     updated_at: new Date(Date.now() - 2 * 60 * 1000),
-  //     deleted_at: null,
-  //   },
-  //   {
-  //     id: 2,
-  //     sender_id: "system",
-  //     receiver_id: "user123",
-  //     title: "Bảo trì hệ thống",
-  //     content:
-  //       "Hệ thống sẽ được bảo trì vào lúc 2:00 AM ngày mai. Vui lòng lưu công việc trước thời gian này.",
-  //     type: "system_maintenance",
-  //     target_type: "system",
-  //     target_id: "maintenance_schedule",
-  //     is_read: false,
-  //     created_at: new Date(Date.now() - 15 * 60 * 1000),
-  //     updated_at: new Date(Date.now() - 15 * 60 * 1000),
-  //     deleted_at: null,
-  //   },
-  //   {
-  //     id: 3,
-  //     sender_id: "system",
-  //     receiver_id: "user123",
-  //     title: "Báo cáo hoàn thành",
-  //     content: "Báo cáo doanh thu tháng 5/2025 đã được tạo thành công",
-  //     type: "report_generated",
-  //     target_type: "reports",
-  //     target_id: "monthly_report_05_2025",
-  //     is_read: true,
-  //     created_at: new Date(Date.now() - 60 * 60 * 1000),
-  //     updated_at: new Date(Date.now() - 30 * 60 * 1000),
-  //     deleted_at: null,
-  //   },
-  //   {
-  //     id: 2,
-  //     sender_id: "system",
-  //     receiver_id: "user123",
-  //     title: "Bảo trì hệ thống",
-  //     content:
-  //       "Hệ thống sẽ được bảo trì vào lúc 2:00 AM ngày mai. Vui lòng lưu công việc trước thời gian này.",
-  //     type: "system_maintenance",
-  //     target_type: "system",
-  //     target_id: "maintenance_schedule",
-  //     is_read: false,
-  //     created_at: new Date(Date.now() - 15 * 60 * 1000),
-  //     updated_at: new Date(Date.now() - 15 * 60 * 1000),
-  //     deleted_at: null,
-  //   },
-  //   {
-  //     id: 3,
-  //     sender_id: "system",
-  //     receiver_id: "user123",
-  //     title: "Báo cáo hoàn thành",
-  //     content: "Báo cáo doanh thu tháng 5/2025 đã được tạo thành công",
-  //     type: "report_generated",
-  //     target_type: "reports",
-  //     target_id: "monthly_report_05_2025",
-  //     is_read: true,
-  //     created_at: new Date(Date.now() - 60 * 60 * 1000),
-  //     updated_at: new Date(Date.now() - 30 * 60 * 1000),
-  //     deleted_at: null,
-  //   },
-  //   {
-  //     id: 2,
-  //     sender_id: "system",
-  //     receiver_id: "user123",
-  //     title: "Bảo trì hệ thống",
-  //     content:
-  //       "Hệ thống sẽ được bảo trì vào lúc 2:00 AM ngày mai. Vui lòng lưu công việc trước thời gian này.",
-  //     type: "system_maintenance",
-  //     target_type: "system",
-  //     target_id: "maintenance_schedule",
-  //     is_read: false,
-  //     created_at: new Date(Date.now() - 15 * 60 * 1000),
-  //     updated_at: new Date(Date.now() - 15 * 60 * 1000),
-  //     deleted_at: null,
-  //   },
-  //   {
-  //     id: 3,
-  //     sender_id: "system",
-  //     receiver_id: "user123",
-  //     title: "Báo cáo hoàn thành",
-  //     content: "Báo cáo doanh thu tháng 5/2025 đã được tạo thành công",
-  //     type: "report_generated",
-  //     target_type: "reports",
-  //     target_id: "monthly_report_05_2025",
-  //     is_read: true,
-  //     created_at: new Date(Date.now() - 60 * 60 * 1000),
-  //     updated_at: new Date(Date.now() - 30 * 60 * 1000),
-  //     deleted_at: null,
-  //   },
-  //   {
-  //     id: 2,
-  //     sender_id: "system",
-  //     receiver_id: "user123",
-  //     title: "Bảo trì hệ thống",
-  //     content:
-  //       "Hệ thống sẽ được bảo trì vào lúc 2:00 AM ngày mai. Vui lòng lưu công việc trước thời gian này.",
-  //     type: "system_maintenance",
-  //     target_type: "system",
-  //     target_id: "maintenance_schedule",
-  //     is_read: false,
-  //     created_at: new Date(Date.now() - 15 * 60 * 1000),
-  //     updated_at: new Date(Date.now() - 15 * 60 * 1000),
-  //     deleted_at: null,
-  //   },
-  //   {
-  //     id: 3,
-  //     sender_id: "system",
-  //     receiver_id: "user123",
-  //     title: "Báo cáo hoàn thành",
-  //     content: "Báo cáo doanh thu tháng 5/2025 đã được tạo thành công",
-  //     type: "report_generated",
-  //     target_type: "reports",
-  //     target_id: "monthly_report_05_2025",
-  //     is_read: true,
-  //     created_at: new Date(Date.now() - 60 * 60 * 1000),
-  //     updated_at: new Date(Date.now() - 30 * 60 * 1000),
-  //     deleted_at: null,
-  //   },
-  // ]);
+
   const { data, fetchNextPage, isFetchingNextPage, refetch } = useNotification({
     /* params nếu có */
     limit: 4,
@@ -160,7 +31,8 @@ const NotificationBell = () => {
   const dropdownRef = useRef<HTMLDivElement>(null);
   const buttonRef = useRef<HTMLButtonElement>(null);
   const scrollRef = useRef<HTMLDivElement>(null);
-  const unreadCount = notifications.filter((n) => !n.isRead == true).length;
+  const updateReadNotificationMutation = useUpdateReadNotitication();
+  const unreadCount = data?.pages?.[0]?.unreadCount ?? 0;
   const handleScroll = () => {
     const container = scrollRef.current;
     if (!container) return;
@@ -190,15 +62,8 @@ const NotificationBell = () => {
 
   const toggleDropdown = () => setIsOpen(!isOpen);
 
-  const markAsRead = (_id: number) => {
-    refetch();
-  };
-
   const markAllAsRead = () => {
-    refetch();
-  };
-
-  const deleteNotification = (_id: number) => {
+    updateReadNotificationMutation.mutate();
     refetch();
   };
 
@@ -347,7 +212,9 @@ const NotificationBell = () => {
                                   new Date(notification.createdAt)
                                 )}
                               </span>
-                              <span>Từ: {notification.senderID}</span>
+                              <span>
+                                Từ: {notification.senderName || "Bạn"}
+                              </span>
                               <span className="px-2 py-1 bg-gray-100 rounded text-gray-600">
                                 {notification.targetType ===
                                 TargetTypeNotification.APPOINTMENT
@@ -355,26 +222,6 @@ const NotificationBell = () => {
                                   : "Giao dịch"}
                               </span>
                             </div>
-                          </div>
-                          <div className="flex gap-1 ml-2">
-                            {!notification.isRead && (
-                              <button
-                                onClick={() => markAsRead(notification.id)}
-                                className="text-blue-600 hover:text-blue-800"
-                                title="Đánh dấu đã đọc"
-                              >
-                                <Check className="w-4 h-4" />
-                              </button>
-                            )}
-                            <button
-                              onClick={() =>
-                                deleteNotification(notification.id)
-                              }
-                              className="text-gray-400 hover:text-red-500"
-                              title="Xóa thông báo"
-                            >
-                              <X className="w-4 h-4" />
-                            </button>
                           </div>
                         </div>
                       </div>

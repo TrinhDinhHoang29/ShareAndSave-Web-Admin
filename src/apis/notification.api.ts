@@ -9,7 +9,11 @@ const getNotifications = async ({
   limit,
   page,
 }: IFilterApi): Promise<
-  IResponseApi<{ notifications: INotification[]; totalPage: number }>
+  IResponseApi<{
+    notifications: INotification[];
+    totalPage: number;
+    unreadCount: number;
+  }>
 > => {
   const response = await api.get(`/notifications`, {
     params: {
@@ -19,5 +23,8 @@ const getNotifications = async ({
   });
   return response.data;
 };
-
-export { getNotifications };
+const updateReadNotification = async (): Promise<IResponseApi<{}>> => {
+  const response = await api.patch(`/notifications`);
+  return response.data;
+};
+export { getNotifications, updateReadNotification };

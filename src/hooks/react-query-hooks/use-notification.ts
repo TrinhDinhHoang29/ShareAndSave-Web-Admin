@@ -1,8 +1,16 @@
-import { getNotifications } from "@/apis/notification.api";
+import {
+  getNotifications,
+  updateReadNotification,
+} from "@/apis/notification.api";
 import { IFilterApi } from "@/types/filter-api.type";
-import { useInfiniteQuery } from "@tanstack/react-query";
+import {
+  useInfiniteQuery,
+  useMutation,
+  useQueryClient,
+} from "@tanstack/react-query";
 
 export const notificationKeys = {
+  all: ["notifications"],
   list: (params: IFilterApi) =>
     ["notifications", params.page ?? 1, params.limit ?? 10] as const,
 };
@@ -24,5 +32,25 @@ export const useNotification = (params: IFilterApi) => {
       // Hết trang, không trả về nữa
       return undefined;
     },
+  });
+};
+export const useUpdateReadNotitication = (config?: {
+  onSuccess?: () => void;
+  onError?: (err: any) => void;
+  onSettled?: () => void;
+}) => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async () => {
+      const res = await updateReadNotification();
+      return res.data!;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: notificationKeys.all }); // hoặc list
+      config?.onSuccess?.();
+    },
+    onError: config?.onError,
+    onSettled: config?.onSettled,
   });
 };

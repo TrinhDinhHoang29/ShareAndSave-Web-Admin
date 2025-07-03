@@ -23,7 +23,17 @@ export function useChatNotificationSocket() {
     socket.onopen = () => {
       console.log("[✅] Connected to server noti");
     };
-
+    const pingInterval = setInterval(() => {
+      if (socketRef.current?.readyState === WebSocket.OPEN) {
+        console.log("đã ping");
+        socketRef.current.send(
+          JSON.stringify({
+            event: "ping",
+            data: {},
+          })
+        );
+      }
+    }, 30_000); // 30 giây
     socket.onmessage = (event) => {
       const parsed =
         typeof event.data === "string" ? JSON.parse(event.data) : event.data;
@@ -32,7 +42,6 @@ export function useChatNotificationSocket() {
         parsed.event === "send_message_response" &&
         parsed.data.senderID !== auth.user?.id
       ) {
-        console.log("vao day");
         setTimeout(() => {
           queryClient.invalidateQueries({
             queryKey: interestKeys.all,
@@ -48,6 +57,8 @@ export function useChatNotificationSocket() {
     socket.onerror = (err) => console.error("[⚠️] Socket error", err);
 
     return () => {
+      clearInterval(pingInterval);
+
       if (socketRef.current?.readyState === WebSocket.OPEN) {
         // <-- This is important
         socket.close();

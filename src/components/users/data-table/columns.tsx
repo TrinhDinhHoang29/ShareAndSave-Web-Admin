@@ -104,7 +104,7 @@ export const getColumns = (
     header: "Trạng thái",
     cell: ({ row }) => {
       const value = row.getValue("status") as number;
-      return value === 1 ? (
+      return value === 2 ? (
         <Badge className="bg-emerald-600/10 dark:bg-emerald-600/20 hover:bg-emerald-600/10 text-emerald-500 border-emerald-600/60 shadow-none rounded-full">
           Đang hoạt động
         </Badge>

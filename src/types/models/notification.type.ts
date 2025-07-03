@@ -10,4 +10,5 @@ export interface INotification {
   targetID: number;
   targetType: TargetTypeNotification;
   type: TypeNotification;
+  senderName: string;
 }

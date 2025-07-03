@@ -102,11 +102,11 @@ export function PopupUpdateUser({ id }: { id: string }) {
                 data={[
                   {
                     display: "Hoạt động",
-                    value: 1,
+                    value: 2,
                   },
                   {
                     display: "Dừng hoạt động",
-                    value: 2,
+                    value: 3,
                   },
                 ]}
               />
