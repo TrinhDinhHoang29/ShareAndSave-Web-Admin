@@ -1,7 +1,4 @@
 // hooks/use-chat-socket.ts
-import { useAuth } from "@/context/auth-context";
-import { interestKeys } from "@/hooks/react-query-hooks/use-interest";
-import { messageKeys } from "@/hooks/react-query-hooks/use-message";
 import { notificationKeys } from "@/hooks/react-query-hooks/use-notification";
 import { getAccessToken } from "@/lib/token";
 import { useQueryClient } from "@tanstack/react-query";
