@@ -1,5 +1,3 @@
-import { Button } from "@/components/ui/button";
-
 import { Overview } from "@/components/dashboard/overview";
 import { RecentSales } from "@/components/dashboard/recent-sales";
 import { Main } from "@/components/layout/main";
