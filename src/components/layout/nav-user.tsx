@@ -68,14 +68,14 @@ export function NavUser() {
               <DropdownMenuItem asChild>
                 <Link to="/profile">
                   <BadgeCheck />
-                  Profile
+                  Trang cá nhân
                 </Link>
               </DropdownMenuItem>
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
             <DropdownMenuItem onClick={logOut} className="cursor-pointer">
               <LogOut />
-              Log out
+              Đăng xuất
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>

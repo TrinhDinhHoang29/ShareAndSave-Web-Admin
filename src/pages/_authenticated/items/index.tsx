@@ -40,7 +40,7 @@ const ListItemPage = () => {
     },
   });
   const handleDelete = async (id: string) => {
-    const res = await ask("Bạn có chất xóa người dùng này không?");
+    const res = await ask("Bạn có chất xóa món đồ của hệ thống?");
     if (res) {
       deleteUserMutation.mutate(id);
     }

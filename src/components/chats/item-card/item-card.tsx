@@ -50,7 +50,7 @@ const ItemCard = ({
         {/* Avatar */}
         <div className="relative">
           <div className="w-12 h-12 bg-gradient-to-br rounded-full flex items-center justify-center">
-            <div className="w-12 h-12 bg-white rounded-full flex items-center justify-center">
+            <div className="w-12 h-12 bg-white rounded-full flex items-center justify-center overflow-hidden">
               <img
                 src={image}
                 alt=""

@@ -45,7 +45,7 @@ const PopupUpdateTransaction = ({
       </DialogTrigger>
       <DialogContent className="!w-[80vw] !max-w-[80vw]  max-h-[90vh] overflow-y-auto">
         <DialogHeader>
-          <DialogTitle>Danh sách giao dịch giao dịch</DialogTitle>
+          <DialogTitle>Danh sách giao dịch</DialogTitle>
           <DialogDescription>
             Bạn có thể xem và cập nhật giao dịch của mình
           </DialogDescription>
