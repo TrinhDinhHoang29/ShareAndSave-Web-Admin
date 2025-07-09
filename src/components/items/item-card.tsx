@@ -22,11 +22,11 @@ const ItemCard = ({ item, onToggle }: any) => {
       </div> */}
 
       {/* Image */}
-      <div className="w-full h-48 bg-gray-100 overflow-hidden relative z-10">
+      <div className="w-full h-48 bg-white overflow-hidden relative z-10">
         <img
           src={item.image}
           alt={item.name}
-          className="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
+          className="h-[100%] object-cover transition-transform duration-300 hover:scale-105 m-auto"
         />
       </div>
 

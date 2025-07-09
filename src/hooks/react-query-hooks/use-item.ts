@@ -1,4 +1,4 @@
-import { createItems, getItems, updateItem } from "@/apis/item.api";
+import { createItems, deleteItem, getItems, updateItem } from "@/apis/item.api";
 import { createNewItems } from "@/apis/post.api";
 import { CreateItemDto } from "@/schemas/items/create-item.schema";
 import { CreateNewItemDto } from "@/schemas/items/create-new-item.schema";
@@ -87,6 +87,26 @@ export const useUpdateItem = (config?: {
       console.log("data", data);
       const res = await updateItem(id, data);
       console.log("res", res);
+      return res.data!;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: itemKeys.all }); // hoặc list
+      config?.onSuccess?.();
+    },
+    onError: config?.onError,
+    onSettled: config?.onSettled,
+  });
+};
+export const useDeleteItem = (config?: {
+  onSuccess?: () => void;
+  onError?: (err: any) => void;
+  onSettled?: () => void;
+}) => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async (id: number) => {
+      const res = await deleteItem(id);
       return res.data!;
     },
     onSuccess: () => {

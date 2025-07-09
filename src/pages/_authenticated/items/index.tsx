@@ -1,7 +1,6 @@
 import { DataTable } from "@/components/items/data-table/data-table";
 import { Main } from "@/components/layout/main";
-import { useItems } from "@/hooks/react-query-hooks/use-item";
-import { useDeleteUser } from "@/hooks/react-query-hooks/use-users";
+import { useDeleteItem, useItems } from "@/hooks/react-query-hooks/use-item";
 import { Order } from "@/types/filter-api.type";
 import { SortingState } from "@tanstack/react-table";
 import { useState } from "react";
@@ -31,18 +30,18 @@ const ListItemPage = () => {
   if (error) {
     toast.error(error?.message || "Lỗi");
   }
-  const deleteUserMutation = useDeleteUser({
+  const deleteUserMutation = useDeleteItem({
     onSuccess: () => {
-      toast.success("Xóa người dùng thành công");
+      toast.success("Xóa món đồ thành công");
     },
     onError: (err) => {
-      toast.error(err?.message || "Xóa người dùng thất bại");
+      toast.error(err?.message || "Xóa món đồ thất bại");
     },
   });
   const handleDelete = async (id: string) => {
     const res = await ask("Bạn có chất xóa món đồ của hệ thống?");
     if (res) {
-      deleteUserMutation.mutate(id);
+      deleteUserMutation.mutate(Number(id));
     }
   };
   return (

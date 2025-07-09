@@ -38,7 +38,7 @@ const ListInventoriesPage = () => {
     if (!res) return;
     exportToExcel({
       data: data?.itemWarehouses || [],
-      fileName: "User_List",
+      fileName: "ds_hang_ton",
     });
   }
   return (

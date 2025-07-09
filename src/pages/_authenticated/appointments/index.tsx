@@ -38,7 +38,7 @@ const ListAppointmentPage = () => {
     if (!res) return;
     exportToExcel({
       data: data?.appointments || [],
-      fileName: "User_List",
+      fileName: "ds_cuoc_hen",
     });
   }
   return (

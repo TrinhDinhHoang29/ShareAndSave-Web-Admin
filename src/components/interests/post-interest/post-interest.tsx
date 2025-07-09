@@ -87,6 +87,10 @@ const PostPill = ({
                     ? "Gửi lại đồ cũ"
                     : type === PostType.SEEK_LOST_ITEM
                     ? "Tìm kiếm đồ"
+                    : type === PostType.CAMPAIGN
+                    ? "Chuyến dịch"
+                    : type === PostType.WANT_OLD_ITEM
+                    ? "Muốn nhận đồ cũ"
                     : "Khác"}
                 </span>
               </div>

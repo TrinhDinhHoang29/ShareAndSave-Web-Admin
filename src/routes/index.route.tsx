@@ -1,6 +1,7 @@
 import LayoutDefault from "@/components/layout";
 import LoadingSpinner from "@/components/ui/loading-spinner";
 import LoginPage from "@/pages/(auth)/login";
+import NotFoundPage from "@/pages/(error)/not-found";
 import { ProtectedRoute } from "@/pages/_authenticated/_protected.route";
 import ListAppointmentPage from "@/pages/_authenticated/appointments";
 import ListCategoriesPage from "@/pages/_authenticated/categories";
@@ -245,5 +246,13 @@ export const routes: RouteObject[] = [
         ),
       },
     ],
+  },
+  {
+    path: "*",
+    element: (
+      <ErrorBoundary>
+        <NotFoundPage />
+      </ErrorBoundary>
+    ),
   },
 ];
