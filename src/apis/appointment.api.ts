@@ -15,6 +15,7 @@ const getAppointments = async (
   });
   return response.data;
 };
+
 const updateAppointment = async ({
   id,
   data,
