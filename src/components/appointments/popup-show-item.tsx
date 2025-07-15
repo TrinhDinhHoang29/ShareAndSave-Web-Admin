@@ -16,13 +16,17 @@ const PopupShowItemAppointment = ({
 }: {
   appointment: IAppointment;
 }) => {
+  const totalQuantity = appointment.appointmentItems.reduce(
+    (pre, arr) => arr.actualQuantity + pre,
+    0
+  );
   return (
     <Dialog>
       <DialogTrigger asChild>
         <Button variant={"outline"}>
           <div className="flex gap-x-2 items-center">
             <Eye className="w-4 h-4" />
-            <span>{appointment.appointmentItems?.length || 0} món</span>
+            <span>{totalQuantity || 0} món</span>
           </div>
         </Button>
       </DialogTrigger>
