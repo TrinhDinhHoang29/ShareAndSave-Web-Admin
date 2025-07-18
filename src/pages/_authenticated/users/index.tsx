@@ -3,7 +3,7 @@ import { ExcelHeader, exportToExcelHeader } from "@/components/export-to-excel";
 import { Main } from "@/components/layout/main";
 import { Button } from "@/components/ui/button";
 import { DataTable } from "@/components/users/data-table/data-table";
-import { useDeleteUser, useUsers } from "@/hooks/react-query-hooks/use-users";
+import { useUsers } from "@/hooks/react-query-hooks/use-users";
 import { Order } from "@/types/filter-api.type";
 import { SortingState } from "@tanstack/react-table";
 import { Download } from "lucide-react";
@@ -35,20 +35,7 @@ const UsersPage = () => {
   if (error) {
     toast.error(error?.message || "Lỗi");
   }
-  const deleteUserMutation = useDeleteUser({
-    onSuccess: () => {
-      toast.success("Xóa người dùng thành công");
-    },
-    onError: (err) => {
-      toast.error(err?.message || "Xóa người dùng thất bại");
-    },
-  });
-  const handleDelete = async (id: string) => {
-    const res = await ask("Bạn có chất xóa người dùng này không?");
-    if (res) {
-      deleteUserMutation.mutate(id);
-    }
-  };
+
   async function handleExportExcel() {
     const res = await ask("Bạn có chắc muốn xuất file ?");
     if (!res) return;
@@ -103,7 +90,6 @@ const UsersPage = () => {
       </div>
 
       <DataTable
-        handleDelete={handleDelete}
         sorting={sorting} // 👈 THÊM
         setSorting={setSorting} // 👈 THÊM
         data={data?.clients!}

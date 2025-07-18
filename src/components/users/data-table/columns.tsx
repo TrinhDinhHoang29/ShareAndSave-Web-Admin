@@ -5,10 +5,9 @@ import { PopupUpdateUser } from "@/components/users/popup-update";
 import { IUser } from "@/types/models/user.type";
 import { formatDate } from "@/utils/format-date";
 import { ColumnDef, SortingState } from "@tanstack/react-table";
-import { ArrowUpDown, Trash2 } from "lucide-react";
+import { ArrowUpDown } from "lucide-react";
 
 export const getColumns = (
-  onDelete: (id: string) => void,
   sorting: SortingState,
   setSorting: React.Dispatch<React.SetStateAction<SortingState>>,
   setSelectedUser: (user: IUser) => void,
@@ -123,9 +122,6 @@ export const getColumns = (
       return (
         <div className="flex items-center gap-2">
           <PopupUpdateUser id={id} />
-          <Button variant="outline" onClick={() => onDelete(id)}>
-            <Trash2 />
-          </Button>
         </div>
       );
     },

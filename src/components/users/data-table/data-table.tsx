@@ -53,7 +53,6 @@ interface DataTablePropsWithPage<TData> {
   isPending: boolean;
   sorting: SortingState;
   setSorting: React.Dispatch<React.SetStateAction<SortingState>>;
-  handleDelete: (id: string) => Promise<void>;
   pagination: { pageIndex: number; pageSize: number };
   setGlobalFilter: React.Dispatch<
     React.SetStateAction<{ searchValue: string; searchBy: string }>
@@ -70,7 +69,6 @@ export function DataTable<TData, TValue>({
   pagination,
   sorting,
   setSorting, // 👈 Thêm prop này
-  handleDelete,
   setGlobalFilter,
   setPagination,
 }: DataTablePropsWithPage<TData>) {
@@ -83,7 +81,6 @@ export function DataTable<TData, TValue>({
   const [openSheet, setOpenSheet] = useState(false);
 
   const columns = getColumns(
-    handleDelete,
     sorting,
     setSorting,
     setSelectedUser,
