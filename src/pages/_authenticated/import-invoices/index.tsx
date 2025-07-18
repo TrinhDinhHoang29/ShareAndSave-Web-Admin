@@ -39,12 +39,7 @@ const ListImportInvoice = () => {
       toast.error(err?.message || "Xóa bài viết thất bại");
     },
   });
-  const handleDelete = async (id: string) => {
-    const res = await ask("Bạn có chất phiếu nhập này không?");
-    if (res) {
-      deleteUserMutation.mutate(id);
-    }
-  };
+
   return (
     <Main>
       <div className="">
@@ -59,7 +54,6 @@ const ListImportInvoice = () => {
         {/* <StatusSummary /> */}
 
         <DataTable
-          handleDelete={handleDelete}
           sorting={sorting} // 👈 THÊM
           setSorting={setSorting} // 👈 THÊM
           data={data?.importInvoices || []}

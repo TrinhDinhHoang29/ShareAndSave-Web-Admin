@@ -7,7 +7,6 @@ import { ArrowUpDown, Trash2 } from "lucide-react";
 import { Link } from "react-router-dom";
 
 export const getColumns = (
-  onDelete: (id: string) => void,
   sorting: SortingState,
   setSorting: React.Dispatch<React.SetStateAction<SortingState>>,
   _setSelectedWarehouse: (warehouse: IWarehouse) => void
@@ -109,23 +108,6 @@ export const getColumns = (
       const stockPlace = row.getValue("stockPlace") as string;
       const result = stockPlace === "" ? "Chưa có" : stockPlace;
       return `${result}`;
-    },
-  },
-  {
-    id: "actions",
-    header: "Hành động",
-    cell: ({ row }: any) => {
-      const warehouse = row.original as IWarehouse;
-      return (
-        <div className="flex items-center gap-2">
-          <Button
-            variant={"outline"}
-            onClick={() => onDelete(warehouse.id.toString())}
-          >
-            <Trash2 />
-          </Button>
-        </div>
-      );
     },
   },
 ];

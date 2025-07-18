@@ -1,7 +1,6 @@
 import { Main } from "@/components/layout/main";
 import { DataTable } from "@/components/warehouses/data-table/data-table";
 import { StatusSummary } from "@/components/warehouses/status-summary";
-import { useDeleteUser } from "@/hooks/react-query-hooks/use-users";
 import { useWarehouses } from "@/hooks/react-query-hooks/use-warehouse";
 import { Order } from "@/types/filter-api.type";
 import { SortingState } from "@tanstack/react-table";
@@ -32,20 +31,7 @@ const ListWarehousesPage = () => {
   if (error) {
     toast.error(error?.message || "Lỗi");
   }
-  const deleteUserMutation = useDeleteUser({
-    onSuccess: () => {
-      toast.success("Xóa bài viết thành công");
-    },
-    onError: (err) => {
-      toast.error(err?.message || "Xóa bài viết thất bại");
-    },
-  });
-  const handleDelete = async (id: string) => {
-    const res = await ask("Bạn có chất phiếu nhập này không?");
-    if (res) {
-      deleteUserMutation.mutate(id);
-    }
-  };
+
   return (
     <Main>
       <div className="">
@@ -61,7 +47,6 @@ const ListWarehousesPage = () => {
         <StatusSummary />
 
         <DataTable
-          handleDelete={handleDelete}
           sorting={sorting} // 👈 THÊM
           setSorting={setSorting} // 👈 THÊM
           data={data?.warehouses || []}

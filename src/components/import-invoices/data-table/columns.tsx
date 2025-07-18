@@ -8,7 +8,6 @@ import { ColumnDef, SortingState } from "@tanstack/react-table";
 import { ArrowUpDown, Trash2 } from "lucide-react";
 
 export const getColumns = (
-  onDelete: (id: string) => void,
   sorting: SortingState,
   setSorting: React.Dispatch<React.SetStateAction<SortingState>>,
   setSelectedImportInvoice: (importInvoice: IImportInvoice) => void,
@@ -107,26 +106,5 @@ export const getColumns = (
       }/${date.getFullYear()}`;
     },
     enableSorting: true,
-  },
-
-  {
-    id: "actions",
-    header: "Hành động",
-    cell: ({ row }: any) => {
-      const post = row.original as IPost;
-      return (
-        <div className="flex items-center gap-2">
-          {post.status === PostStatus.PENDING && (
-            <PopupUpdatePost post={post} />
-          )}
-          <Button
-            variant={"outline"}
-            onClick={() => onDelete(post.id.toString())}
-          >
-            <Trash2 />
-          </Button>
-        </div>
-      );
-    },
   },
 ];

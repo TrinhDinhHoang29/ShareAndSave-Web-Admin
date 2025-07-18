@@ -46,7 +46,6 @@ interface DataTablePropsWithPage<TData> {
   isPending: boolean;
   sorting: SortingState;
   setSorting: React.Dispatch<React.SetStateAction<SortingState>>;
-  handleDelete: (id: string) => Promise<void>;
   pagination: { pageIndex: number; pageSize: number };
   setGlobalFilter: React.Dispatch<
     React.SetStateAction<{
@@ -68,7 +67,6 @@ export function DataTable<TData, TValue>({
   pagination,
   sorting,
   setSorting, // 👈 Thêm prop này
-  handleDelete,
   setGlobalFilter,
   setPagination,
 }: DataTablePropsWithPage<TData>) {
@@ -77,12 +75,7 @@ export function DataTable<TData, TValue>({
 
   const [_selectedWarehouse, setSelectedWarehouse] =
     useState<IWarehouse | null>(null);
-  const columns = getColumns(
-    handleDelete,
-    sorting,
-    setSorting,
-    setSelectedWarehouse
-  );
+  const columns = getColumns(sorting, setSorting, setSelectedWarehouse);
   const table = useReactTable({
     data,
     columns: columns as ColumnDef<TData, TValue>[],

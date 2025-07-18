@@ -7,9 +7,6 @@ export interface NotifycationDetailWarehouseProps {
 const NotifycationDetailWarehouse = ({
   warehouse,
 }: NotifycationDetailWarehouseProps) => {
-  const descriptions = warehouse.itemWarehouses.map(
-    (item) => !item.description && item.code
-  );
   return (
     <div className="my-3">
       <div className="bg-orange-50 border border-orange-200 rounded-md p-4 flex gap-x-4">
@@ -24,17 +21,6 @@ const NotifycationDetailWarehouse = ({
               để tránh sai sót không đáng có
             </div>
           )}
-          <div className="mt-1 text-sm text-orange-700">
-            {descriptions.length > 0 && (
-              <div className="text-justify">
-                Mô tả của sản phẩm có mã code{" "}
-                {descriptions.map((item, index) =>
-                  index === 0 ? `${item}` : `, ${item}`
-                )}{" "}
-                chưa có
-              </div>
-            )}
-          </div>
         </div>
       </div>
     </div>
