@@ -1,15 +1,12 @@
 import { DataTable } from "@/components/import-invoices/data-table/data-table";
 import { Main } from "@/components/layout/main";
 import { useImportInvoices } from "@/hooks/react-query-hooks/use-import-invoice";
-import { useDeleteUser } from "@/hooks/react-query-hooks/use-users";
 import { Order } from "@/types/filter-api.type";
 import { SortingState } from "@tanstack/react-table";
 import { useState } from "react";
 import { toast } from "sonner";
-import { useConfirm } from "use-confirm-hook";
 
 const ListImportInvoice = () => {
-  const { ask } = useConfirm();
   const [globalFilter, setGlobalFilter] = useState<{
     searchValue?: string;
     searchBy?: string;
@@ -31,14 +28,6 @@ const ListImportInvoice = () => {
   if (error) {
     toast.error(error?.message || "Lỗi");
   }
-  const deleteUserMutation = useDeleteUser({
-    onSuccess: () => {
-      toast.success("Xóa bài viết thành công");
-    },
-    onError: (err) => {
-      toast.error(err?.message || "Xóa bài viết thất bại");
-    },
-  });
 
   return (
     <Main>

@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { IWarehouse } from "@/types/models/warehouse.type";
 import { ClassifyImportInvoice } from "@/types/status.type";
 import { ColumnDef, SortingState } from "@tanstack/react-table";
-import { ArrowUpDown, Trash2 } from "lucide-react";
+import { ArrowUpDown } from "lucide-react";
 import { Link } from "react-router-dom";
 
 export const getColumns = (

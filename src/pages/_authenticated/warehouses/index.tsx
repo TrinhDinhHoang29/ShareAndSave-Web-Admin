@@ -6,10 +6,8 @@ import { Order } from "@/types/filter-api.type";
 import { SortingState } from "@tanstack/react-table";
 import { useState } from "react";
 import { toast } from "sonner";
-import { useConfirm } from "use-confirm-hook";
 
 const ListWarehousesPage = () => {
-  const { ask } = useConfirm();
   const [globalFilter, setGlobalFilter] = useState<{
     searchValue?: string;
     searchBy?: string;

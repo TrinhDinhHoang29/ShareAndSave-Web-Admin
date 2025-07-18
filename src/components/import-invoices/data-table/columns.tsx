@@ -1,11 +1,9 @@
-import { PopupUpdatePost } from "@/components/posts/popup-update";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { IImportInvoice } from "@/types/models/import-invoice.type";
-import { IPost } from "@/types/models/post.type";
-import { ClassifyImportInvoice, PostStatus } from "@/types/status.type";
+import { ClassifyImportInvoice } from "@/types/status.type";
 import { ColumnDef, SortingState } from "@tanstack/react-table";
-import { ArrowUpDown, Trash2 } from "lucide-react";
+import { ArrowUpDown } from "lucide-react";
 
 export const getColumns = (
   sorting: SortingState,
